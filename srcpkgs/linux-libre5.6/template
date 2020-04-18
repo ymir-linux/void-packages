@@ -23,6 +23,7 @@ preserve=yes
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio"
 
+# I had to add '-gnu' in order to build properly
 _kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
@@ -175,7 +176,7 @@ do_install() {
 	done
 	mkdir -p ${hdrdest}/include
 	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	rm -rf ${DESTDIR}/usr/lib/firmware
+	# rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
