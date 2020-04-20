@@ -1,18 +1,18 @@
-# Template file for 'linux5.5'
-pkgname=linux5.5
+# Template file for 'linux-libre5.6'
+pkgname=linux-libre5.5
 version=5.5.18
 revision=1
 wrksrc="linux-${version}"
-short_desc="Linux kernel and modules (${version%.*} series)"
-maintainer="Juan RP <xtraeme@gmail.com>"
+short_desc="Linux-libre kernel and modules (${version%.*} series)"
+maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
-homepage="https://www.kernel.org"
-distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
-checksum=e804347326d707a68720a16d71426cf037a355ea8a8bb28c2fcc7bdd088e3106
+homepage="linux-libre.fsfla.org/"
+distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
+checksum=7fc4a62917748d6ef3f2ba1403b33fab019bdab9ad4b4671cebd332be1564f06
 patch_args="-Np1"
 
-# XXX restrict archs until all archs are updated.
-archs="aarch64* i686* x86_64* ppc* mips*"
+# XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
+archs="x86_64* ppc*"
 
 nodebug=yes  # -dbg package is generated below manually
 nostrip=yes
@@ -20,10 +20,11 @@ noverifyrdeps=yes
 noshlibprovides=yes
 preserve=yes
 
-hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel 
+hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio"
 
-_kernver="${version}_${revision}"
+# I had to add '-gnu' in order to build properly
+_kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
 
@@ -175,7 +176,7 @@ do_install() {
 	done
 	mkdir -p ${hdrdest}/include
 	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	rm -rf ${DESTDIR}/usr/lib/firmware
+	# rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
@@ -312,7 +313,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux5.5-headers_package() {
+linux-libre5.5-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -322,7 +323,7 @@ linux5.5-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux5.5-dbg_package() {
+linux-libre5.5-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
