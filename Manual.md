@@ -281,11 +281,11 @@ The following functions are defined by `xbps-src` and can be used on any templat
 	converts gzipped (.gz) and bzipped (.bz2) manpages into plaintext.
 	Example mappings:
 
-	`foo.1` -> `${DESTDIR}/usr/share/man/man1/foo.1`
-	`foo.fr.1` -> `${DESTDIR}/usr/share/man/fr/man1/foo.1`
-	`foo.1p` -> `${DESTDIR}/usr/share/man/man1/foo.1p`
-	`foo.1.gz` -> `${DESTDIR}/usr/share/man/man1/foo.1`
-	`foo.1.bz2` -> `${DESTDIR}/usr/share/man/man1/foo.1`
+	`foo.1` -> `${DESTDIR}/usr/share/man/man1/foo.1`  
+	`foo.fr.1` -> `${DESTDIR}/usr/share/man/fr/man1/foo.1`  
+	`foo.1p` -> `${DESTDIR}/usr/share/man/man1/foo.1p`  
+	`foo.1.gz` -> `${DESTDIR}/usr/share/man/man1/foo.1`  
+	`foo.1.bz2` -> `${DESTDIR}/usr/share/man/man1/foo.1`  
 
 - *vdoc()* `vdoc <file> [<name>]`
 
@@ -1396,14 +1396,14 @@ the appropriate `development` packages as dependencies.
 Development packages for the C and C++ languages usually `vmove` the
 following subset of files from the main package:
 
-    * Header files `usr/include`
-    * Static libraries `usr/lib/*.a`
-    * Shared library symbolic links `usr/lib/*.so`
-    * Cmake rules `usr/lib/cmake` `usr/share/cmake`
-    * Package config files `usr/lib/pkgconfig` `usr/share/pkgconfig`
-    * Autoconf macros `usr/share/aclocal`
-    * Gobject introspection XML files `usr/share/gir-1.0`
-    * Vala bindings `usr/share/vala`
+* Header files `usr/include`
+* Static libraries `usr/lib/*.a`
+* Shared library symbolic links `usr/lib/*.so`
+* Cmake rules `usr/lib/cmake` `usr/share/cmake`
+* Package config files `usr/lib/pkgconfig` `usr/share/pkgconfig`
+* Autoconf macros `usr/share/aclocal`
+* Gobject introspection XML files `usr/share/gir-1.0`
+* Vala bindings `usr/share/vala`
 
 <a id="pkgs_data"></a>
 ### Data packages
@@ -1962,27 +1962,18 @@ Fork the voidlinux `void-packages` git repository on github and clone it:
 
     $ git clone git@github.com:<user>/void-packages.git
 
-You can now make your own commits to the `forked` repository:
+See [CONTRIBUTING.md](https://github.com/void-linux/void-packages/blob/master/CONTRIBUTING.md)
+for information on how to format your commits and other tips for
+contributing.
 
-    $ git add ...
-    $ git commit ...
-    $ git push ...
+Once you've made changes to your `forked` repository you can submit
+a github pull request; see https://help.github.com/articles/fork-a-repo for more information.
 
 To keep your forked repository always up to date, setup the `upstream` remote
 to pull in new changes:
 
     $ git remote add upstream git://github.com/void-linux/void-packages.git
     $ git pull upstream master
-
-Once you've made changes to your `forked` repository you can submit
-a github pull request; see https://help.github.com/articles/fork-a-repo for more information.
-
-For commit messages please use the following rules:
-
-- If you've imported a new package use `"New package: <pkgname>-<version>"`.
-- If you've updated a package use `"<pkgname>: update to <version>."`.
-- If you've removed a package use `"<pkgname>: removed ..."`.
-- If you've modified a package use `"<pkgname>: ..."`.
 
 <a id="help"></a>
 ## Help
