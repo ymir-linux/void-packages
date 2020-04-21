@@ -1,11 +1,13 @@
-## The XBPS source packages collection
+## The XBPS source libre packages collection
 
 This repository contains the XBPS source packages collection to build binary packages
-for the Void Linux distribution.
+for the Void Linux distribution, minus all of the linux kernel packages containing binary blobs.
 
 The included `xbps-src` script will fetch and compile the sources, and install its
 files into a `fake destdir` to generate XBPS binary packages that can be installed
 or queried through the `xbps-install(1)` and `xbps-query(1)` utilities, respectively.
+
+The included `void-liberation` (dependency: dmenu) script will clone this repository, install linux-libre and remove the nonfree linux and linux-firmware packages.
 
 See [Contributing](https://github.com/void-linux/void-packages/blob/master/CONTRIBUTING.md)
 for a general overview of how to contribute and the
@@ -233,7 +235,7 @@ $ ./xbps-src pkg <pkgname>
 ```
 
 When the package and its required dependencies are built, the binary packages will be created
-and registered in the default local repository at `hostdir/binpkgs`; the path to this local repository can be added to 
+and registered in the default local repository at `hostdir/binpkgs`; the path to this local repository can be added to
 any xbps configuration file (see xbps.d(5)) or by explicitly appending them via cmdline, i.e:
 
     $ xbps-install --repository=hostdir/binpkgs ...
