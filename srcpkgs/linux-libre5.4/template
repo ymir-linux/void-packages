@@ -1,7 +1,7 @@
 # Template file for 'linux-libre5.4'
 pkgname=linux-libre5.4
-version=5.4.33
-revision=2
+version=5.4.34
+revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
@@ -11,15 +11,13 @@ distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/li
 checksum=00613a64e29f6c1bf854bda95485224621a6dc9260bcc12834ea44d7922f2080
 patch_args="-Np1"
 
-# XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
-archs="x86_64* ppc*"
-
 nodebug=yes  # -dbg package is generated below manually
 nostrip=yes
 noverifyrdeps=yes
 noshlibprovides=yes
 preserve=yes
 
+archs="i686* x86_64* armv5tel* armv6l* armv7l* aarch64* ppc*"
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio"
 
