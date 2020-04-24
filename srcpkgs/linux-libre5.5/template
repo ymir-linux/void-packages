@@ -1,4 +1,4 @@
-# Template file for 'linux-libre5.6'
+# Template file for 'linux-libre5.5'
 pkgname=linux-libre5.5
 version=5.5.18
 revision=1
@@ -6,9 +6,11 @@ wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
+<<<<<<< HEAD:srcpkgs/linux-libre5.5/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=7fc4a62917748d6ef3f2ba1403b33fab019bdab9ad4b4671cebd332be1564f06
+python_version=2 #unverified
 patch_args="-Np1"
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
@@ -20,6 +22,7 @@ noverifyrdeps=yes
 noshlibprovides=yes
 preserve=yes
 
+archs="i686* x86_64* armv5tel* armv6l* armv7l* aarch64* ppc* mips*"
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio"
 
