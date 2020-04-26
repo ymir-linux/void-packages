@@ -3099,7 +3099,7 @@ libffms2.so.4 libffms2-2.23.1_1
 libddcutil.so.2 ddcutil-0.9.8_1
 liblsmash.so.2 liblsmash-2.9.1_1
 libgiac.so.0 libgiac-1.4.9r17_1
-libgnustep-base.so.1.26 gnustep-base-1.26.0_1
+libgnustep-base.so.1.27 gnustep-base-1.27.0_1
 libtermbox.so.1 termbox-1.1.0_1
 libmysofa.so.0 libmysofa-0.6_1
 libzinnia.so.0 libzinnia-0.06_1
@@ -3637,7 +3637,7 @@ libflite_usenglish.so.1 flite-2.1_1
 libflite_cmulex.so.1 flite-2.1_1
 libgtk-4.so.0.9400.0 gtk4-3.94.0_1
 libmodule.so.5 libmodule-5.0.0_1
-libgnustep-gui.so.0.27 gnustep-gui-0.27.0_1
+libgnustep-gui.so.0.28 gnustep-gui-0.28.0_1
 libmhash.so.2 mhash-0.9.9.9_1
 librlottie.so.0 rlottie-0.0.20160709_1
 libfstrm.so.0 fstrm-0.5.0_1
