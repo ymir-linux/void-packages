@@ -539,6 +539,7 @@ libKF5AkonadiCalendar.so.5 akonadi-calendar-17.12.3_1
 libKF5CalendarSupport.so.5 calendarsupport-17.12.3_1
 libKF5AkonadiNotes.so.5 akonadi-notes-17.12.3_1
 libKPimKDAV.so.5 kdav-17.12.3_1
+libKF5DAV.so.5 kdav-20.03.80_1
 libKF5AlarmCalendar.so.5 kalarmcal-17.12.3_1
 libakonadi-singlefileresource.so.5 kdepim-runtime-17.12.3_1
 libkmindexreader.so.5 kdepim-runtime-17.12.3_1
@@ -1964,7 +1965,7 @@ libsysstat-qt5.so.0 libsysstat-0.3.2_1
 libpolkit-qt5-agent-1.so.1 polkit-qt5-0.112.0_1
 libpolkit-qt5-gui-1.so.1 polkit-qt5-0.112.0_1
 libpolkit-qt5-core-1.so.1 polkit-qt5-0.112.0_1
-libfm-qt.so.6 libfm-qt-0.14.0_1
+libfm-qt.so.7 libfm-qt-0.15.0_1
 libqtermwidget5.so.0 qtermwidget-0.6.0_1
 libnpth.so.0 npth-1.1_1
 libnpupnp.so.3 libnpupnp-2.2.1_1
@@ -2509,7 +2510,7 @@ libhwloc.so.15 libhwloc-2.0.4_1
 libnetfilter_cttimeout.so.1 libnetfilter_cttimeout-1.0.0_1
 libnetfilter_cthelper.so.0 libnetfilter_cthelper-1.0.0_1
 libnetfilter_queue.so.1 libnetfilter_queue-1.0.2_1
-libfilezilla.so.4 libfilezilla-0.20.1_1
+libfilezilla.so.6 libfilezilla-0.21.0_1
 libtommath.so.1 libtommath-1.0_1
 libKF5ItemViews.so.5 kitemviews-5.26.0_1
 libunicorn.so.1 unicorn-1.0_1
@@ -3860,3 +3861,4 @@ libc++utilities.so.5 cpp-utilities-5.2.0_1
 libtagparser.so.9 tagparser-9.1.2_1
 libqtutilities.so.6 qtutilities-6.0.4_1
 libkdsoap.so.1.9.0 KDSoap-1.9.0_1
+libstoken.so.1 stoken-0.92_1
