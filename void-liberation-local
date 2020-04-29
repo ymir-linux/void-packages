@@ -1,0 +1,37 @@
+#!/bin/sh
+# This is a script I wrote to automate the somewhat annoying process of migrating a Void Linux installation out of the Void and into the light of Linux-libre.
+# I wrote this script for me, I can't guarantee this will work on your system.
+# make sure you have xtools and dmenu installed.
+# Before you run this in your home directory, either mkdir ~/.local/src or comment out the first line.
+# if you have already cloned the void-packages repo, comment the relevant line(s) out.
+
+# check if "xtools" is installed and install it if it is not
+[ -z command -v xi ] && sudo xbps-install -S xtools
+
+# set up the void-packages repo
+cd ~/.local/src
+git clone https://github.com/drake-newell/void-packages.git
+cd void-packages
+./xbps-src binary-bootstrap
+
+# install linux-libre
+cd srcpkgs
+vrs=$(ls | grep "linux-libre" | grep -Ev 'dbg|headers' | dmenu -i -p "Kernel version:")
+[ -z $vrs ] && exit
+cd ..
+./xbps-src pkg $vrs
+xi $vrs
+
+# use "ignorepkg" to allow removal of default kernel and firmware
+sudo echo 'ignorepkg="linux linux5.4 linux5.6 linux-firmware-amd linux-firmware-nvidia linux-firmware-network linux-firmware-intel' > /etc/xbps.d/10-ignore.conf
+
+# remove evil nonfree kernel and blobs
+sudo xbps-remove linux
+sudo xbps-remove $($null | dmenu -i -p "Remove kernel(s):")
+sudo xbps-remove linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
+
+# OPTIONAL: install Parabola's your-freedom package (conflicts with both nonfree and semi-free packages, so it may not work for you)
+# ./xbps-src your-freedom
+# xi your-freedom
+
+echo "You have successfully entered the light." && exit
