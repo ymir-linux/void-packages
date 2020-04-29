@@ -24,7 +24,6 @@ preserve=yes
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio"
 
-# I had to add '-gnu' in order to build properly
 _kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
