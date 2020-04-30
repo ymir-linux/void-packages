@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.5'
 pkgname=linux-libre5.5
-version=5.5.36
+version=5.5.19
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
