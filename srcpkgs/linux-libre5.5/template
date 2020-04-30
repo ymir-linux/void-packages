@@ -1,12 +1,11 @@
 # Template file for 'linux-libre5.5'
 pkgname=linux-libre5.5
-version=5.5.18
+version=5.5.36
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
-<<<<<<< HEAD:srcpkgs/linux-libre5.5/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=7fc4a62917748d6ef3f2ba1403b33fab019bdab9ad4b4671cebd332be1564f06
