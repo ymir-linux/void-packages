@@ -1,5 +1,4 @@
 # Template file for 'linux5.6'
-<<<<<<< HEAD:srcpkgs/linux-libre5.6/template
 pkgname=linux-libre5.6
 version=5.6.8
 revision=1
@@ -10,18 +9,6 @@ license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=a3f5890df575f7c8e53c3e1b0783db39ad7d60f0f15600bb2f8aa584e14f1066
-=======
-pkgname=linux5.6
-version=5.6.8
-revision=1
-wrksrc="linux-${version}"
-short_desc="Linux kernel and modules (${version%.*} series)"
-maintainer="Orphaned <orphan@voidlinux.org>"
-license="GPL-2.0-only"
-homepage="https://www.kernel.org"
-distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
-checksum=19e142ff07a2c8d10116074099b9d845682e74544a2b6c1641f7cb044ac282df
->>>>>>> 4e3fdbb4d4c12678d84e333aad78a67a3fd355a6:srcpkgs/linux5.6/template
 python_version=2 #unverified
 patch_args="-Np1"
 
