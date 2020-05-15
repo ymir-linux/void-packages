@@ -389,6 +389,8 @@ libdns_sd.so.1 avahi-compat-libs-0.6.25_1
 libhowl.so.0 avahi-compat-libs-0.6.25_1
 libavahi-ui.so.0 avahi-ui-libs-0.6.25_1
 libavahi-ui-gtk3.so.0 avahi-ui-libs-gtk3-0.6.25_1
+libavahi-libevent.so.1 avahi-libevent-libs-0.8_1
+libavahi-qt5.so.1 avahi-qt5-libs-0.8_1
 libmp4v2.so.2 libmp4v2-2.0.0_1
 libfaac.so.0 faac-1.28_1
 libfaad.so.2 faad2-2.7_1
@@ -830,9 +832,7 @@ libtotem.so.0 libtotem-3.6.2_1
 libclutter-1.0.so.0 clutter-1.14.0_1
 libavfs.so.0 libavfs-1.0.5_1
 libdmr.so.0.1 deepin-movie-reborn-3.2.5_1
-libgjs.so.0 gjs-1.63.3_1
-libgjs-gi.so gjs-1.63.3_1
-libgjs-dbus.so.0 gjs-1.63.3_1
+libgjs.so.0 gjs-1.65.2_1
 libtelepathy-glib.so.0 telepathy-glib-0.15.5_1
 libaccountsservice.so.0 accountsservice-0.6.4_1
 libfolks.so.25 folks-0.9.5_1
@@ -3454,6 +3454,7 @@ libmysqlpp.so.3 mysql++-3.2.5_1
 libKF5Syndication.so.5 syndication-5.50.0_1
 liblqr-1.so.0 liblqr-0.4.2_1
 libmozjs-60.so.0 mozjs60-60.0.2_1
+libmozjs-68.so.0 mozjs68-68.8.0_1
 libebur128.so.1 libebur128-1.2.4_1
 libgtksourceview-4.so.0 gtksourceview4-4.0.2_1
 libwx_gtk3u_propgrid-3.0.so.0 wxWidgets-gtk3-3.0.4_1
@@ -3876,3 +3877,6 @@ libhidrd_opt.so.0 hidrd-0.2.0_1
 libhidrd_strm.so.0 hidrd-0.2.0_1
 libhidrd_fmt.so.0 hidrd-0.2.0_1
 libjcat.so.1 libjcat-0.1.2_1
+libmatio.so.9 matio-1.5.17_2
+libvips.so.42 libvips-8.9.2_1
+libvips-cpp.so.42 libvips-8.9.2_1
