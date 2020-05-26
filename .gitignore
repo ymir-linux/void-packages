@@ -10,3 +10,5 @@ etc/conf.*
 etc/virtual
 etc/xbps.d/custom
 .xbps-checkvers*.plist
+srcpkgs/zoom
+srcpkgs/google-chrome
