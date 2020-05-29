@@ -390,8 +390,6 @@ libdns_sd.so.1 avahi-compat-libs-0.6.25_1
 libhowl.so.0 avahi-compat-libs-0.6.25_1
 libavahi-ui.so.0 avahi-ui-libs-0.6.25_1
 libavahi-ui-gtk3.so.0 avahi-ui-libs-gtk3-0.6.25_1
-libavahi-libevent.so.1 avahi-libevent-libs-0.8_1
-libavahi-qt5.so.1 avahi-qt5-libs-0.8_1
 libmp4v2.so.2 libmp4v2-2.0.0_1
 libfaac.so.0 faac-1.28_1
 libfaad.so.2 faad2-2.7_1
@@ -553,12 +551,12 @@ libkColorPicker.so.0.1.1 kColorPicker-0.1.1_1
 libkImageAnnotator.so.0.2.1 kImageAnnotator-0.2.1_1
 libbabl-0.1.so.0 babl-0.1.16_1
 libbamf3.so.2 bamf-0.5.1_1
-libicuio.so.64 icu-libs-64.1_1
-libicui18n.so.64 icu-libs-64.1_1
-libicudata.so.64 icu-libs-64.1_1
-libicutu.so.64 icu-libs-64.1_1
-libicuuc.so.64 icu-libs-64.1_1
-libicutest.so.64 icu-libs-64.1_1
+libicuio.so.67 icu-libs-67.1_1
+libicui18n.so.67 icu-libs-67.1_1
+libicudata.so.67 icu-libs-67.1_1
+libicutu.so.67 icu-libs-67.1_1
+libicuuc.so.67 icu-libs-67.1_1
+libicutest.so.67 icu-libs-67.1_1
 libaspell.so.15 aspell-0.60_1
 libpspell.so.15 aspell-0.60_1
 libenchant.so.1 enchant-1.4.2_1
