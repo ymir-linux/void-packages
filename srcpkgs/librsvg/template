@@ -1,7 +1,9 @@
 # Template file for 'librsvg'
 pkgname=librsvg
+# https://gitlab.gnome.org/GNOME/librsvg/-/issues/604
+reverts="2.48.5_1"
 version=2.48.4
-revision=1
+revision=2
 build_style=gnu-configure
 build_helper="gir"
 configure_args="--disable-static --host=${XBPS_TARGET_TRIPLET}

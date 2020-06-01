@@ -216,7 +216,7 @@ libblkid.so.1 libblkid-2.18_1
 libidn.so.12 libidn-1.35_1
 libusb-1.0.so.0 libusb-1.0.0_1
 libusb-0.1.so.4 libusb-compat-0.1.0_1
-libpci.so.3 pciutils-3.5.0_1
+libpci.so.3 pciutils-3.7.0_1
 libpcre.so.1 libpcre-8.30_1
 libpcreposix.so.0 libpcre-7.8_1
 libpcrecpp.so.0 libpcrecpp-7.8_1
@@ -990,6 +990,7 @@ libwv-1.2.so.4 libwv-1.2.9_1
 libabiword-3.0.so libabiword-3.0.0_1
 libmpg123.so.0 libmpg123-1.13.4_2
 libout123.so.0 libmpg123-1.23.0_1
+libsyn123.so.0 libmpg123-1.26.0_1
 libopenal.so.1 libopenal-1.13_1
 libalure.so.1 alure-1.2_1
 libalut.so.0 freealut-1.1.0_1
