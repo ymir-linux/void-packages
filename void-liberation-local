@@ -27,11 +27,11 @@ sudo echo 'ignorepkg="linux linux5.4 linux5.6 linux-firmware-amd linux-firmware-
 
 # remove evil nonfree kernel and blobs
 sudo xbps-remove linux
-sudo xbps-remove $(xbps-query --regex -Rs '^linux[0-9.]+-[0-9._]+' | dmenu -i -p "Remove kernel:")
+sudo xbps-remove $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}')
 sudo xbps-remove linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
 
 # OPTIONAL: install Parabola's your-freedom package (conflicts with both nonfree and semi-free packages, so it may not work for you)
-# ./xbps-src your-freedom
+# ./xbps-src pkg your-freedom
 # xi your-freedom
 
 echo "You have successfully entered the light." && exit
