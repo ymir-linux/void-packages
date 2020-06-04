@@ -235,6 +235,13 @@ do_configure() {
 do_build() {
 	ninja -C out/Release ${makejobs} chrome chromedriver mksnapshot
 }
+do_ungoogle() {
+	_ungoogled_repo="$srcdir/$pkgname-$_ungoogled_ver"
+	_utils="${_ungoogled_repo}/utils"
+  	python "$_utils/prune_binaries.py" ./ "$_ungoogled_repo/pruning.list"
+  	python "$_utils/patches.py" apply ./ "$_ungoogled_repo/patches"
+  	python "$_utils/domain_substitution.py" apply -r "$_ungoogled_repo/domain_regex.list" -f "$_ungoogled_repo/domain_substitution.list" -c domainsubcache.tar.gz ./
+}
 do_install() {
 	vinstall out/Release/chrome 755 usr/lib/${pkgname} ${pkgname}
 	vinstall out/Release/chromedriver 755 usr/lib/${pkgname} chromedriver
