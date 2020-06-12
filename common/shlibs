@@ -976,7 +976,7 @@ libfftw3l_omp.so.3 libfftw-3.3.5_1
 libfftw3f_threads.so.3 libfftw-3.3_1
 libfftw3f.so.3 libfftw-3.3_1
 libfftw3f_omp.so.3 libfftw-3.3.5_1
-libfluidsynth.so.1 libfluidsynth-1.1.5_1
+libfluidsynth.so.2 libfluidsynth-2.1.1_1
 liblo.so.7 liblo-0.26_1
 libvamp-sdk.so.2 libvamp-plugin-sdk-2.2_1
 librubberband.so.2 librubberband-1.6.0_1
@@ -1513,6 +1513,8 @@ libecore_input.so.1 efl-1.12.0_1
 libecore_ipc.so.1 efl-1.12.0_1
 libecore.so.1 efl-1.12.0_1
 libecore_x.so.1 efl-1.12.0_1
+libecore_wl2.so.1 efl-1.24.2_1
+libecore_drm2.so.1 efl-1.24.2_1
 libedje.so.1 efl-1.12.0_1
 libeet.so.1 efl-1.12.0_1
 libeeze.so.1 efl-1.12.0_1
@@ -1522,6 +1524,7 @@ libefreet_trash.so.1 efl-1.12.0_1
 libeina.so.1 efl-1.12.0_1
 libeio.so.1 efl-1.12.0_1
 libeldbus.so.1 efl-1.12.0_1
+libelput.so.1 efl-1.24.2_1
 libembryo.so.1 efl-1.12.0_1
 libemotion.so.1 efl-1.12.0_1
 libeo.so.1 efl-1.12.0_1
@@ -1529,6 +1532,7 @@ libethumb_client.so.1 efl-1.12.0_1
 libethumb.so.1 efl-1.12.0_1
 libevas.so.1 efl-1.12.0_1
 libefl.so.1 efl-1.12.0_1
+libefl_canvas_wl.so.1 efl-1.24.2_1
 libelua.so.1 efl-1.13.0_1
 libelocation.so.1 efl-1.13.0_1
 libelementary.so.1 efl-1.18.0_1
@@ -3929,7 +3933,7 @@ libtinyclipboard.so.1 tinyclipboard-16.01_1
 libcbor.so.0.7 libcbor-0.7.0_1
 libfido2.so.1 libfido2-1.3.0_1
 libjanet.so.1.9 janet-1.9.0_1
-libOpenImageDenoise.so.0 openimagedenoise-1.1.0_1
+libOpenImageDenoise.so.0 openimagedenoise-1.2.0_1
 libcbang0.so cbang-1.3.3_1
 libblosc.so.1 c-blosc-1.17.1_1
 libopenvdb.so.7.0 openvdb-7.0.0_1

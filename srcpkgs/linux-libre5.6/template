@@ -1,6 +1,6 @@
 # Template file for 'linux5.6'
 pkgname=linux-libre5.6
-version=5.6.17
+version=5.6.18
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=5e0d4065aa769fb916ad2e58baebc55874c9f1cbc2514339a4c8e498acd87c7d
+checksum=a37f36c464b393f58f6555c4edc4092574e0584850e55612f066a25b1d3ba172
 python_version=3
 patch_args="-Np1"
 
