@@ -16,7 +16,7 @@ cd void-packages
 
 # install linux-libre
 cd srcpkgs
-vrs=$(ls | grep "linux-libre" | grep -Ev 'dbg|headers' | dmenu -i -p "Kernel version:")
+vrs=$(ls | grep "linux-libre...$" | dmenu -i -p "Kernel version:")
 [ -z $vrs ] && exit
 cd ..
 ./xbps-src pkg $vrs
