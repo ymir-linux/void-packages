@@ -1,5 +1,5 @@
 # Template file for 'chromium'
-pkgname=ungoogled-chromium
+pkgname=chromium
 # See http://www.chromium.org/developers/calendar for the latest version
 version=83.0.4103.106
 revision=2
