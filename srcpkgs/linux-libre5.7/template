@@ -1,6 +1,6 @@
 # Template file for 'linux5.7'
 pkgname=linux-libre5.7
-version=5.7.2
+version=5.7.4
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=ab09ba06efed3d1170bc90253bf4f2e226b964feb2543fc3744497dc0f5dfa1b
+checksum=bca4f5ca3001a4cde341652af7fcaefed555be52a92e08ddf58a142eeb02b51a
 python_version=3
 patch_args="-Np1"
 
@@ -42,7 +42,7 @@ mutable_files="
  /usr/lib/modules/${_kernver}/modules.devname"
 
 do_configure() {
-	# 5.4 misses Documentation/DocBook. We ship the directory from 4.12 here.
+	# 5.7 misses Documentation/DocBook. We ship the directory from 4.12 here.
 	cp -a $FILESDIR/DocBook -t Documentation
 
 	# If there's a file called <arch>-dotconfig, use it to
@@ -179,7 +179,7 @@ do_install() {
 	# Remove firmware stuff provided by the "linux-firmware" pkg.
 	# rm -rf ${DESTDIR}/usr/lib/firmware
 
-	for i in acpi asm-generic clocksource config crypto drm generated linux \
+	for i in acpi asm-generic clocksource config crypto drm generated linux vdso \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
 		if [ -d include/$i ]; then
 			cp -a include/$i ${hdrdest}/include
