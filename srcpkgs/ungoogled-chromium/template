@@ -234,7 +234,7 @@ do_configure() {
 	out/Release/gn gen out/Release --args="${conf[*]}"
 }
 do_build() {
-	ninja -C out/Release ${makejobs} chrome chromedriver mksnapshot
+	ninja -j 4 -C out/Release ${makejobs} chrome chromedriver mksnapshot
 }
 do_install() {
 	vinstall out/Release/chrome 755 usr/lib/${pkgname} ${pkgname}
