@@ -1,6 +1,6 @@
 # Template file for 'linux5.7'
 pkgname=linux-libre5.7
-version=5.7.9
+version=5.7.10
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=ed43d09602a2397577f09d84b90f7434dda8fec7a7ee4608b872c6cf013778cd
+checksum=85ab1eac6d0bff69db9f72aab4973263d606ce85cd002e01ff76ed64c2a2090f
 python_version=3
 patch_args="-Np1"
 
