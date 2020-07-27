@@ -1,15 +1,14 @@
 #!/bin/sh
 # MUST BE RUN AS ROOT
 
-url=
-kern=
+url=http://192.168.1.102
+kern=5.6
 
 # install linux-libre from custom repo
 echo "repository=$url" > /etc/xbps.d/void-repo-libre.conf
 xbps-install -S linux-libre$kern
 
 # use "ignorepkg" to allow removal of default kernel and firmware
-echo 'ignorepkg="linux linux5.4 linux-firmware-amd linux-firmware-nvidia linux-firmware-network linux-firmware-intel' > /etc/xbps.d/10-ignore.conf
-
+sudo xbps-remove base-system && sudo xbps-install base-voidstrap
 # remove evil nonfree kernel and blobs
-xbps-remove linux linux5.4 linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
+xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia

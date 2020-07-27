@@ -22,9 +22,8 @@ cd ..
 ./xbps-src pkg $vrs
 xi $vrs
 
-# use "ignorepkg" to allow removal of default kernel and firmware
-sudo echo 'ignorepkg="linux linux5.4 linux5.6 linux-firmware-amd linux-firmware-nvidia linux-firmware-network linux-firmware-intel' > /etc/xbps.d/10-ignore.conf
-
+# remove base-system to allow removal of default kernel and firmware
+sudo xbps-remove base-system && sudo xbps-install base-voidstrap
 # remove evil nonfree kernel and blobs
 sudo xbps-remove linux
 sudo xbps-remove $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}')
