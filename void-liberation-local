@@ -1,22 +1,27 @@
 #!/bin/sh
 # This is a script I wrote to automate the somewhat annoying process of migrating a Void Linux installation out of the Void and into the light of Linux-libre.
 # I wrote this script for me, I can't guarantee this will work on your system.
-# make sure you have xtools and dmenu installed.
-# Before you run this in your home directory, either mkdir ~/.local/src or comment out the first line.
-# if you have already cloned the void-packages repo, comment the relevant line(s) out.
+# make sure you have xtools and fzf installed.
 
-# check if "xtools" is installed and install it if it is not
+# check if "xtools" and "fzf" are installed and install them if they are not
 [ -z command -v xi ] && sudo xbps-install -S xtools
+[ -z command -v fzf ] && sudo xbps-install -S fzf
 
 # set up the void-packages repo
-cd ~/.local/src
+echo -n "Install void-packages in ~/.local/src or in current directory"
+read ans
+if [ "$ans" != "${ans#[Yy]}" ]; then
+	srcdir="~/.local/src"
+else
+	srcdir=$(pwd)
+fi
 git clone https://github.com/drake-newell/void-packages.git
 cd void-packages
 ./xbps-src binary-bootstrap
 
 # install linux-libre
 cd srcpkgs
-vrs=$(ls | grep "linux-libre...$" | dmenu -i -p "Kernel version:")
+vrs=$(ls | grep "linux-libre...$" | fzf -i --prompt="Kernel version:")
 [ -z $vrs ] && exit
 cd ..
 ./xbps-src pkg $vrs
@@ -31,8 +36,19 @@ sudo xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{
 # remove old kernels from /boot
 sudo vkpurge rm all
 
+# Optionally install vkpurge alternative
+echo -n "Install vkpurge-libre (linux-libre compatible vkpurge tool)?"
+read ans2
+if [ "$ans2" != "${ans2#[Yy]}" ]; then
+	cp $srcdir/void-packages/vkpurge-libre ~/.local/bin/ || mkdir ~/.local/bin && cp $srcdir/void-packages/vkpurge-libre ~/.local/bin/
+fi
+
 # OPTIONAL: install Parabola's your-freedom package (conflicts with both nonfree and semi-free packages, so it may not work for you)
-# ./xbps-src pkg your-freedom
-# xi your-freedom
+echo -n "Install your-freedom to conflict with all nonfree or semi-free packages?"
+read ans3
+if [ "$ans3" != "${answer#[Yy]}" ]; then
+	./xbps-src pkg your-freedom
+	xi your-freedom
+fi
 
 echo "You have successfully entered the light." && exit
