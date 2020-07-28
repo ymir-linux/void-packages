@@ -1,44 +1,26 @@
 # Template file for 'your-freedom'
-# Template file for 'your-freedom'
 pkgname=your-freedom
-version=20200201
+version=20200720
+_gitver=422117840a1af6c0db5e77818739808e1444eae3
 revision=1
 create_wrksrc=yes
 build_style=meta
-hostmakedepends="curl"
 short_desc="Conflicts with nonfree packages to ensure your system is free"
-maintainer="Drake Newell <drakenewell731@gmail.com>"
+maintainer="reback00 <reback00@protonmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://git.parabola.nu/blacklist.git"
-_distfiles="https://git.parabola.nu/blacklist.git/plain/blacklist.txt?id=d750c3c80b6e5212703c806b1b458ab9e21383ba"
-_checksum=3fbb9d15e575ac1ee2d2e47336f482d395d6745112eeb0808c523c03d19a31da
+distfiles="https://git.parabola.nu/blacklist.git/plain/blacklist.txt?id=${_gitver}>blacklist.txt"
+checksum=d6886831a73cf4af0ee5e564106a4b21ddd2d702d6bb1d5146355f1c86751789
 
 
 # Commands outside functions run multiple times.
 # Setting $conflicts once does not work (it forgets it next time).
 # There is no way to determine which run will set the conflict correctly.
 # This is a workaround to set it when the $conflicts is found as being empty.
-# The "curl" condition only runs it when it finds curl (could be inside or
-# outside build environment) to avoid error.
-# The "host" condition is to run it when it's ready to build.
-# Combined with the curl condition, it makes sure it runs after "installing
-# host dependencies" step.
-if [ -z "$conflicts" ] && [ -x "$(command -v curl)" ] && [ "${XBPS_SRCDISTDIR:1:4}" = host ]; then
 
-	cd "$XBPS_SRCDISTDIR/$pkgname-$version"
+if [ -z "$conflicts" ] && [ -f "$XBPS_SRCDISTDIR/${pkgname}-${version}/blacklist.txt" ]; then
 
-	if ! [ -f "blacklist.txt" ]; then
-		curl -o blacklist.txt -L $_distfiles
-	fi
-
-	downloadedsum=$(sha256sum "blacklist.txt" | awk '{print $1}')
-	if [ "$downloadedsum" == "$_checksum" ]; then
-		conflicts=$(awk -F ':' '{print $1}' "blacklist.txt" | awk '{print}' ORS=' ')
-	fi
+	cd "$XBPS_SRCDISTDIR/${pkgname}-${version}"
+	conflicts=$(awk -F ':' '{print $1}' "blacklist.txt" | awk '{print}' ORS=' ')
 
 fi
-
-
-do_install() {
-	echo "conflicts on do_install(): ${conflicts}"
-}
