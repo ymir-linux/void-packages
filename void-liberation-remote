@@ -13,3 +13,6 @@ echo "ignorepkg=linux" | sudo tee -a /etc/xbps.d/10-ignore.conf
 
 # remove evil nonfree kernel and blobs
 xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
+
+# remove old kernels from /boot
+sudo vkpurge rm all
