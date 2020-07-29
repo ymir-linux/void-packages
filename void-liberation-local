@@ -4,8 +4,8 @@
 # make sure you have xtools and fzf installed.
 
 # check if "xtools" and "fzf" are installed and install them if they are not
-[ -z command -v xi ] && sudo xbps-install -S xtools
-[ -z command -v fzf ] && sudo xbps-install -S fzf
+[ -z $(command -v xi) ] && sudo xbps-install -S xtools
+[ -z $(command -v fzf) ] && sudo xbps-install -S fzf
 
 # set up the void-packages repo
 echo -n "Install void-packages in ~/.local/src or in current directory"
