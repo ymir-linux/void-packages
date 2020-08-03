@@ -5,7 +5,7 @@ url=
 kern=
 
 # install linux-libre from custom repo
-echo "repository=$url" > /etc/xbps.d/void-repo-libre.conf
+echo "repository=$url" > /etc/xbps.d/40-void-repo-libre.conf
 xbps-install -S linux-libre$kern
 
 # use "ignorepkg" to allow removal of default kernel and firmware
