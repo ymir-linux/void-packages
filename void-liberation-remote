@@ -12,10 +12,20 @@ echo "repository=$url" > /etc/xbps.d/40-void-repo-libre.conf
 xbps-install -S linux-libre$kern
 
 # use "ignorepkg" to allow removal of default kernel and firmware
-echo "ignorepkg=linux" | sudo tee -a /etc/xbps.d/10-ignore.conf
+echo "ignorepkg=linux" > /etc/xbps.d/10-ignore.conf
 
 # remove evil nonfree kernel and blobs
 xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
 
 # remove old kernels from /boot
 sudo vkpurge rm all
+
+# Option to install your-freedom package to ensure the installation of only libre sotware
+echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? "
+read ans3
+if [ "$ans3" != "${answer#[Yy]}" ]; then
+	for package in $(cat srcpkgs/allowlist.txt); do
+		xbps-install -S $package
+	done
+	xbps-install -S your-freedom
+fi

@@ -44,9 +44,13 @@ if [ "$ans2" != "${ans2#[Yy]}" ]; then
 fi
 
 # OPTIONAL: install Parabola's your-freedom package (conflicts with both nonfree and semi-free packages, so it may not work for you)
-echo -n "Install your-freedom to conflict with all nonfree or semi-free packages? "
+echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? "
 read ans3
 if [ "$ans3" != "${answer#[Yy]}" ]; then
+	for package in $(cat srcpkgs/allowlist.txt); do
+		./xbps-src pkg $package
+		xi $package
+	done
 	./xbps-src pkg your-freedom
 	xi your-freedom
 fi
