@@ -1,8 +1,11 @@
 #!/bin/sh
 # MUST BE RUN AS ROOT
 
-url=
-kern=
+# Replace default libre repository with your own if desired
+url=http://198.255.68.182
+
+# Replace with whatever 5.x kernel you wish to install
+kern=5.7
 
 # install linux-libre from custom repo
 echo "repository=$url" > /etc/xbps.d/40-void-repo-libre.conf
