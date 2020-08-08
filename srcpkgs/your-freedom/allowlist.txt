@@ -1,4 +1,5 @@
 libxfce4ui
 minitube
 grub
+p7zip
 unzip
