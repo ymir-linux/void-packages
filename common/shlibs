@@ -1392,7 +1392,6 @@ libdbusmenu-glib.so.4 libdbusmenu-glib-12.10.2_1
 libdbusmenu-gtk3.so.4 libdbusmenu-gtk3-12.10.2_1
 libGrantlee_Templates.so.5 grantlee5-5.0.0_1
 libGrantlee_TextDocument.so.5 grantlee5-5.0.0_1
-libqca.so.2 qca-2.0.3_1
 librasqal.so.3 librasqal-0.9.30_1
 librdf.so.0 librdf-1.0.16_1
 libclucene-core.so.1 clucene-2.3.3.4_1
@@ -2142,8 +2141,6 @@ libfcitx-qt.so.0 libfcitx-qt-4.2.8_1
 libFcitxQt5DBusAddons.so.1 libfcitx-qt5-1.2.1_1
 libFcitxQt5WidgetsAddons.so.1 libfcitx-qt5-1.2.1_1
 libfcitx-qt5.so.0 libfcitx-qt5-0.1.3_1
-liblastfm.so.1 liblastfm-1.0.9_1
-liblastfm_fingerprint.so.1 liblastfm-1.0.9_1
 libdruntime-ldc-debug-shared.so.92 ldc-runtime-1.22.0_1
 libdruntime-ldc-shared.so.92 ldc-runtime-1.22.0_1
 libphobos2-ldc-shared.so.92 ldc-runtime-1.22.0_1
@@ -2158,7 +2155,6 @@ libgdict-1.0.so.10 gnome-dictionary-3.18.1_1
 libasignify.so.1 asignify-1.0_1
 libvte2_90.so.9 vte290-0.36.3_1
 libd0_blind_id.so.0 xonotic-0.8.0_1
-libechonest.so.2.3 libechonest-2.3.1_1
 libuecc.so.0 libuecc-5_1
 libKF5WindowSystem.so.5 kwindowsystem-5.6.0_1
 libKF5GuiAddons.so.5 kguiaddons-5.6.0_1
@@ -2455,6 +2451,7 @@ libkookularGenerator_odp.so.17 calligra-extras-3.2.0_1
 libgemini.so.17 calligra-gemini-3.2.0_1
 libarpack.so.2 arpack-ng-3.3.0_2
 libfts.so.0 musl-fts-1.2_2
+libobstack.so.0 musl-obstack-1.1_4
 libucontext.so.0 libucontext-0.1.1_1
 libgavl.so.1 gavl-1.40_1
 libmxml.so.1 mxml-2.9_1
