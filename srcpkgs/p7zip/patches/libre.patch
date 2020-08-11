@@ -1,0 +1,645 @@
+diff -Naurp1 p7zip_16.02.orig/C/Sha1.c p7zip_16.02/C/Sha1.c
+--- p7zip_16.02.orig/C/Sha1.c	2016-06-11 14:08:05.000000000 +0600
++++ p7zip_16.02/C/Sha1.c	2020-08-04 20:50:36.766191495 +0600
+@@ -106,35 +106,2 @@ void Sha1_GetBlockDigest(CSha1 *p, const
+ 
+-void Sha1_UpdateBlock_Rar(CSha1 *p, UInt32 *data, int returnRes)
+-{
+-  UInt32 a, b, c, d, e;
+-  UInt32 W[kNumW];
+-
+-  a = p->state[0];
+-  b = p->state[1];
+-  c = p->state[2];
+-  d = p->state[3];
+-  e = p->state[4];
+-  
+-  RX_15
+-
+-  RX_1_4(R0, R1, 15);
+-
+-  RX_20(R2, 20);
+-  RX_20(R3, 40);
+-  RX_20(R4, 60);
+-
+-  p->state[0] += a;
+-  p->state[1] += b;
+-  p->state[2] += c;
+-  p->state[3] += d;
+-  p->state[4] += e;
+-
+-  if (returnRes)
+-  {
+-    unsigned i;
+-    for (i = 0 ; i < SHA1_NUM_BLOCK_WORDS; i++)
+-      data[i] = W[kNumW - SHA1_NUM_BLOCK_WORDS + i];
+-  }
+-}
+-
+ #define Sha1_UpdateBlock(p) Sha1_GetBlockDigest(p, p->buffer, p->state)
+@@ -212,42 +179,2 @@ void Sha1_Update(CSha1 *p, const Byte *d
+   }
+-}
+-
+-void Sha1_Update_Rar(CSha1 *p, Byte *data, size_t size /* , int rar350Mode */)
+-{
+-  int returnRes = False;
+-  
+-  unsigned pos = (unsigned)p->count & 0x3F;
+-  p->count += size;
+-
+-  while (size--)
+-  {
+-    unsigned pos2 = (pos & 3);
+-    UInt32 v = ((UInt32)*data++) << (8 * (3 - pos2));
+-    UInt32 *ref = &(p->buffer[pos >> 2]);
+-    pos++;
+-    if (pos2 == 0)
+-    {
+-      *ref = v;
+-      continue;
+-    }
+-    *ref |= v;
+-    
+-    if (pos == SHA1_BLOCK_SIZE)
+-    {
+-      pos = 0;
+-      Sha1_UpdateBlock_Rar(p, p->buffer, returnRes);
+-      if (returnRes)
+-      {
+-        unsigned i;
+-        for (i = 0; i < SHA1_NUM_BLOCK_WORDS; i++)
+-        {
+-          UInt32 d = p->buffer[i];
+-          Byte *prev = data + i * 4 - SHA1_BLOCK_SIZE;
+-          SetUi32(prev, d);
+-        }
+-      }
+-      // returnRes = rar350Mode;
+-      returnRes = True;
+-    }
+-  }
+ }
+diff -Naurp1 p7zip_16.02.orig/C/Sha1.h p7zip_16.02/C/Sha1.h
+--- p7zip_16.02.orig/C/Sha1.h	2016-06-11 14:08:03.000000000 +0600
++++ p7zip_16.02/C/Sha1.h	2020-08-04 20:51:02.091190319 +0600
+@@ -29,4 +29,2 @@ void Sha1_Final(CSha1 *p, Byte *digest);
+ 
+-void Sha1_Update_Rar(CSha1 *p, Byte *data, size_t size /* , int rar350Mode */);
+-
+ void Sha1_32_PrepareBlock(const CSha1 *p, UInt32 *block, unsigned size);
+diff -Naurp1 p7zip_16.02.orig/ChangeLog p7zip_16.02/ChangeLog
+--- p7zip_16.02.orig/ChangeLog	2016-06-11 15:32:55.000000000 +0600
++++ p7zip_16.02/ChangeLog	2020-08-04 21:37:26.918061027 +0600
+@@ -30,3 +30,2 @@ Version 16.00 (never published)
+       - iso loop fix
+-      - rar4 multivol -stdin kpidSize
+       - drag and drop 1<2.txt
+@@ -82,7 +81,2 @@ Version 15.12 (never published)
+ 
+-
+-  - From Windows version of 7-Zip 15.11 :
+-        - Some bugs were fixed.
+-        - 7-Zip 15.10 showed incorrect error message about missing volume for multivolume RAR archives.
+-
+    - ..../LZHAM added
+@@ -106,5 +100,2 @@ Version 15.10 beta
+       - extracting from solid wim archives worked incorrectly in some cases,
+-    - Also there are some minor changes.
+-      - 7-Zip can show the name of missing volume for multivolume RAR and VMDK archives.
+-      - Some internal changes with 7-Zip Benchmark.
+ 
+@@ -130,4 +121,2 @@ Version 15.07 beta
+ 
+-  - "bin/Codecs/Rar29.so" renamed to "bin/Codecs/Rar.so"
+-  
+   - support for cygwin 64 bits
+@@ -155,3 +144,2 @@ Version 15.07 beta
+ 
+-    - 7-Zip now can extract RAR5 archives.
+     - 7-Zip now doesn't sort files by type while adding to solid 7z archive.
+@@ -162,4 +150,2 @@ Version 15.07 beta
+       console version added some text to the end of stdout stream, is -so switch was used.
+-    - The BUG in 9.30 - 15.05 was fixed:
+-      7-Zip could not open multivolume sfx RAR archive.
+     - Some bugs were fixed.
+@@ -216,5 +202,2 @@ Version 9.38
+ 
+-  - From Windows version of 7-zip
+-     - bug#138 If you extract the password with # program crashes
+-       7z now supports long password in RAR 3 and 4.
+ 
+@@ -249,8 +232,2 @@ Version 9.22
+ 
+-Version 9.20.1
+-==============
+-
+-  - #3211479 "p7zip 9.20 - "unsupported method" with RAR files - " fixed
+-    "install.sh" installs again "bin/Codecs/Rar29.so"
+-
+ Version 9.20
+@@ -327,4 +304,2 @@ Version 9.13
+ 
+-  - #2863580 "Crash in Rar decoder on a corrupted file" fixed
+-
+   - #2860898 "Dereferencing a zero pointer in cab handler" fixed
+@@ -457,3 +432,3 @@ Version 4.59 (never published)
+ 
+-  - Bug : wrong timestamp for files extracted from .zip or .rar archives
++  - Bug : wrong timestamp for files extracted from .zip archives
+ 
+@@ -470,4 +445,2 @@ Version 4.58
+     - Now it's possible to store file creation time in 7z and ZIP archives (-mtc switch).
+-    - 7-Zip now can unpack multivolume RAR archives created with
+-      "old style volume names" scheme and names *.001, *.002, ...
+     - Now it's possible to use -mSW- and -mSW+ switches instead of -mSW=off and -mSW=on
+@@ -687,3 +660,3 @@ Version 4.44
+     - 7za : Cab support
+-    - Speed optimizations for LZMA, Deflate, BZip2 and unRAR.
++    - Speed optimizations for LZMA, Deflate and BZip2.
+     - fix : now, updating a crypted header archive keeps the crypted header
+@@ -807,4 +780,2 @@ Version 4.38
+ 
+-  - DosDateTimeToFileTime fixed (rar format)
+-
+   - contrib/VirtualFileSystemForMidnightCommander/u7z updated
+@@ -925,4 +896,2 @@ Version 4.25
+ 
+-  - new plugin for 7z : RAR format support (extracting only)
+-
+   - better dependencies in makefile
+@@ -1114,5 +1083,2 @@ Version 4.10
+ 
+-  - 7z for Unix is not maintain anymore (because as the source of unrar plugin for 7z
+-    is not available, 7z is unless on Unix).
+-
+ Version 0.91
+diff -Naurp1 p7zip_16.02.orig/contrib/qnx630sp3/qnx630sp3-shared p7zip_16.02/contrib/qnx630sp3/qnx630sp3-shared
+--- p7zip_16.02.orig/contrib/qnx630sp3/qnx630sp3-shared	2015-09-12 21:03:58.000000000 +0600
++++ p7zip_16.02/contrib/qnx630sp3/qnx630sp3-shared	2020-08-04 21:47:53.063031957 +0600
+@@ -10,3 +10,3 @@ cp makefile.qnx_shared.so makefile.machi
+ make 7z && \
+-mv ./bin/7z.so ../${BIN} && mv ./bin/Codecs/Rar.so ../${BIN}/Codecs && \
++mv ./bin/7z.so ../${BIN} && \
+ make clean && \
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/Archive/7z/7zUpdate.cpp p7zip_16.02/CPP/7zip/Archive/7z/7zUpdate.cpp
+--- p7zip_16.02.orig/CPP/7zip/Archive/7z/7zUpdate.cpp	2016-05-20 14:31:41.000000000 +0600
++++ p7zip_16.02/CPP/7zip/Archive/7z/7zUpdate.cpp	2020-08-04 20:52:07.204187296 +0600
+@@ -564,3 +564,3 @@ static int CompareEmptyItems(const unsig
+ static const char *g_Exts =
+-  " 7z xz lzma ace arc arj bz tbz bz2 tbz2 cab deb gz tgz ha lha lzh lzo lzx pak rar rpm sit zoo"
++  " 7z xz lzma ace arc arj bz tbz bz2 tbz2 cab deb gz tgz ha lha lzh lzo lzx pak rpm sit zoo"
+   " zip jar ear war msi"
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/Bundles/Format7zFree/makefile.list p7zip_16.02/CPP/7zip/Bundles/Format7zFree/makefile.list
+--- p7zip_16.02.orig/CPP/7zip/Bundles/Format7zFree/makefile.list	2016-03-10 13:27:16.000000000 +0600
++++ p7zip_16.02/CPP/7zip/Bundles/Format7zFree/makefile.list	2020-08-04 20:54:30.665180636 +0600
+@@ -89,4 +89,2 @@ SRCS=\
+   ../../../../CPP/7zip/Archive/QcowHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/RarHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp \
+   ../../../../CPP/7zip/Archive/RpmHandler.cpp \
+@@ -193,5 +191,2 @@ SRCS=\
+   ../../../../CPP/7zip/Crypto/RandGen.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar20Crypto.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar5Aes.cpp \
+-  ../../../../CPP/7zip/Crypto/RarAes.cpp \
+   ../../../../CPP/7zip/Crypto/WzAes.cpp \
+@@ -487,6 +482,2 @@ QcowHandler.o : ../../../../CPP/7zip/Arc
+ 	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Archive/QcowHandler.cpp
+-RarHandler.o : ../../../../CPP/7zip/Archive/Rar/RarHandler.cpp
+-	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Archive/Rar/RarHandler.cpp
+-Rar5Handler.o : ../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp
+-	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp
+ RpmHandler.o : ../../../../CPP/7zip/Archive/RpmHandler.cpp
+@@ -695,8 +686,2 @@ RandGen.o : ../../../../CPP/7zip/Crypto/
+ 	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Crypto/RandGen.cpp
+-Rar20Crypto.o : ../../../../CPP/7zip/Crypto/Rar20Crypto.cpp
+-	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Crypto/Rar20Crypto.cpp
+-Rar5Aes.o : ../../../../CPP/7zip/Crypto/Rar5Aes.cpp
+-	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Crypto/Rar5Aes.cpp
+-RarAes.o : ../../../../CPP/7zip/Crypto/RarAes.cpp
+-	$(CXX) $(CXXFLAGS) ../../../../CPP/7zip/Crypto/RarAes.cpp
+ WzAes.o : ../../../../CPP/7zip/Crypto/WzAes.cpp
+@@ -871,4 +856,2 @@ OBJS=\
+  QcowHandler.o \
+- RarHandler.o \
+- Rar5Handler.o \
+  RpmHandler.o \
+@@ -975,5 +958,2 @@ OBJS=\
+  RandGen.o \
+- Rar20Crypto.o \
+- Rar5Aes.o \
+- RarAes.o \
+  WzAes.o \
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/CMAKE/Format7zFree/CMakeLists.txt p7zip_16.02/CPP/7zip/CMAKE/Format7zFree/CMakeLists.txt
+--- p7zip_16.02.orig/CPP/7zip/CMAKE/Format7zFree/CMakeLists.txt	2016-03-10 13:27:16.000000000 +0600
++++ p7zip_16.02/CPP/7zip/CMAKE/Format7zFree/CMakeLists.txt	2020-08-04 20:55:31.335177819 +0600
+@@ -128,4 +128,2 @@ add_library(7z MODULE
+   "../../../../CPP/7zip/Archive/QcowHandler.cpp"
+-  "../../../../CPP/7zip/Archive/Rar/RarHandler.cpp"
+-  "../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp"
+   "../../../../CPP/7zip/Archive/RpmHandler.cpp"
+@@ -232,5 +230,2 @@ add_library(7z MODULE
+   "../../../../CPP/7zip/Crypto/RandGen.cpp"
+-  "../../../../CPP/7zip/Crypto/Rar20Crypto.cpp"
+-  "../../../../CPP/7zip/Crypto/Rar5Aes.cpp"
+-  "../../../../CPP/7zip/Crypto/RarAes.cpp"
+   "../../../../CPP/7zip/Crypto/WzAes.cpp"
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/Crypto/Sha1Cls.h p7zip_16.02/CPP/7zip/Crypto/Sha1Cls.h
+--- p7zip_16.02.orig/CPP/7zip/Crypto/Sha1Cls.h	2016-06-11 14:08:03.000000000 +0600
++++ p7zip_16.02/CPP/7zip/Crypto/Sha1Cls.h	2020-08-04 20:56:00.912176446 +0600
+@@ -30,3 +30,2 @@ public:
+   void Update(const Byte *data, size_t size) throw() { Sha1_Update(&_s, data, size); }
+-  void UpdateRar(Byte *data, size_t size /* , bool rar350Mode */) throw() { Sha1_Update_Rar(&_s, data, size /* , rar350Mode ? 1 : 0 */); }
+   void Final(Byte *digest) throw() { Sha1_Final(&_s, digest); }
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/Guid.txt p7zip_16.02/CPP/7zip/Guid.txt
+--- p7zip_16.02.orig/CPP/7zip/Guid.txt	2015-10-03 14:49:16.000000000 +0600
++++ p7zip_16.02/CPP/7zip/Guid.txt	2020-08-04 20:56:37.890174729 +0600
+@@ -153,3 +153,2 @@ Handler GUIDs:
+   02 BZip2
+-  03 Rar
+   04 Arj
+@@ -170,3 +169,2 @@ Handler GUIDs:
+   CB GPT
+-  CC Rar5
+   CD IHex
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/QMAKE/all.pro p7zip_16.02/CPP/7zip/QMAKE/all.pro
+--- p7zip_16.02.orig/CPP/7zip/QMAKE/all.pro	2016-02-27 16:20:30.000000000 +0600
++++ p7zip_16.02/CPP/7zip/QMAKE/all.pro	2020-08-04 20:58:02.338170808 +0600
+@@ -6,3 +6,2 @@ SUBDIRS = 7za \
+           Format7zFree \
+-          Rar \
+           Lzham \
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/QMAKE/Format7zFree/Format7zFree.pro p7zip_16.02/CPP/7zip/QMAKE/Format7zFree/Format7zFree.pro
+--- p7zip_16.02.orig/CPP/7zip/QMAKE/Format7zFree/Format7zFree.pro	2016-03-10 13:27:16.000000000 +0600
++++ p7zip_16.02/CPP/7zip/QMAKE/Format7zFree/Format7zFree.pro	2020-08-04 20:57:45.828171575 +0600
+@@ -139,4 +139,2 @@ SOURCES +=  \
+   ../../../../CPP/7zip/Archive/QcowHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/RarHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp \
+   ../../../../CPP/7zip/Archive/RpmHandler.cpp \
+@@ -243,5 +241,2 @@ SOURCES +=  \
+   ../../../../CPP/7zip/Crypto/RandGen.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar20Crypto.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar5Aes.cpp \
+-  ../../../../CPP/7zip/Crypto/RarAes.cpp \
+   ../../../../CPP/7zip/Crypto/WzAes.cpp \
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/UI/Client7z/Client7z.cpp p7zip_16.02/CPP/7zip/UI/Client7z/Client7z.cpp
+--- p7zip_16.02.orig/CPP/7zip/UI/Client7z/Client7z.cpp	2015-11-09 21:36:08.000000000 +0600
++++ p7zip_16.02/CPP/7zip/UI/Client7z/Client7z.cpp	2020-08-04 20:58:36.773169209 +0600
+@@ -34,3 +34,3 @@ HINSTANCE g_hInstance = 0;
+ // Tou can find the list of all GUIDs in Guid.txt file.
+-// use another CLSIDs, if you want to support other formats (zip, rar, ...).
++// use another CLSIDs, if you want to support other formats (zip, ...).
+ // {23170F69-40C1-278A-1000-000110070000}
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/UI/Common/LoadCodecs.h p7zip_16.02/CPP/7zip/UI/Common/LoadCodecs.h
+--- p7zip_16.02.orig/CPP/7zip/UI/Common/LoadCodecs.h	2015-06-21 14:01:00.000000000 +0600
++++ p7zip_16.02/CPP/7zip/UI/Common/LoadCodecs.h	2020-08-04 20:59:28.479166809 +0600
+@@ -160,3 +160,2 @@ struct CArcInfoEx
+   bool IsSplit() const { return StringsAreEqualNoCase_Ascii(Name, "Split"); }
+-  // bool IsRar() const { return StringsAreEqualNoCase_Ascii(Name, "Rar"); }
+ 
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/UI/Common/OpenArchive.cpp p7zip_16.02/CPP/7zip/UI/Common/OpenArchive.cpp
+--- p7zip_16.02.orig/CPP/7zip/UI/Common/OpenArchive.cpp	2016-06-11 14:53:41.000000000 +0600
++++ p7zip_16.02/CPP/7zip/UI/Common/OpenArchive.cpp	2020-08-04 21:00:36.562163648 +0600
+@@ -1065,3 +1065,2 @@ static const char * const k_Formats_with
+   , "xz"
+-  , "rar"
+   , "bzip2"
+@@ -1722,25 +1721,2 @@ HRESULT CArc::OpenStream2(const COpenOpt
+         }
+-        else if (extension.IsEqualTo("000") || extension.IsEqualTo("001"))
+-        {
+-          int i = FindFormatForArchiveType(op.codecs, orderIndices, "rar");
+-          if (i >= 0)
+-          {
+-            const size_t kBufSize = (1 << 10);
+-            byteBuffer.Alloc(kBufSize);
+-            size_t processedSize = kBufSize;
+-            RINOK(ReadStream(op.stream, byteBuffer, &processedSize));
+-            if (processedSize >= 16)
+-            {
+-              const Byte *buf = byteBuffer;
+-              const Byte kRarHeader[] = { 0x52 , 0x61, 0x72, 0x21, 0x1a, 0x07, 0x00 };
+-              if (TestSignature(buf, kRarHeader, 7) && buf[9] == 0x73 && (buf[10] & 1) != 0)
+-              {
+-                orderIndices2.Add(orderIndices[i]);
+-                orderIndices[i] = -1;
+-                if (i >= (int)numFinded)
+-                  numFinded++;
+-              }
+-            }
+-          }
+-        }
+         else
+diff -Naurp1 p7zip_16.02.orig/CPP/7zip/UI/FileManager/FM_rc.cpp p7zip_16.02/CPP/7zip/UI/FileManager/FM_rc.cpp
+--- p7zip_16.02.orig/CPP/7zip/UI/FileManager/FM_rc.cpp	2015-09-20 00:25:12.000000000 +0600
++++ p7zip_16.02/CPP/7zip/UI/FileManager/FM_rc.cpp	2020-08-04 21:32:04.998075973 +0600
+@@ -823,4 +823,2 @@ REGISTER_STRINGTABLE(g_stringTable)
+ 
+-#include "res/ParentFolder.h"
+-
+ 	SevenZipPanel::SevenZipPanel(MyFrame *frame, wxWindow *parent,int id,int panelIndex) :
+@@ -842,3 +840,3 @@ REGISTER_STRINGTABLE(g_stringTable)
+ 		wxBoxSizer *pPathSizer = new wxBoxSizer(wxHORIZONTAL);
+-		m_pBmpButtonParentFolder = new wxBitmapButton(this, kParentFolderID, wxGetBitmapFromMemory(PARENT_FOLDER), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
++		m_pBmpButtonParentFolder = new wxBitmapButton(this, kParentFolderID, wxArtProvider::GetBitmap(wxART_GO_DIR_UP, wxART_TOOLBAR, wxDefaultSize), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+ 		m_pComboBoxPath = new wxComboBox(this, _comboBoxID, wxEmptyString, wxDefaultPosition, wxSize(300,-1), pathArray, wxCB_DROPDOWN | wxCB_SORT );
+diff -Naurp1 p7zip_16.02.orig/CPP/ANDROID/Format7zFree/jni/Android.mk p7zip_16.02/CPP/ANDROID/Format7zFree/jni/Android.mk
+--- p7zip_16.02.orig/CPP/ANDROID/Format7zFree/jni/Android.mk	2016-03-10 13:27:16.000000000 +0600
++++ p7zip_16.02/CPP/ANDROID/Format7zFree/jni/Android.mk	2020-08-04 21:32:55.025073650 +0600
+@@ -93,4 +93,2 @@ LOCAL_SRC_FILES := \
+   ../../../../CPP/7zip/Archive/QcowHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/RarHandler.cpp \
+-  ../../../../CPP/7zip/Archive/Rar/Rar5Handler.cpp \
+   ../../../../CPP/7zip/Archive/RpmHandler.cpp \
+@@ -197,5 +195,2 @@ LOCAL_SRC_FILES := \
+   ../../../../CPP/7zip/Crypto/RandGen.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar20Crypto.cpp \
+-  ../../../../CPP/7zip/Crypto/Rar5Aes.cpp \
+-  ../../../../CPP/7zip/Crypto/RarAes.cpp \
+   ../../../../CPP/7zip/Crypto/WzAes.cpp \
+diff -Naurp1 p7zip_16.02.orig/DOC/License.txt p7zip_16.02/DOC/License.txt
+--- p7zip_16.02.orig/DOC/License.txt	2016-06-11 14:33:01.000000000 +0600
++++ p7zip_16.02/DOC/License.txt	2020-08-04 21:38:28.347058175 +0600
+@@ -7,11 +7,2 @@
+ 
+-  Licenses for files are:
+-
+-    1) CPP/7zip/Compress/Rar* files:  GNU LGPL + unRAR restriction
+-    2) All other files:  GNU LGPL
+-
+-  The GNU LGPL + unRAR restriction means that you must follow both 
+-  GNU LGPL rules and unRAR restriction rules.
+-
+-
+   GNU LGPL information
+@@ -34,18 +25,2 @@
+ 
+-
+-  unRAR restriction
+-  -----------------
+-
+-    The decompression engine for RAR archives was developed using source 
+-    code of unRAR program.
+-    All copyrights to original unRAR code are owned by Alexander Roshal.
+-
+-    The license for original unRAR code has the following restriction:
+-
+-    The unRAR sources cannot be used to re-create the RAR compression algorithm, 
+-    which is proprietary. Distribution of modified unRAR sources in separate form 
+-    or as a part of other software is permitted, provided that it is clearly
+-    stated in the documentation and source comments that the code may
+-    not be used to develop a RAR (WinRAR) compatible archiver.
+-
+ 
+diff -Naurp1 p7zip_16.02.orig/DOC/MANUAL/cmdline/switches/update.htm p7zip_16.02/DOC/MANUAL/cmdline/switches/update.htm
+--- p7zip_16.02.orig/DOC/MANUAL/cmdline/switches/update.htm	2016-05-10 15:50:08.000000000 +0600
++++ p7zip_16.02/DOC/MANUAL/cmdline/switches/update.htm	2020-08-04 21:39:07.759056345 +0600
+@@ -141,3 +141,3 @@ someone in another time zone.</P>
+ <LI>Local time file systems : FAT, FAT32
+-<LI>Local time archive formats : rar, zip, cab
++<LI>Local time archive formats : zip, cab
+ </UL>
+diff -Naurp1 p7zip_16.02.orig/DOC/MANUAL/general/formats.htm p7zip_16.02/DOC/MANUAL/general/formats.htm
+--- p7zip_16.02.orig/DOC/MANUAL/general/formats.htm	2016-05-10 15:50:08.000000000 +0600
++++ p7zip_16.02/DOC/MANUAL/general/formats.htm	2020-08-04 21:39:48.206054467 +0600
+@@ -49,3 +49,2 @@
+   <TR> <TD align="center">MBR</TD> <TD></TD> <TD>mbr</TD> </TR>
+-  <TR> <TD align="center">RAR</TD> <TD></TD> <TD>rar r00</TD> </TR>
+   <TR> <TD align="center">RPM</TD>  <TD></TD> <TD>rpm</TD></TR>
+diff -Naurp1 p7zip_16.02.orig/DOC/Methods.txt p7zip_16.02/DOC/Methods.txt
+--- p7zip_16.02.orig/DOC/Methods.txt	2015-09-02 00:04:54.000000000 +0600
++++ p7zip_16.02/DOC/Methods.txt	2020-08-04 21:40:38.604052127 +0600
+@@ -99,8 +99,2 @@ List of defined IDs
+ 
+-   03 - [Rar]
+-      01 - Rar1
+-      02 - Rar2
+-      03 - Rar3
+-      05 - Rar5
+-
+    04 - [Arj]
+@@ -148,6 +142,2 @@ List of defined IDs
+ 
+-      03 - [RAR]
+-         02 - 
+-         03 - Rar29AES (AES-128 + modified SHA-1)
+-
+       07 - [7z]
+diff -Naurp1 p7zip_16.02.orig/DOC/readme.txt p7zip_16.02/DOC/readme.txt
+--- p7zip_16.02.orig/DOC/readme.txt	2016-06-11 14:08:07.000000000 +0600
++++ p7zip_16.02/DOC/readme.txt	2020-08-04 21:41:39.490049301 +0600
+@@ -11,26 +11,5 @@ License Info
+ 
+-7-Zip is free software distributed under the GNU LGPL 
+-(except for unRar code).
++7-Zip is free software distributed under the GNU LGPL.
+ read License.txt for more infomation about license.
+ 
+-Notes about unRAR license:
+-
+-Please check main restriction from unRar license:
+-
+-   2. The unRAR sources may be used in any software to handle RAR
+-      archives without limitations free of charge, but cannot be used
+-      to re-create the RAR compression algorithm, which is proprietary.
+-      Distribution of modified unRAR sources in separate form or as a
+-      part of other software is permitted, provided that it is clearly
+-      stated in the documentation and source comments that the code may
+-      not be used to develop a RAR (WinRAR) compatible archiver.
+-
+-In brief it means:
+-1) You can compile and use compiled files under GNU LGPL rules, since 
+-   unRAR license almost has no restrictions for compiled files.
+-   You can link these compiled files to LGPL programs.
+-2) You can fix bugs in source code and use compiled fixed version.
+-3) You can not use unRAR sources to re-create the RAR compression algorithm.
+-
+-
+ LZMA SDK
+@@ -98,3 +77,2 @@ DOC                Documentation
+   copying.txt    - GNU LGPL license
+-  unRarLicense.txt - License for unRAR part of source code
+   src-history.txt  - Sources history
+diff -Naurp1 p7zip_16.02.orig/DOC/src-history.txt p7zip_16.02/DOC/src-history.txt
+--- p7zip_16.02.orig/DOC/src-history.txt	2016-06-11 14:08:07.000000000 +0600
++++ p7zip_16.02/DOC/src-history.txt	2020-08-04 21:42:46.356046196 +0600
+@@ -190,4 +190,2 @@ HISTORY of the 7-Zip source code
+ - TAR: 'D' link flag support.
+-- 7-Zip now can unpack multivolume RAR archives created with 
+-  "old style volume names" scheme (-vn switch) and names *.001, *.002, ...
+ - Fixed bugs:
+@@ -202,4 +200,2 @@ HISTORY of the 7-Zip source code
+   -  7-Zip GUI didn't suggest BZip2 dictionary size used in previous run.
+-  -  If creation time stamp was included in .RAR archive, 7-zip used creation time stamp 
+-     as modification time stamp.
+ 
+@@ -253,3 +249,2 @@ HISTORY of the 7-Zip source code
+ - Open error messages
+-- unRar 1.5 fixed
+ - unShrink fixed
+@@ -435,7 +430,2 @@ HISTORY of the 7-Zip source code
+ 
+-2.30 Beta 19   2002-04-11
+--------------------------
+-- SDK/Archive/Rar/Handler.cpp
+-    supporting RAR29
+-
+ 2.30 Beta 18   2002-03-25
+diff -Naurp1 p7zip_16.02.orig/GUI/Contents/Info.plist p7zip_16.02/GUI/Contents/Info.plist
+--- p7zip_16.02.orig/GUI/Contents/Info.plist	2010-04-05 01:00:16.000000000 +0600
++++ p7zip_16.02/GUI/Contents/Info.plist	2020-08-04 21:44:05.907042503 +0600
+@@ -313,20 +313,2 @@
+ 			<array>
+-				<string>rar</string>
+-				<string>RAR</string>
+-				<string>.r00</string>
+-			</array>
+-			<key>CFBundleTypeIconFile</key>
+-			<string>p7zip</string>
+-			<key>CFBundleTypeName</key>
+-			<string>Rar</string>
+-			<key>CFBundleTypeRole</key>
+-			<string>Viewer</string>
+-			<key>LSTypeIsPackage</key>
+-			<false/>
+-			<key>NSPersistentStoreTypeKey</key>
+-			<string>XML</string>
+-		</dict>
+-		<dict>
+-			<key>CFBundleTypeExtensions</key>
+-			<array>
+ 				<string>ace</string>
+diff -Naurp1 p7zip_16.02.orig/makefile p7zip_16.02/makefile
+--- p7zip_16.02.orig/makefile	2016-02-29 12:28:31.000000000 +0600
++++ p7zip_16.02/makefile	2020-08-04 21:48:57.323028973 +0600
+@@ -33,3 +33,2 @@ depend:
+ 	$(MAKE) -C CPP/7zip/Bundles/Format7zFree  depend
+-	$(MAKE) -C CPP/7zip/Compress/Rar          depend
+ 	$(MAKE) -C CPP/7zip/UI/GUI                depend
+@@ -44,3 +43,2 @@ common7z:common
+ 	$(MAKE) -C CPP/7zip/Bundles/Format7zFree all
+-	$(MAKE) -C CPP/7zip/Compress/Rar         all
+ 
+@@ -69,3 +67,2 @@ clean_C:
+ 	$(MAKE) -C CPP/7zip/Bundles/Format7zFree clean
+-	$(MAKE) -C CPP/7zip/Compress/Rar         clean
+ 	$(MAKE) -C CPP/7zip/Compress/Lzham       clean
+diff -Naurp1 p7zip_16.02.orig/makefile.oldmake p7zip_16.02/makefile.oldmake
+--- p7zip_16.02.orig/makefile.oldmake	2016-02-29 12:33:04.000000000 +0600
++++ p7zip_16.02/makefile.oldmake	2020-08-04 21:50:38.674024268 +0600
+@@ -33,3 +33,2 @@ depend:
+ 	cd CPP/7zip/Bundles/Format7zFree  ; $(MAKE) depend
+-	cd CPP/7zip/Compress/Rar          ; $(MAKE) depend
+ 	cd CPP/7zip/UI/GUI                ; $(MAKE) depend
+@@ -44,3 +43,2 @@ common7z:common
+ 	cd CPP/7zip/Bundles/Format7zFree ; $(MAKE) all
+-	cd CPP/7zip/Compress/Rar         ; $(MAKE) all
+ 
+@@ -69,3 +67,2 @@ clean_C:
+ 	cd CPP/7zip/Bundles/Format7zFree ; $(MAKE) clean
+-	cd CPP/7zip/Compress/Rar         ; $(MAKE) clean
+ 	cd CPP/7zip/Compress/Lzham       ; $(MAKE) clean
+diff -Naurp1 p7zip_16.02.orig/makefile.qnx_shared.so p7zip_16.02/makefile.qnx_shared.so
+--- p7zip_16.02.orig/makefile.qnx_shared.so	2015-09-14 00:20:16.000000000 +0600
++++ p7zip_16.02/makefile.qnx_shared.so	2020-08-04 21:51:40.976021375 +0600
+@@ -1,3 +1,3 @@
+ ###################################################
+-# makefile.machine for "7z.so , Codecs/Rar.so" :
++# makefile.machine for "7z.so" :
+ # tested with p7zip-4.47_beta on qnx-6.3.0 sp3 x86 target
+diff -Naurp1 p7zip_16.02.orig/README p7zip_16.02/README
+--- p7zip_16.02.orig/README	2016-06-11 15:28:40.000000000 +0600
++++ p7zip_16.02/README	2020-08-04 21:44:58.637040055 +0600
+@@ -10,3 +10,3 @@ Homepage : www.7-zip.org
+ 
+-  7z uses plugins (7z.so and Codecs/Rar.so) to handle archives.
++  7z uses plugins (7z.so) to handle archives.
+   7za is a stand-alone executable (7za handles less archive formats than 7z).
+@@ -65,3 +65,2 @@ BUILD :
+                           - "bin/7z.so" (GNU LGPL + AES code license)
+-                          - "bin/Codecs/Rar.so" (GNU LGPL + unRAR restriction)
+     make 7zr      : to build bin/7zr
+@@ -76,3 +75,2 @@ BUILD :
+                           - "bin/7z.so" (GNU LGPL + AES code license)
+-                          - "bin/Codecs/Rar.so" (GNU LGPL + unRAR restriction)
+     make test_7zG : to test bin/7zG (extracting, archiving, ...)
+diff -Naurp1 p7zip_16.02.orig/Utils/bin_to_sources.py p7zip_16.02/Utils/bin_to_sources.py
+--- p7zip_16.02.orig/Utils/bin_to_sources.py	2015-09-12 21:05:46.000000000 +0600
++++ p7zip_16.02/Utils/bin_to_sources.py	2020-08-04 21:45:27.135038732 +0600
+@@ -15,5 +15,2 @@ file0='Utils/file_7z.py'
+ 
+-dir0='CPP/7zip/Compress/Rar'
+-file0='Utils/file_Codecs_Rar_so.py'
+-
+ dir0='CPP/7zip/Bundles/Format7zFree'
+diff -Naurp1 p7zip_16.02.orig/Utils/file_7z_so.py p7zip_16.02/Utils/file_7z_so.py
+--- p7zip_16.02.orig/Utils/file_7z_so.py	2015-11-06 22:10:10.000000000 +0600
++++ p7zip_16.02/Utils/file_7z_so.py	2020-08-04 21:46:01.253037148 +0600
+@@ -113,4 +113,2 @@ files_cpp=[
+  'CPP/7zip/Archive/QcowHandler.cpp',
+- 'CPP/7zip/Archive/Rar/RarHandler.cpp',
+- 'CPP/7zip/Archive/Rar/Rar5Handler.cpp',
+  'CPP/7zip/Archive/RpmHandler.cpp',
+@@ -217,5 +215,2 @@ files_cpp=[
+  'CPP/7zip/Crypto/RandGen.cpp',
+- 'CPP/7zip/Crypto/Rar20Crypto.cpp',
+- 'CPP/7zip/Crypto/Rar5Aes.cpp',
+- 'CPP/7zip/Crypto/RarAes.cpp',
+  'CPP/7zip/Crypto/WzAes.cpp',
+diff -Naurp1 p7zip_16.02.orig/Utils/generate.py p7zip_16.02/Utils/generate.py
+--- p7zip_16.02.orig/Utils/generate.py	2016-03-10 13:27:01.000000000 +0600
++++ p7zip_16.02/Utils/generate.py	2020-08-04 21:47:17.719033597 +0600
+@@ -283,3 +283,2 @@ import file_7zFM
+ import file_7z_so
+-import file_Codecs_Rar_so
+ import file_Codecs_Lzham_so
+@@ -442,39 +441,2 @@ LOCAL_CFLAGS := -DANDROID_NDK  -fexcepti
+ 
+-project_Codecs_Rar=Structure(name="Rar",name2="Rar",
+-	type=TYPE_DLL,
+-	need_AES=False,
+-	includedirs=includedirs_7za,
+-	defines=[ "EXTERNAL_CODECS", "_FILE_OFFSET_BITS=64", "_LARGEFILE_SOURCE", "_REENTRANT", "ENV_UNIX", "BREAK_HANDLER", "UNICODE", "_UNICODE", "UNIX_USE_WIN_FILE" ],
+-	files_c=file_Codecs_Rar_so.files_c,
+-	files_cpp=file_Codecs_Rar_so.files_cpp,
+-	cmake_end='''
+-
+-find_library(DL_LIB dl)
+-
+-link_directories(${DL_LIB_PATH})
+-
+-IF(APPLE)
+-   TARGET_LINK_LIBRARIES(Rar ${COREFOUNDATION_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+-ELSE(APPLE)
+-  IF(HAVE_PTHREADS)
+-   TARGET_LINK_LIBRARIES(Rar ${CMAKE_THREAD_LIBS_INIT} dl)
+-  ENDIF(HAVE_PTHREADS)
+-ENDIF(APPLE)
+-
+-''',
+-android_header=r'''
+-LOCAL_CFLAGS := -DANDROID_NDK  -fexceptions \
+-	-DNDEBUG -D_REENTRANT -DENV_UNIX \
+-	-DEXTERNAL_CODECS \
+-	-DBREAK_HANDLER \
+-	-DUNICODE -D_UNICODE -DUNIX_USE_WIN_FILE \
+-	-I../../../Windows \
+-	-I../../../Common \
+-	-I../../../../C \
+--I../../../myWindows \
+--I../../../ \
+--I../../../include_windows
+-''')
+-
+-
+ 
+@@ -764,3 +726,2 @@ generate_makefile_list('../CPP/7zip/UI/C
+ generate_makefile_list('../CPP/7zip/Bundles/Format7zFree/makefile.list',project_Format7zFree)
+-generate_makefile_list('../CPP/7zip/Compress/Rar/makefile.list',project_Codecs_Rar,'../../../../bin/Codecs')
+ generate_makefile_list('../CPP/7zip/Compress/Lzham/makefile.list',project_Codecs_Lzham,'../../../../bin/Codecs')
+@@ -778,3 +739,2 @@ generate_pro('../CPP/7zip/QMAKE/7z_/7z_.
+ generate_pro('../CPP/7zip/QMAKE/Format7zFree/Format7zFree.pro',project_Format7zFree)
+-generate_pro('../CPP/7zip/QMAKE/Rar/Rar.pro',project_Codecs_Rar)
+ generate_pro('../CPP/7zip/QMAKE/Lzham/Lzham.pro',project_Codecs_Lzham)
