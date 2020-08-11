@@ -1,3 +1,5 @@
+acpi_call-dkms:acpi_call-dkms
+grub
 libxfce4ui:libxfce4ui
 minitube
 grub
