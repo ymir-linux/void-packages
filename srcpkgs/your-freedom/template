@@ -1,7 +1,7 @@
 # Template file for 'your-freedom'
 pkgname=your-freedom
-version=20200720
-_gitver=422117840a1af6c0db5e77818739808e1444eae3
+version=20200811
+_gitver=62f159935573cbffec664dc652013311777dbd6a
 revision=1
 create_wrksrc=yes
 build_style=meta
@@ -10,7 +10,7 @@ maintainer="reback00 <reback00@protonmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://git.parabola.nu/blacklist.git"
 distfiles="https://git.parabola.nu/blacklist.git/plain/blacklist.txt?id=${_gitver}>blacklist.txt"
-checksum=c7045a60f242fc669e8f097e4d49ba6d34bd06973a9090b63083e5a5d6bfc2f6
+checksum=6a92a8fff3dc0a9322efc239a74c5f6602169906160c0e4acfafcff1f05b13cb
 
 # Set this below to yes to allow some packages that have minor issues
 # (like branding, suggesting optional dependencies etc.). But it should
