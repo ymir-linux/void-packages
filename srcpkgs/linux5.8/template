@@ -1,14 +1,14 @@
-# Template file for 'linux5.7'
-pkgname=linux-libre5.7
-version=5.7.15
+# Template file for 'linux5.8'
+pkgname=linux5.8
+version=5.8.1
 revision=1
 wrksrc="linux-${version}"
-short_desc="Linux-libre kernel and modules (${version%.*} series)"
-maintainer="Drake Newell <drakenewell731@gmail.com>"
+short_desc="Linux kernel and modules (${version%.*} series)"
+maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-only"
-homepage="linux-libre.fsfla.org/"
-distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=3a799daf13fe25ec748790f1ab5f26e41ba3cd8e4d16ef9a11382d174d80459b
+homepage="https://www.kernel.org"
+distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
+checksum=f8d2a4fe938ff7faa565765a52e347e518a0712ca6ddd41b198bd9cc1626a724
 python_version=3
 patch_args="-Np1"
 
@@ -24,7 +24,7 @@ preserve=yes
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio pahole"
 
-_kernver="${version}-gnu_${revision}"
+_kernver="${version}_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
 
@@ -42,7 +42,7 @@ mutable_files="
  /usr/lib/modules/${_kernver}/modules.devname"
 
 do_configure() {
-	# 5.7 misses Documentation/DocBook. We ship the directory from 4.12 here.
+	# 5.8 misses Documentation/DocBook. We ship the directory from 4.12 here.
 	cp -a $FILESDIR/DocBook -t Documentation
 
 	# If there's a file called <arch>-dotconfig, use it to
@@ -177,7 +177,7 @@ do_install() {
 	done
 	mkdir -p ${hdrdest}/include
 	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	# rm -rf ${DESTDIR}/usr/lib/firmware
+	rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux vdso \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
@@ -314,7 +314,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux-libre5.7-headers_package() {
+linux5.8-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -324,7 +324,7 @@ linux-libre5.7-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux-libre5.7-dbg_package() {
+linux5.8-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
