@@ -1,14 +1,25 @@
-# Template file for 'linux5.8'
-pkgname=linux5.8
-version=5.8.1
+# Template file for 'linux5.7'
+<<<<<<< HEAD:srcpkgs/linux-libre5.7/template
+pkgname=linux-libre5.7
+version=5.7.8
+=======
+pkgname=linux5.7
+version=5.7.9
+>>>>>>> 31b54fd642eda1be15b7300fc62dcb1b45dfe3d4:srcpkgs/linux5.7/template
 revision=1
 wrksrc="linux-${version}"
-short_desc="Linux kernel and modules (${version%.*} series)"
-maintainer="Leah Neukirchen <leah@vuxu.org>"
+short_desc="Linux-libre kernel and modules (${version%.*} series)"
+maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
+<<<<<<< HEAD:srcpkgs/linux-libre5.7/template
+homepage="linux-libre.fsfla.org/"
+distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
+checksum=174242f722e2146387c13625cb2df913b445fe644258d158fef5ed5082651521
+=======
 homepage="https://www.kernel.org"
 distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
-checksum=f8d2a4fe938ff7faa565765a52e347e518a0712ca6ddd41b198bd9cc1626a724
+checksum=a87d3066a7849cd6ba9a004311a9ee0402d29d17f12f64ad7d942447070b43f8
+>>>>>>> 31b54fd642eda1be15b7300fc62dcb1b45dfe3d4:srcpkgs/linux5.7/template
 python_version=3
 patch_args="-Np1"
 
@@ -22,9 +33,9 @@ noshlibprovides=yes
 preserve=yes
 
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
- libressl-devel perl uboot-mkimage cpio pahole"
+ libressl-devel perl uboot-mkimage cpio"
 
-_kernver="${version}_${revision}"
+_kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
 
@@ -42,7 +53,7 @@ mutable_files="
  /usr/lib/modules/${_kernver}/modules.devname"
 
 do_configure() {
-	# 5.8 misses Documentation/DocBook. We ship the directory from 4.12 here.
+	# 5.7 misses Documentation/DocBook. We ship the directory from 4.12 here.
 	cp -a $FILESDIR/DocBook -t Documentation
 
 	# If there's a file called <arch>-dotconfig, use it to
@@ -177,7 +188,7 @@ do_install() {
 	done
 	mkdir -p ${hdrdest}/include
 	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	rm -rf ${DESTDIR}/usr/lib/firmware
+	# rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux vdso \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
@@ -314,7 +325,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux5.8-headers_package() {
+linux-libre5.7-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -324,7 +335,7 @@ linux5.8-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux5.8-dbg_package() {
+linux-libre5.7-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
