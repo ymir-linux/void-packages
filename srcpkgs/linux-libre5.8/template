@@ -9,7 +9,7 @@ license="GPL-2.0-only"
 <<<<<<< HEAD:srcpkgs/linux-libre5.8/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=69426c38778bc436bfb0b5548f42e045cda204437edb09ab8471f624c0504a71
+checksum=
 python_version=3
 patch_args="-Np1"
 
