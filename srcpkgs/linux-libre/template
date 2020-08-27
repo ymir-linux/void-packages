@@ -1,0 +1,31 @@
+# Template file for 'linux-libre'
+# These dependencies don't exist remotely, run xbps-src with the -N flag to build locally
+pkgname=linux-libre
+version=5.7
+revision=1
+build_style=meta
+homepage="http://www.voidlinux.org/"
+short_desc="The Linux kernel meta package"
+maintainer="Drake Newell <drakenewell731@gmail.com>"
+license="Public Domain"
+
+case "$XBPS_TARGET_MACHINE" in
+	i686*|x86_64*)
+		depends="linux-libre${version} dracut"
+		_depends_headers="linux-libre${version}-headers"
+		;;
+	ppc*)
+		depends="linux-libre${version} dracut"
+		_depends_headers="linux-libre${version}-headers"
+		;;
+	arm*|aarch64*)
+		depends="linux-libre${version}"
+		_depends_headers="linux-libre${version}-headers"
+		;;
+	*) ;;
+esac
+
+linux-libre-headers_package() {
+	short_desc="Linux kernel headers meta package"
+	depends="${_depends_headers}"
+}
