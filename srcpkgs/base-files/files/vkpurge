@@ -33,18 +33,16 @@ list_kernels() {
 				$pattern) printf "%s\n" "$kver" ;;
 			esac
 		done
-	done | sort -uV
+	done | sort -u
 }
 
 run_hooks() {
 	dir="$1"
 	kver="$2"
-
 	for d in /etc/kernel.d/"${dir}"/*; do
 		[ -x "$d" ] || continue
 		printf "Running %s kernel hook: %s...\n" "$dir" "${d##*/}"
-		# Hooks assume they run from the root
-		(cd / && ROOTDIR=. "$d" kernel "$kver")
+		"$d" kernel "$kver"
 	done
 }
 
