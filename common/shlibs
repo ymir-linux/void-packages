@@ -123,7 +123,6 @@ libGLESv2.so atom-1.41.0_1
 libGLESv2.so opera-55.0.2994.37_2
 libGLESv2.so discord-0.0.7_1
 libGLESv2.so keybase-desktop-3.1.2_1
-libGLESv2.so riot-desktop-0.17.9_2
 libGLESv2.so wire-desktop-3.6.2885_1
 libGLESv2.so Signal-Desktop-1.23.2_1
 libGLESv2.so slack-desktop-3.4.2_1
@@ -2580,7 +2579,7 @@ libhwloc.so.15 libhwloc-2.0.4_1
 libnetfilter_cttimeout.so.1 libnetfilter_cttimeout-1.0.0_1
 libnetfilter_cthelper.so.0 libnetfilter_cthelper-1.0.0_1
 libnetfilter_queue.so.1 libnetfilter_queue-1.0.2_1
-libfilezilla.so.8 libfilezilla-0.23.0_1
+libfilezilla.so.9 libfilezilla-0.24.1_1
 libtommath.so.1 libtommath-1.0_1
 libKF5ItemViews.so.5 kitemviews-5.26.0_1
 libunicorn.so.1 unicorn-1.0_1
@@ -3988,3 +3987,4 @@ libaml.so.0 aml-0.1.0_1
 libneatvnc.so.0 neatvnc-0.2.0_1
 libtdjson.so.1.6.0 libtd-1.6.0_1
 libJudy.so.1 judy-1.0.5_1
+libsignal-protocol-c.so.2 libsignal-protocol-c-2.3.3_2
