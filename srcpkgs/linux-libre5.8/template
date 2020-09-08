@@ -1,14 +1,25 @@
+<<<<<<< HEAD:srcpkgs/linux-libre5.8/template
 # Template file for 'linux-libre5.8'
 pkgname=linux-libre5.8
+=======
+# Template file for 'linux5.8'
+pkgname=linux5.8
+>>>>>>> e7d93b117e5572f2c76609c68035ca46db1c1c6b:srcpkgs/linux5.8/template
 version=5.8.7
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
+<<<<<<< HEAD:srcpkgs/linux-libre5.8/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=02a68dadc25884dde7883c84fdf314f890a6286b98e508c72f365c94117de12a
+=======
+homepage="https://www.kernel.org"
+distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
+checksum=7b0bf5029c94df72d1244b6b77e79e376cff2817a782c3ac50767a4121fd17fe
+>>>>>>> e7d93b117e5572f2c76609c68035ca46db1c1c6b:srcpkgs/linux5.8/template
 python_version=3
 patch_args="-Np1"
 
