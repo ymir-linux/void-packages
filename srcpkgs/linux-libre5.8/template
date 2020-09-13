@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.8'
 pkgname=linux-libre5.8
-version=5.8.8
+version=5.8.9
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=2dc604cc204820fad8378cbe622f408d6a1fa167ab99b37b9ce948bba40ce934
+checksum=1b41f07d9c07cc2123409222660e88dce9fe5ba37500c2d754538e1c2eeedc6b
 python_version=3
 patch_args="-Np1"
 
