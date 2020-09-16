@@ -1,0 +1,17 @@
+This changes the output of uname -s to "Linux-libre".
+
+--- a/include/linux/uts.h	2020-09-12 07:22:09.000000000 -0700
++++ b/include/linux/uts.h	2020-09-16 11:18:48.863867108 -0700
+@@ -3,10 +3,10 @@
+ #define _LINUX_UTS_H
+
+ /*
+- * Defines for what uname() should return
++ * Defines for what uname() should return
+  */
+ #ifndef UTS_SYSNAME
+-#define UTS_SYSNAME "Linux"
++#define UTS_SYSNAME "Linux-libre"
+ #endif
+
+ #ifndef UTS_NODENAME
