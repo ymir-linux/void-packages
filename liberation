@@ -25,4 +25,6 @@ if [ "$ans3" != "y" ]; then
 		xbps-install -Sf $package
 	done
 	xbps-install -S your-freedom
+else
+	exit
 fi
