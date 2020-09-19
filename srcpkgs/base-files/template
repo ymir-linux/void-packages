@@ -69,7 +69,7 @@ do_install() {
 	vmkdir etc/xbps.d
 	install -m644 ${FILESDIR}/*.sh ${DESTDIR}/etc/profile.d
 	install -m644 ${FILESDIR}/DIR_COLORS* ${DESTDIR}/etc/colors
-	install -m644 ${FILESDIR}/40-void-repo-libre.conf ${DESTDIR}/etc/xbps.d
+	install -m644 ${FILESDIR}/40-ymir-repo-libre.conf ${DESTDIR}/etc/xbps.d
 
 	# modprobe(8) files
 	vinstall ${FILESDIR}/usb-load-ehci-first 644 usr/lib/modprobe.d usb-load-ehci-first.conf
