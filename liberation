@@ -18,13 +18,11 @@ xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print
 vkpurge rm all
 
 # Option to install your-freedom package to ensure the installation of only libre sotware
-echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? "
+echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? (y/n) "
 read ans3
-if [ "$ans3" != "${answer#[Yy]}" ]; then
+if [ "$ans3" != "y" ]; then
 	for package in $(cat srcpkgs/allowlist.txt); do
 		xbps-install -Sf $package
 	done
 	xbps-install -S your-freedom
-else
-	exit
 fi

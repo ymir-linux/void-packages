@@ -25,10 +25,9 @@ vrs=$(ls | grep "linux-libre...$" | fzf -i --prompt="Kernel version:")
 [ -z $vrs ] && exit
 cd ..
 ./xbps-src pkg $vrs
+./xbps-src pkg base-files
 xi $vrs
-
-# remove base-system to allow removal of default kernel and firmware
-echo "ignorepkg=linux" | sudo tee /etc/xbps.d/10-ignore.conf
+xi base-files
 
 # remove evil nonfree kernel and blobs
 sudo xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
