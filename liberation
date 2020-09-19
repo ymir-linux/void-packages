@@ -22,7 +22,9 @@ echo -n "Install your-freedom to conflict with all nonfree or semi-free packages
 read ans3
 if [ "$ans3" != "${answer#[Yy]}" ]; then
 	for package in $(cat srcpkgs/allowlist.txt); do
-		xbps-install -S $package
+		xbps-install -Sf $package
 	done
 	xbps-install -S your-freedom
+else
+	exit
 fi
