@@ -19,7 +19,7 @@ while true; do
 done
 cd $srcdir || mkdir $srcdir
 
-git clone --depth 1 https://github.com/drake-newell/void-packages.git
+git clone --depth 1 https://github.com/ymir-linux/void-packages.git
 cd void-packages
 ./xbps-src binary-bootstrap
 
