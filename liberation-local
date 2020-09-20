@@ -8,13 +8,17 @@
 [ -z $(command -v fzf) ] && sudo xbps-install -S fzf
 
 # set up the void-packages repo
-echo -n "Install void-packages in ~/.local/src or in current directory? "
-read ans
-if [ "$ans" != "${ans#[Yy]}" ]; then
-	srcdir="~/.local/src"
-else
-	srcdir=$(pwd)
-fi
+while true; do
+	echo -n "Install void-packages in ~/.local/src or in current directory? (y/n)"
+	read ans
+	case $yn in
+       		[Yy]* ) srcdir="~/.local/src"; break;;
+		[Nn]* ) srcdir=$(pwd); break;;
+        	* ) echo "Please answer yes or no.";;
+    	esac
+done
+cd $srcdir || mkdir $srcdir
+
 git clone --depth 1 https://github.com/drake-newell/void-packages.git
 cd void-packages
 ./xbps-src binary-bootstrap
@@ -25,9 +29,7 @@ vrs=$(ls | grep "linux-libre...$" | fzf -i --prompt="Kernel version:")
 [ -z $vrs ] && exit
 cd ..
 ./xbps-src pkg $vrs
-./xbps-src pkg base-files
 xi $vrs
-xi base-files
 
 # remove evil nonfree kernel and blobs
 sudo xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
@@ -36,22 +38,24 @@ sudo xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{
 sudo vkpurge rm all
 
 # Optionally install vkpurge alternative
-echo -n "Install vkpurge-libre (linux-libre compatible vkpurge tool)? "
-read ans2
-if [ "$ans2" != "${ans2#[Yy]}" ]; then
-	cp $srcdir/void-packages/vkpurge-libre ~/.local/bin/ || mkdir ~/.local/bin && cp $srcdir/void-packages/vkpurge-libre ~/.local/bin/
-fi
+while true; do
+	echo -n "Install vkpurge-libre (linux-libre compatible vkpurge tool)? (y/n)"
+	read ans2
+	case $yn in
+       		[Yy]* ) sudo cp $srcdir/void-packages/vkpurge-libre /usr/bin; break;;
+        	[Nn]* ) break;;
+        	* ) echo "Please answer yes or no.";;
+    	esac
+done
 
 # OPTIONAL: install Parabola's your-freedom package (conflicts with both nonfree and semi-free packages, so it may not work for you)
-echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? "
-read ans3
-if [ "$ans3" != "${answer#[Yy]}" ]; then
-	for package in $(cat srcpkgs/allowlist.txt); do
-		./xbps-src pkg $package
-		xi $package
-	done
-	./xbps-src pkg your-freedom
-	xi your-freedom
-fi
-
-echo "You have successfully entered the light." && exit
+while true; do
+	echo -n "Install your-freedom to conflict with all nonfree or semi-free packages and install liberated versions of conflicting packages where possible? (y/n) "
+	read ans3
+	case $ans3 in
+		[Yy]* ) for package in $(curl https://github.com/ymir-linux/void-packages/blob/master/srcpkgs/your-freedom/allowlist.txt | cut -f1 -d':')
+	    		do ./xbps-src pkg $package; done; ./xbps-src pkg your-freedom; break;;
+		[Nn]* ) exit;;
+		* ) echo "Please answer yes or no.";;
+    	esac
+done
