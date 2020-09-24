@@ -5,10 +5,10 @@ post)
 		cd opt/texlive2020-installer
 		case "${ARCH}" in
 			x86_64-musl)
-			./install-tl -profile void.profile -force-platform x86_64-linuxmusl
+			./install-tl -profile xbps.profile -force-platform x86_64-linuxmusl
 			;;
 			*)
-			./install-tl -profile void.profile
+			./install-tl -profile xbps.profile
 			;;
 		esac
 	esac
