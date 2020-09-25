@@ -10,3 +10,31 @@ license="GPL-2.0-or-later"
 homepage="http://tug.org/texlive"
 distfiles="https://sources.archlinux.org/other/texlive/${pkgname}-${version}-src.zip"
 checksum=8e025c2dfa4e19dcb6aa5e661874d2c2a158aa2e1a078c11a4ddd6347bd9db45
+
+pre_build() {
+	# Commands below are taken from `mksource` function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/texlive-core/PKGBUILD
+
+	# remove nonfree packages
+	# MeX licensed packages
+	rm -v {cc-pl,cs,ec,mex,pl}.tar.xz
+	# public domain, will be relicensed
+	rm -v context-{account,algorithmic,letter,ruby}.tar.xz
+	# no specific free license
+	rm -v euro-ce.tar.xz
+}
+
+post_build() {
+	# Commands below are taken and modified from `prepare` function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/texlive-core/PKGBUILD
+
+	# remove nonfree packages references from updmap.cfg
+	sed -i '/ccpl.map/d'       build/usr/share/texmf-dist/web2c/updmap.cfg
+	sed -i '/cs-charter.map/d' build/usr/share/texmf-dist/web2c/updmap.cfg
+	sed -i '/csfonts.map/d'    build/usr/share/texmf-dist/web2c/updmap.cfg
+	sed -i '/plother.map/d'    build/usr/share/texmf-dist/web2c/updmap.cfg
+	sed -i '/pltext.map/d'     build/usr/share/texmf-dist/web2c/updmap.cfg
+
+	# remove nonfree packages references from package list
+	sed -ri '/^(cc-pl|cs|ec|mex|pl|context-(account|algorithmic|fixme|games|letter|ruby)|euro-ce) /d' CONTENTS
+}

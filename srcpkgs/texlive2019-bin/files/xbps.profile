@@ -1,4 +1,4 @@
-# texlive.profile written for voidlinux
+# texlive.profile written for Ymir GNU/Linux-libre or XBPS systems
 TEXDIR ../texlive/2019
 TEXMFCONFIG ~/.texlive2019/texmf-config
 TEXMFHOME ~/texmf
