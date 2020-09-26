@@ -48,7 +48,7 @@ configure_args="
  --disable-vlna
  --disable-xindy
  --with-ps=gs
- --with-banner-add=/VoidLinux
+ --with-banner-add=/Ymir GNU/Linux-libre
  --with-system-cairo
  --with-system-freetype2
  --with-system-gd

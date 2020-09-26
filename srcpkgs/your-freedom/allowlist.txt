@@ -4,6 +4,7 @@ grub
 libxfce4ui:libxfce4ui
 minitube
 grub
+libsynctex
 p7zip
 texlive-core
 texlive-fontsextra
