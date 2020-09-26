@@ -19,6 +19,18 @@ checksum=2f88a383b751194d4f327d3f87f8ea25fe882f8cc5c58a368529d9ab7143a6e7
 
 CXXFLAGS+=" -fpermissive"
 
+pre_build() {
+	# Commands below are taken and modified (FILESDIR) from `prepare` function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/kio/PKGBUILD
+
+	# Removing search providers
+	rm -v src/urifilters/ikws/searchproviders/*.desktop
+
+	# Adding DuckDuckGo HTML and DuckDuckGo Lite
+	# Contributions of other search engines that satisfy pkgdesc are welcome!
+	cp -v "${FILESDIR}"/duckduckgo_{html,lite}.desktop src/urifilters/ikws/searchproviders
+}
+
 kio-devel_package() {
 	short_desc+=" - development"
 	depends="${makedepends} ${sourcepkg}>=${version}_${revision}"

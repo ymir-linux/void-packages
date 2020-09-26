@@ -1,0 +1,113 @@
+[Desktop Entry]
+Charset=
+Hidden=false
+Keys=duckduckgolite,ddlite,dukgolite
+Name=Duck Duck Go Lite
+Name[ar]=Duck Duck Go Lite
+Name[ast]=Duck Duck Go Lite
+Name[bg]=Duck Duck Go Lite
+Name[bn]=Duck Duck Go Lite
+Name[bs]=Dak dak go Lite
+Name[ca]=Duck Duck Go Lite
+Name[ca@valencia]=Duck Duck Go Lite
+Name[cs]=Duck Duck Go Lite
+Name[da]=Duck Duck Go Lite
+Name[de]=Duck Duck Go Lite
+Name[el]=Duck Duck Go Lite
+Name[en_GB]=Duck Duck Go Lite
+Name[eo]=Duck Duck Go Lite
+Name[es]=Duck Duck Go Lite
+Name[et]=Duck Duck Go Lite
+Name[eu]=Duck Duck Go Lite
+Name[fa]=Duck Duck Go Lite
+Name[fi]=Duck Duck Go Lite
+Name[fr]=Duck Duck Go Lite
+Name[ga]=Duck Duck Go Lite
+Name[gl]=Duck Duck Go Lite
+Name[gu]=Duck Duck Go Lite
+Name[he]=Duck Duck Go Lite
+Name[hi]=Duck Duck Go Lite
+Name[hr]=Duck Duck Go Lite
+Name[hu]=Duck Duck Go Lite
+Name[ia]=Duck Duck Go Lite
+Name[id]=Duck Duck Go Lite
+Name[is]=Duck Duck Go Lite
+Name[it]=Duck Duck Go Lite
+Name[ja]=Duck Duck Go Lite
+Name[kk]=Duck Duck Go Lite
+Name[km]=Duck Duck Go Lite
+Name[kn]=Duck Duck Go Lite
+Name[ko]=Duck Duck Go Lite
+Name[lt]=Duck Duck Go Lite
+Name[lv]=Duck Duck Go Lite
+Name[ml]=Duck Duck Go Lite
+Name[nb]=Duck Duck Go Lite
+Name[nds]=Duck Duck Go Lite
+Name[nl]=Duck Duck Go Lite
+Name[nn]=Duck Duck Go Lite
+Name[pa]=Duck Duck Go Lite
+Name[pl]=Duck Duck Go Lite
+Name[pt]=Duck Duck Go Lite
+Name[pt_BR]=Duck Duck Go Lite
+Name[ro]=Duck Duck Go Lite
+Name[ru]=Поиск Duck Duck Go Lite
+Name[si]=Duck Duck Go Lite
+Name[sk]=Duck Duck Go Lite
+Name[sl]=Duck Duck Go Lite
+Name[sr]=Duck Duck Go Lite
+Name[sr@ijekavian]=Duck Duck Go Lite
+Name[sr@ijekavianlatin]=Duck Duck Go Lite
+Name[sr@latin]=Duck Duck Go Lite
+Name[sv]=Duck Duck Go Lite
+Name[tg]=Duck Duck Go Lite
+Name[th]=Duck Duck Go Lite
+Name[tr]=Duck Duck Go Lite
+Name[ug]=Duck Duck Go Lite
+Name[uk]=Duck Duck Go Lite
+Name[vi]=Duck Duck Go Lite
+Name[wa]=Duck Duck Go Lite
+Name[x-test]=xxDuck Duck Go Litexx
+Name[zh_CN]=Duck Duck Go Lite
+Name[zh_TW]=Duck Duck Go Lite
+Query=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[bg]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[bn]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[ca]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[cs]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[da]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[de]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[el]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[eo]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[es]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[et]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[fi]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[fr]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[gl]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[hi]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[hu]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[ia]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[it]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[kk]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[km]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[nb]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[nl]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[pa]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[pl]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[pt]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[pt_BR]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[ro]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[ru]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sl]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sr]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sr@ijekavian]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sr@ijekavianlatin]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sr@latin]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[sv]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[tr]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[uk]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[wa]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[x-test]=xxhttp://duckduckgo.com/lite/?q=\\{@}&t=KDExx
+Query[zh_CN]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+Query[zh_TW]=http://duckduckgo.com/lite/?q=\\{@}&t=KDE
+ServiceTypes=SearchProvider
+Type=Service

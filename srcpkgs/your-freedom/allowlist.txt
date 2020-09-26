@@ -1,6 +1,7 @@
 acpi_call-dkms:acpi_call-dkms
 engrampa:engrampa
 grub
+kio
 libxfce4ui:libxfce4ui
 minitube
 grub
