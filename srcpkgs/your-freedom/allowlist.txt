@@ -6,6 +6,7 @@ minitube
 grub
 p7zip
 texlive-core
+texlive-fontsextra
 texlive2014-bin
 texlive2016-bin
 texlive2017-bin

@@ -11,3 +11,20 @@ license="GPL-2.0-or-later"
 homepage="http://tug.org/texlive/"
 distfiles="https://sources.archlinux.org/other/texlive/${pkgname}-${version}-src.zip"
 checksum=25e1060c699f09e02924bf27902b162d7af5a6cc2d0c898f83c09ca0928d9060
+
+pre_build() {
+	# Commands below are taken from `mksource` function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/texlive-fontsextra/PKGBUILD
+
+	# remove nonfree packages
+	# no specific free license
+	rm -v ogham.tar.xz
+}
+
+post_build() {
+	# Commands below are taken from `prepare` function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/texlive-fontsextra/PKGBUILD
+
+	# remove nonfree packages references from package list
+	sed -ri '/^ogham /d' CONTENTS
+}
