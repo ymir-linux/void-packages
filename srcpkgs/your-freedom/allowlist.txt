@@ -1,10 +1,10 @@
 acpi_call-dkms:acpi_call-dkms
+cowsay
 engrampa:engrampa
 grub
 kio
 libxfce4ui:libxfce4ui
 minitube
-grub
 libsynctex
 p7zip
 texlive-core
