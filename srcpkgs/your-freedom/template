@@ -1,8 +1,8 @@
 # Template file for 'your-freedom'
 pkgname=your-freedom
-version=20200811
-_gitver=62f159935573cbffec664dc652013311777dbd6a
+version=20200919
 revision=1
+_gitver=295467175d405848f02ee7c98661ee8097528c3c
 create_wrksrc=yes
 build_style=meta
 short_desc="Conflicts with nonfree packages to ensure your system is free"
@@ -10,13 +10,13 @@ maintainer="reback00 <reback00@protonmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://git.parabola.nu/blacklist.git"
 distfiles="https://git.parabola.nu/blacklist.git/plain/blacklist.txt?id=${_gitver}>blacklist.txt"
-checksum=6a92a8fff3dc0a9322efc239a74c5f6602169906160c0e4acfafcff1f05b13cb
+checksum=c0c90cb0f8939cbad725861ca26fb2b1f79e49b920b8e1e5f48d6fb8366a010e
 
 # Set this below to yes to allow some packages that have minor issues
 # (like branding, suggesting optional dependencies etc.). But it should
 # be used with caution because if you're not careful, some nonfree
 # packages may come through.
-allow_semifree=no
+_allow_semifree=no
 
 # Set this below to yes to allow some packages listed on allowlist.txt.
 # allowlist.txt should list each package name that should be allowed on each
@@ -24,13 +24,13 @@ allow_semifree=no
 # indicated, enter the package name twice adding a ":" between them. If you
 # change the file, remember to clear cache according to the note below in the
 # comment.
-use_allowlist=yes
+_use_allowlist=yes
 
 # Set this below to yes to enable denying packages listed on denylist.txt.
 # Packages listed on that file will be added to the conflicts list. Useful for
 # packages not listed on Parabola's blacklist.txt but present on Void. List
 # each package name on each line of that file.
-use_denylist=yes
+_use_denylist=yes
 
 
 # Note 1: This package is still under testing. It is inspired by the Parabola's
@@ -50,13 +50,13 @@ if [ -z "$conflicts" ] && [ -f "$XBPS_SRCDISTDIR/${pkgname}-${version}/blacklist
 
 	cd "$XBPS_SRCDISTDIR/${pkgname}-${version}"
 
-	if [ "$allow_semifree" == "yes" ]; then
+	if [ "$_allow_semifree" == "yes" ]; then
 		conflicts=$(awk -F ':' '{ if ( $1 != $2) {print $1} }' "blacklist.txt" | awk '{print}' ORS=' ')
 	else
 		conflicts=$(awk -F ':' '{print $1}' "blacklist.txt" | awk '{print}' ORS=' ')
 	fi
 
-	if [ "$use_denylist" == "yes" ] && [ -f "${XBPS_SRCPKGDIR}/${pkgname}/denylist.txt" ]; then
+	if [ "$_use_denylist" == "yes" ] && [ -f "${XBPS_SRCPKGDIR}/${pkgname}/denylist.txt" ]; then
 		while read package; do
 			if [ "$package" != "" ]; then
 				conflicts="$conflicts $package"
@@ -64,7 +64,7 @@ if [ -z "$conflicts" ] && [ -f "$XBPS_SRCDISTDIR/${pkgname}-${version}/blacklist
 		done < "${XBPS_SRCPKGDIR}/${pkgname}/denylist.txt"
 	fi
 
-	if [ "$use_allowlist" == "yes" ] && [ -f "${XBPS_SRCPKGDIR}/${pkgname}/allowlist.txt" ]; then
+	if [ "$_use_allowlist" == "yes" ] && [ -f "${XBPS_SRCPKGDIR}/${pkgname}/allowlist.txt" ]; then
 		while read linedata; do
 			if [ "$linedata" != "" ]; then
 				package=$( echo "$linedata" | awk -F ':' '{print $1}' )
