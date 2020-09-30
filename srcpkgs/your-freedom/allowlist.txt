@@ -1,3 +1,4 @@
+abiword
 acpi_call-dkms:acpi_call-dkms
 cowsay
 engrampa:engrampa
