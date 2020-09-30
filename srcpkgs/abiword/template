@@ -12,7 +12,7 @@ makedepends="libjpeg-turbo-devel libpng-devel fribidi-devel libgsf-devel
  libwmf-devel libchamplain-devel redland-devel libical-devel
  libgcrypt-devel harfbuzz-devel $(vopt_if goffice goffice-devel)
  $(vopt_if gtk3 'gtk+3-devel' 'gtk+-devel')"
-depends="hicolor-icon-theme desktop-file-utils"
+depends="hicolor-icon-theme desktop-file-utils liberation-fonts-ttf"
 short_desc="Free word processing program similar to Microsoft(R) Word"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
@@ -23,6 +23,13 @@ build_options="gtk3 goffice"
 build_options_default="gtk3 goffice"
 
 CXXFLAGS="-std=c++11"
+
+pre_configure() {
+	# To remove Google search plugin.
+	# We have a "remove-google.patch" patch file to remove Google from the build.
+	# This is just to be extra sure.
+	rm -rf plugins/google
+}
 
 libabiword_package() {
 	short_desc+=" - Runtime library"
