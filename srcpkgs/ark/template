@@ -18,6 +18,13 @@ if [ "$CROSS_BUILD" ]; then
 	configure_args="-DDESKTOPTOJSON_EXECUTABLE=/usr/bin/desktoptojson"
 fi
 
+pre_configure() {
+	# Commands below are taken and modified from "prepare" function of:
+	# https://git.parabola.nu/abslibre.git/tree/libre/ark/PKGBUILD
+	rm -rv plugins/clirarplugin
+	rm -rv autotests/plugins/clirarplugin
+}
+
 pre_check() {
 	export QT_QPA_PLATFORM=offscreen
 }

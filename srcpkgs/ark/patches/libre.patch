@@ -1,0 +1,29 @@
+diff -Nur a/autotests/plugins/CMakeLists.txt b/autotests/plugins/CMakeLists.txt
+--- a/autotests/plugins/CMakeLists.txt	2020-09-01 01:02:37.000000000 +0600
++++ b/autotests/plugins/CMakeLists.txt	2020-10-03 15:05:01.579952909 +0600
+@@ -1,4 +1,3 @@
+ add_subdirectory(clizipplugin)
+ add_subdirectory(cli7zplugin)
+-add_subdirectory(clirarplugin)
+ add_subdirectory(cliunarchiverplugin)
+diff -Nur a/plugins/cliunarchiverplugin/CMakeLists.txt b/plugins/cliunarchiverplugin/CMakeLists.txt
+--- a/plugins/cliunarchiverplugin/CMakeLists.txt	2020-09-01 01:02:37.000000000 +0600
++++ b/plugins/cliunarchiverplugin/CMakeLists.txt	2020-10-03 14:38:42.274026232 +0600
+@@ -33,5 +33,5 @@
+ if(UNAR)
+     message(STATUS "Found unar executable: ${UNAR}")
+ else()
+-    message(WARNING "Could not find the unar executable. Ark requires unar or unrar to extract RAR archives.")
++    message(WARNING "Could not find the unar executable. Ark requires unar to extract RAR archives.")
+ endif()
+diff -Nur a/plugins/CMakeLists.txt b/plugins/CMakeLists.txt
+--- a/plugins/CMakeLists.txt	2020-09-01 01:02:37.000000000 +0600
++++ b/plugins/CMakeLists.txt	2020-10-03 14:38:31.352026739 +0600
+@@ -6,7 +6,6 @@
+ endfunction()
+ 
+ add_subdirectory( libarchive )
+-add_subdirectory( clirarplugin )
+ add_subdirectory( cli7zplugin )
+ add_subdirectory( clizipplugin )
+ add_subdirectory( libsinglefileplugin )
