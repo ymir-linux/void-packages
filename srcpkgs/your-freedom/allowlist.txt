@@ -1,7 +1,7 @@
 abiword
 acpi_call-dkms:acpi_call-dkms
 ark
-cowsay
+cowsay:cowsay
 engrampa:engrampa
 file-roller:file-roller
 grub
