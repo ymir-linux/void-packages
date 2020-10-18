@@ -3,6 +3,7 @@ acpi_call-dkms:acpi_call-dkms
 ark
 cowsay
 engrampa:engrampa
+file-roller:file-roller
 grub
 kio
 libxfce4ui:libxfce4ui
