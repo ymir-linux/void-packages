@@ -13,6 +13,7 @@ libxfce4ui:libxfce4ui
 mc:mc
 midori
 minitube
+netsurf
 libsynctex
 p7zip
 texlive-core
