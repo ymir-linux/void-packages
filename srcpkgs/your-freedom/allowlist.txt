@@ -3,11 +3,15 @@ acpi_call-dkms:acpi_call-dkms
 ark
 cowsay:cowsay
 engrampa:engrampa
+epdfview
+epiphany
 file-roller:file-roller
 grub
+khotkeys
 kio
 libxfce4ui:libxfce4ui
 mc:mc
+midori
 minitube
 libsynctex
 p7zip
