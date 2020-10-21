@@ -1,0 +1,8 @@
+diff -Naurp1 a/data/defaults.khotkeys b/data/defaults.khotkeys
+--- a/data/defaults.khotkeys	2020-10-08 22:10:57.000000000 +0600
++++ b/data/defaults.khotkeys	2020-10-21 16:03:57.790743609 +0600
+@@ -293,3 +293,3 @@ ActionsCount=1
+ [Data_1_1Actions0]
+-CommandURL=http://google.com
++CommandURL=http://duckduckgo.com/html
+ Type=COMMAND_URL

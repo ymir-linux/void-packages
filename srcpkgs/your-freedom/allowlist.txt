@@ -7,6 +7,7 @@ epdfview
 epiphany
 file-roller:file-roller
 grub
+khotkeys
 kio
 libxfce4ui:libxfce4ui
 mc:mc
