@@ -1,0 +1,25 @@
+diff -Naurp1 a/core/preferences.vala b/core/preferences.vala
+--- a/core/preferences.vala	2019-07-30 03:59:54.000000000 +0600
++++ b/core/preferences.vala	2020-10-21 22:22:49.185688249 +0600
+@@ -113,5 +113,3 @@ namespace Midori {
+             var combo = new Gtk.ComboBoxText ();
+-            combo.append ("https://duckduckgo.com/?q=%s", "Duck Duck Go");
+-            combo.append ("http://search.yahoo.com/search?p=", "Yahoo");
+-            combo.append ("http://www.google.com/search?q=%s", "Google");
++            combo.append ("https://duckduckgo.com/html/?q=%s", "DuckDuckGo HTML");
+             settings.bind_property ("location-entry-search", combo, "active-id", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+diff -Naurp1 a/core/settings.vala b/core/settings.vala
+--- a/core/settings.vala	2019-07-30 03:59:54.000000000 +0600
++++ b/core/settings.vala	2020-10-21 22:22:56.590687905 +0600
+@@ -123,4 +123,4 @@ namespace Midori {
+             // Allow DuckDuckGo to distinguish Midori and in turn share revenue
+-            if (uri == "https://duckduckgo.com/?q=%s") {
+-                return "https://duckduckgo.com/?q=%s&t=midori".printf (escaped);
++            if (uri == "https://duckduckgo.com/html/?q=%s") {
++                return "https://duckduckgo.com/html/?q=%s&t=midori".printf (escaped);
+             } else if (uri.str ("%s") != null) {
+@@ -131,3 +131,3 @@ namespace Midori {
+ 
+-        string default_search = "https://duckduckgo.com/?q=%s";
++        string default_search = "https://duckduckgo.com/html/?q=%s";
+         public string location_entry_search { owned get {

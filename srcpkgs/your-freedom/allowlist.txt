@@ -11,6 +11,7 @@ khotkeys
 kio
 libxfce4ui:libxfce4ui
 mc:mc
+midori
 minitube
 libsynctex
 p7zip
