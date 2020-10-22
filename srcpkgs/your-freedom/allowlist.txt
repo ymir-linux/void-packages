@@ -16,6 +16,7 @@ midori
 minitube
 netsurf
 libsynctex
+okular
 p7zip
 texlive-core
 texlive-fontsextra

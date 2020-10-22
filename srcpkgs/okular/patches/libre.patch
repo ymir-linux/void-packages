@@ -1,0 +1,13 @@
+diff --git a/conf/okular_core.kcfg b/conf/okular_core.kcfg
+index 35aaa9d..7593409 100644
+--- a/conf/okular_core.kcfg
++++ b/conf/okular_core.kcfg
+@@ -59,7 +59,7 @@
+  </group>
+  <group name="Core General" >
+   <entry key="ObeyDRM" type="Bool" >
+-   <default>true</default>
++   <default>false</default>
+   </entry>
+   <entry key="ChooseGenerators" type="Bool" >
+    <default>false</default>
