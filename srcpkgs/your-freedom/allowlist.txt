@@ -10,6 +10,7 @@ file-roller:file-roller
 grub
 khotkeys
 kio
+lesspipe:lesspipe
 libxfce4ui:libxfce4ui
 mc:mc
 midori
