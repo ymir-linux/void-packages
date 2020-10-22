@@ -1,0 +1,60 @@
+diff -Nur unp-2.0~pre7+nmu1.orig/unp unp-2.0~pre7+nmu1/unp
+--- unp-2.0~pre7+nmu1.orig/unp	2011-03-23 17:07:18.000000000 -0300
++++ unp-2.0~pre7+nmu1/unp	2015-05-19 04:13:37.929971649 -0300
+@@ -214,11 +214,6 @@
+       [ 'archmage']
+       ],
+ 
+-      [ gettext("rar or unrar or unrar-free"), "rar",  "RAR.*archive", 0,
+-      [ "rar", "x" ],
+-      [ "unrar", "x" ]
+-      ]
+-      ,
+       [ "binutils", "ar|deb", "(Debian binary package|\ ar.*archive)", 0,
+       [ "ar", "-x", "-v" ]
+       ]
+@@ -231,11 +226,6 @@
+       [ "lha", "x" ]
+       ]
+       ,
+-      [ "arj", "arj", "ARJ.*archive", 0,
+-      [ "arj", "x" ],
+-      [ "unarj", "x" ],
+-      ]
+-      ,
+       [ "ppmd", "pmd", "PPmd.*archive", 0,
+       [ "PPMd", "x" ]
+       ]
+@@ -264,18 +254,10 @@
+       [ "cabextract" ]
+       ]
+       ,
+-      [ "unace", "ace", "ACE.*archive", 0,
+-      [ "unace", "e" ]
+-      ]
+-      ,
+       [ "xdms", "dms", "DMS.*archive", 0,
+       [ "xdms", "x" ]
+       ]
+       ,
+-      [ "unlzx", "lzx", "LZX.*archive", 0,
+-      [ "unace", "e" ]
+-      ]
+-      ,
+       [ "macutils", "sea|sea\.bin", "SEA.*archive", 0,
+       [ "macutils", "-v" ]
+       ]
+@@ -284,12 +266,9 @@
+       [ "hexbin", "-v" ]
+       ]
+       ,
+-      [ "maybe orange or unzip or unrar or unarj or lha ", "exe", "executable", 3,
++      [ "maybe orange or unzip or lha ", "exe", "executable", 3,
+       [ "orange" ],
+       [ "unzip" ],
+-      [ "unrar", "x" ],
+-      [ "rar", "x" ],
+-      [ "arj", "x" ],
+       [ "lha", "x" ]
+       ]
+ 
