@@ -1,0 +1,309 @@
+diff -Nur atool-0.39.0.orig/atool atool-0.39.0/atool
+--- atool-0.39.0.orig/atool	2012-04-02 15:09:10.000000000 -0300
++++ atool-0.39.0/atool	2014-05-06 04:33:46.263005816 -0300
+@@ -111,16 +111,13 @@
+ $::cfg_path_pbzip2          = 'pbzip2';           # pbzip2 program
+ $::cfg_path_pigz            = 'pigz';             # pigz program
+ $::cfg_path_plzip           = 'plzip';            # plzip program
+-$::cfg_path_rar             = 'rar';              # rar program
+ $::cfg_path_rpm             = 'rpm';              # rpm program
+ $::cfg_path_rpm2cpio        = 'rpm2cpio';         # rpm2cpio program
+ $::cfg_path_rzip            = 'rzip';             # rzip program
+ $::cfg_path_syscfg          = File::Spec->catfile($::SYSCONFDIR, $::PROGRAM.'.conf');  # system-wide configuration file
+ $::cfg_path_tar             = 'tar';              # tar program
+-$::cfg_path_unace           = 'unace';            # unace program
+ $::cfg_path_unalz           = 'unalz';            # unalz program
+ $::cfg_path_unarj           = 'unarj';            # unarj program
+-$::cfg_path_unrar           = 'unrar';            # unrar program
+ $::cfg_path_unzip           = 'unzip';            # unzip program
+ $::cfg_path_usercfg         = '.'.$::PROGRAM.'rc';  # user configuration file
+ $::cfg_path_xargs           = 'xargs';            # xargs program
+@@ -141,7 +138,6 @@
+ $::cfg_use_pbzip2           = 0;                  # use pbzip2 instead of bzip2
+ $::cfg_use_pigz             = 0;                  # use pigz instead of gzip
+ $::cfg_use_plzip            = 0;                  # use plzip instead of lzip
+-$::cfg_use_rar_for_unpack   = 0;                  # use rar to unpack rar files?
+ $::cfg_use_tar_bzip2_option = 1;                  # does tar support --bzip2?
+ $::cfg_use_tar_lzma_option  = 1;                  # does tar support --lzma?
+ $::cfg_use_tar_lzip_option  = 0;                  # does tar support --lzip?
+@@ -592,26 +588,6 @@
+     @cmd = handle_empty_add(@cmd) if ($mode eq 'add' && @args == 0);
+     return multiarchivecmd($archive, $outdir, $mode, 0, 0, \@args, @cmd);
+   }
+-  elsif ($format eq 'rar') {
+-    return undef if ($mode eq 'extract' && !defined ($outdir = makeoutdir()));
+-    if ($mode eq 'add' || $::cfg_use_rar_for_unpack) {
+-      push @cmd, $::cfg_path_rar;
+-    } else {
+-      push @cmd, $::cfg_path_unrar;
+-    }
+-    push @cmd, 'a' if $mode eq 'add';
+-    push @cmd, 'vt' if $mode eq 'list' && $::opt_verbosity >= 3;
+-    push @cmd, 'v' if $mode eq 'list' && $::opt_verbosity == 2;
+-    push @cmd, 'l' if $mode eq 'list' && $::opt_verbosity <= 1;
+-    push @cmd, 'x' if ($mode eq 'extract' || $mode eq 'extract-to');
+-    push @cmd, '-ierr', 'p' if $mode eq 'cat';
+-    push @cmd, '-r0' if ($mode eq 'add');
+-    push @cmd, $archive, @args;
+-    push @cmd, tailslash($outdir) if $mode eq 'extract';
+-    push @cmd, tailslash($::opt_cmd_extract_to) if $mode eq 'extract-to';
+-    @cmd = handle_empty_add(@cmd) if ($mode eq 'add' && @args == 0);
+-    return multiarchivecmd($archive, $outdir, $mode, 0, 0, \@args, @cmd);
+-  }
+   elsif ($format eq '7z') {
+     # 7z has the -so option for writing data to stdout, but it doesn't
+     # write data to terminal even if the file is designed to be
+@@ -673,23 +649,6 @@
+     @cmd = handle_empty_add(@cmd) if ($mode eq 'add' && @args == 0);
+     return multiarchivecmd($archive, $outdir, $mode, 0, 0, \@args, @cmd);
+   }
+-  elsif ($format eq 'ace') {
+-    return undef if ($mode eq 'extract' && !defined ($outdir = makeoutdir()));
+-    push @cmd, $::cfg_path_unace;
+-    if ($mode eq 'add' || $mode eq 'cat') {
+-      warn "$::basename: ".quote($archive).": $mode command not supported for $format archives\n";
+-      return undef;
+-    }
+-    push @cmd, 'v', '-c' if $mode eq 'list' && $::opt_verbosity >= 3;
+-    push @cmd, 'v' if $mode eq 'list' && $::opt_verbosity == 2;
+-    push @cmd, 'l' if $mode eq 'list' && $::opt_verbosity <= 1;
+-    push @cmd, 'x' if ($mode eq 'extract' || $mode eq 'extract-to');
+-    push @cmd, $archive, @args;
+-    push @cmd, tailslash($outdir) if $mode eq 'extract';
+-    push @cmd, tailslash($::opt_cmd_extract_to) if $mode eq 'extract-to';
+-    @cmd = handle_empty_add(@cmd) if ($mode eq 'add' && @args == 0);
+-    return multiarchivecmd($archive, $outdir, $mode, 0, 0, \@args, @cmd);
+-  }
+   elsif ($format eq 'arj') {
+     return undef if ($mode eq 'extract' && !defined ($outdir = makeoutdir()));
+     if ($mode eq 'cat') {
+@@ -1321,9 +1280,7 @@
+   return $file if ($file =~ s/\.jar$//);
+   return $file if ($file =~ s/\.war$//);
+   return $file if ($file =~ s/\.Z$//);
+-  return $file if ($file =~ s/\.rar$//);
+   return $file if ($file =~ s/\.(lha|lzh)$//);
+-  return $file if ($file =~ s/\.ace$//);
+   return $file if ($file =~ s/\.arj$//);
+   return $file if ($file =~ s/\.a$//);
+   return $file if ($file =~ s/\.lzma$//);
+@@ -1363,8 +1320,6 @@
+   return '.zip'      if $format eq 'zip';
+   return '.jar'      if $format eq 'jar';
+   return '.Z'        if $format eq 'compress';
+-  return '.rar'      if $format eq 'rar';
+-  return '.ace'      if $format eq 'ace';
+   return '.a'        if $format eq 'ar';
+   return '.arj'      if $format eq 'arj';
+   return '.lha'      if $format eq 'lha';
+@@ -1411,7 +1366,6 @@
+     ['zip',            qr/ \(Zip archive data[^)]*\)$/],
+     ['zip',            qr/^Zip archive data(\W|$)/],
+     ['zip',            qr/^MS-DOS executable (.*), ZIP self-extracting archive(\W|$)/],
+-    ['rar',            qr/^RAR archive data(\W|$)/],
+     ['lha',            qr/^LHa \(2\.x\) archive data /],
+     ['lha',            qr/^LHa 2\.x\? archive data /],
+     ['lha',            qr/^LHarc 1\.x archive data /],
+@@ -1453,7 +1407,6 @@
+     ['tar+xz',         qr/(\.tar\.xz|\.txz)$/],
+ 
+     ['7z',             qr/\.7z$/],
+-    ['ace',            qr/\.ace$/],
+     ['alzip',          qr/\.alz$/],
+     ['ar',             qr/\.a$/],
+     ['arc',            qr/\.arc$/],
+@@ -1471,7 +1424,6 @@
+     ['lzip',           qr/\.lz$/],
+     ['lzma',           qr/\.lzma$/],
+     ['lzop',           qr/\.lzo$/],
+-    ['rar',            qr/\.rar$/],
+     ['rpm',            qr/\.rpm$/],
+     ['rzip',           qr/\.rz$/],
+     ['tar',            qr/\.tar$/],
+@@ -1620,15 +1572,12 @@
+     'path_pbzip2'             => [ 'option', \$::cfg_path_pbzip2, qr/.*/ ],
+     'path_pigz'               => [ 'option', \$::cfg_path_pigz, qr/.*/ ],
+     'path_plzip'              => [ 'option', \$::cfg_path_plzip, qr/.*/ ],
+-    'path_rar'                => [ 'option', \$::cfg_path_rar, qr/.*/ ],
+     'path_rpm'                => [ 'option', \$::cfg_path_rpm, qr/.*/ ],
+     'path_rpm2cpio'           => [ 'option', \$::cfg_path_rpm2cpio, qr/.*/ ],
+     'path_rzip'               => [ 'option', \$::cfg_path_rzip, qr/.*/ ],
+     'path_tar'                => [ 'option', \$::cfg_path_tar, qr/.*/ ],
+-    'path_unace'              => [ 'option', \$::cfg_path_unace, qr/.*/ ],
+     'path_unalz'              => [ 'option', \$::cfg_path_unalz, qr/.*/ ],
+     'path_unarj'              => [ 'option', \$::cfg_path_unarj, qr/.*/ ],
+-    'path_unrar'              => [ 'option', \$::cfg_path_unrar, qr/.*/ ],
+     'path_unzip'              => [ 'option', \$::cfg_path_unzip, qr/.*/ ],
+     'path_usercfg'            => [ 'option', \$::cfg_path_usercfg, qr/.*/ ],
+     'path_xargs'              => [ 'option', \$::cfg_path_xargs, qr/.*/ ],
+@@ -1649,8 +1598,6 @@
+     'use_pbzip2'              => [ 'option', \$::cfg_use_pbzip2, qr/^(0|1)$/ ],
+     'use_pigz'                => [ 'option', \$::cfg_use_pigz, qr/^(0|1)$/ ],
+     'use_plzip'               => [ 'option', \$::cfg_use_plzip, qr/^(0|1)$/ ],
+-    'use_rar_for_unpack'      => [ 'option', \$::cfg_use_rar_for_unpack, qr/^(0|1)$/ ],
+-    'use_rar_for_unrar'       => [ 'obsolete', 'use_rar_for_unpack' ],
+     'use_tar_bzip2_option'    => [ 'option', \$::cfg_use_tar_bzip2_option, qr/^(0|1)$/ ],
+     'use_tar_lzma_option'     => [ 'option', \$::cfg_use_tar_lzma_option, qr/^(0|1)$/ ],
+     'use_tar_lzop_option'     => [ 'option', \$::cfg_use_tar_lzop_option, qr/^(0|1)$/ ],
+diff -Nur atool-0.39.0.orig/atool.1 atool-0.39.0/atool.1
+--- atool-0.39.0.orig/atool.1	2012-03-15 04:31:41.000000000 -0300
++++ atool-0.39.0/atool.1	2014-05-06 04:34:36.830099616 -0300
+@@ -146,7 +146,7 @@
+ When extracting from files, allow overwriting of local files.
+ When creating an archive, allow the archive file to be overwritten
+ if it already exists. Note that it is possible to add files to
+-existing RAR and Zip archives (this is not possible for many
++existing Zip archives (this is not possible for many
+ other formats).
+ .TP
+ .B \-D, \-\-subdir
+@@ -262,9 +262,6 @@
+ List, extract, and add commands are supported.
+ Cat is supported if use_jar_program is disabled.
+ .TP
+-.RI \fBrar\fP " " ( .rar )
+-All commands are supported.
+-.TP
+ .RI \fBlha\fP " " ( .lha ", " .lzh )
+ All commands are supported.
+ .TP
+@@ -274,9 +271,6 @@
+ .RI \fBalzip\fP " " ( .alz )
+ Extract command is supported.
+ .TP
+-.RI \fBace\fP " " ( .ace )
+-Extract and list commands are supported.
+-.TP
+ .RI \fBar\fP " " ( .a )
+ All commands are supported.
+ .TP
+@@ -406,11 +400,6 @@
+ Enable this if you want to use gzip instead of uncompress when
+ decompressing compress'ed files (`.Z' files).
+ .TP
+-.B use_rar_for_unpack \fR(default: 0)\fR
+-Enable this if you want to always use rar instead of unrar
+-when possible. This makes atool use the rar command
+-(path_rar) even when listing and extracting RAR files.
+-.TP
+ .B use_arc_for_unpack \fR(default: 0)\fR
+ Enable this if you want to always use arc instead of nomarch
+ when possible. This makes atool use the arc command
+@@ -530,10 +519,6 @@
+ .TP
+ .B path_lzip \fR(default: lzip)\fR
+ .TP
+-.B path_rar \fR(default: rar)\fR
+-.TP
+-.B path_unrar \fR(default: unrar)\fR
+-.TP
+ .B path_lbzip2 \fR(default: lbzip2)\fR
+ .TP
+ .B path_pigz \fR(default: pigz)\fR
+@@ -546,8 +531,6 @@
+ .TP
+ .B path_lha \fR(default: lha)\fR
+ .TP
+-.B path_unace \fR(default: unace)\fR
+-.TP
+ .B path_ar \fR(default: ar)\fR
+ .TP
+ .B path_arj \fR(default: arj)\fR
+@@ -661,10 +644,6 @@
+ .br
+ 	\fBacat \-p myarchive.zip baz\fP
+ .PP
+-To list contents of the rar archive `stuff.rar':
+-.br
+-	\fBals stuff.rar\fP
+-.PP
+ To create three archives, `dir1.tar.gz', `dir2.tar.gz' and `dir3.tar.gz',
+ so that the first one contains all files in dir1, the second all
+ in dir2 and the third all dir3:
+diff -Nur atool-0.39.0.orig/atool.1.in atool-0.39.0/atool.1.in
+--- atool-0.39.0.orig/atool.1.in	2012-03-15 04:31:39.000000000 -0300
++++ atool-0.39.0/atool.1.in	2014-05-06 04:35:30.100547318 -0300
+@@ -146,7 +146,7 @@
+ When extracting from files, allow overwriting of local files.
+ When creating an archive, allow the archive file to be overwritten
+ if it already exists. Note that it is possible to add files to
+-existing RAR and Zip archives (this is not possible for many
++existing Zip archives (this is not possible for many
+ other formats).
+ .TP
+ .B \-D, \-\-subdir
+@@ -262,9 +262,6 @@
+ List, extract, and add commands are supported.
+ Cat is supported if use_jar_program is disabled.
+ .TP
+-.RI \fBrar\fP " " ( .rar )
+-All commands are supported.
+-.TP
+ .RI \fBlha\fP " " ( .lha ", " .lzh )
+ All commands are supported.
+ .TP
+@@ -274,9 +271,6 @@
+ .RI \fBalzip\fP " " ( .alz )
+ Extract command is supported.
+ .TP
+-.RI \fBace\fP " " ( .ace )
+-Extract and list commands are supported.
+-.TP
+ .RI \fBar\fP " " ( .a )
+ All commands are supported.
+ .TP
+@@ -406,11 +400,6 @@
+ Enable this if you want to use gzip instead of uncompress when
+ decompressing compress'ed files (`.Z' files).
+ .TP
+-.B use_rar_for_unpack \fR(default: 0)\fR
+-Enable this if you want to always use rar instead of unrar
+-when possible. This makes atool use the rar command
+-(path_rar) even when listing and extracting RAR files.
+-.TP
+ .B use_arc_for_unpack \fR(default: 0)\fR
+ Enable this if you want to always use arc instead of nomarch
+ when possible. This makes atool use the arc command
+@@ -530,10 +519,6 @@
+ .TP
+ .B path_lzip \fR(default: lzip)\fR
+ .TP
+-.B path_rar \fR(default: rar)\fR
+-.TP
+-.B path_unrar \fR(default: unrar)\fR
+-.TP
+ .B path_lbzip2 \fR(default: lbzip2)\fR
+ .TP
+ .B path_pigz \fR(default: pigz)\fR
+@@ -546,8 +531,6 @@
+ .TP
+ .B path_lha \fR(default: lha)\fR
+ .TP
+-.B path_unace \fR(default: unace)\fR
+-.TP
+ .B path_ar \fR(default: ar)\fR
+ .TP
+ .B path_arj \fR(default: arj)\fR
+@@ -661,10 +644,6 @@
+ .br
+ 	\fBacat \-p myarchive.zip baz\fP
+ .PP
+-To list contents of the rar archive `stuff.rar':
+-.br
+-	\fBals stuff.rar\fP
+-.PP
+ To create three archives, `dir1.tar.gz', `dir2.tar.gz' and `dir3.tar.gz',
+ so that the first one contains all files in dir1, the second all
+ in dir2 and the third all dir3:
+diff -Nur atool-0.39.0.orig/extra/bash-completion-atool_0.1-1 atool-0.39.0/extra/bash-completion-atool_0.1-1
+--- atool-0.39.0.orig/extra/bash-completion-atool_0.1-1	2007-12-10 20:01:38.000000000 -0200
++++ atool-0.39.0/extra/bash-completion-atool_0.1-1	2014-05-06 04:36:01.504143499 -0300
+@@ -15,7 +15,7 @@
+                 --quiet --verbose --page --null --explain --simulate --config=' -- $cur ) )
+ 		;;
+ 	    *)
+-		_filedir '@(rar|RAR|zip|ZIP|tar.gz|tgz|tar.bz|tbz|tar.Z|tZ|tar.lzo|tzo|tar.7z|t7z|tar|jar|JAR|war|lha|lzh|7z|ace|ACE|arj|ARJ|a|arc|ARC|rpm|deb|gz|bz|bz2|Z|lzo|cpio)'
++		_filedir '@(zip|ZIP|tar.gz|tgz|tar.bz|tbz|tar.Z|tZ|tar.lzo|tzo|tar.7z|t7z|tar|jar|JAR|war|lha|lzh|7z|arj|ARJ|a|arc|ARC|rpm|deb|gz|bz|bz2|Z|lzo|cpio)'
+ 		;;
+ 	esac
+   
