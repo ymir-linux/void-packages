@@ -26,3 +26,4 @@ texlive2018-bin
 texlive2019-bin
 texlive2020-bin
 unzip
+xarchiver
