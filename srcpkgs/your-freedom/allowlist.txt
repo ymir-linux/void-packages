@@ -13,6 +13,7 @@ kio
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
 mc:mc
+mcomix
 midori
 minitube
 netsurf
