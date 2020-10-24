@@ -1,6 +1,7 @@
 abiword
 acpi_call-dkms:acpi_call-dkms
 ark
+atool
 cowsay:cowsay
 engrampa:engrampa
 epdfview
@@ -9,11 +10,15 @@ file-roller:file-roller
 grub
 khotkeys
 kio
+lesspipe:lesspipe
 libxfce4ui:libxfce4ui
 mc:mc
+mcomix
 midori
 minitube
+netsurf
 libsynctex
+okular
 p7zip
 texlive-core
 texlive-fontsextra
@@ -24,4 +29,6 @@ texlive2017-bin
 texlive2018-bin
 texlive2019-bin
 texlive2020-bin
+unp
 unzip
+xarchiver

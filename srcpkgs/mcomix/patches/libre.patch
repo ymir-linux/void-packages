@@ -1,0 +1,393 @@
+diff -Naurp1 a/ChangeLog b/ChangeLog
+--- a/ChangeLog	2016-02-13 01:59:07.000000000 +0600
++++ b/ChangeLog	2020-10-23 22:35:45.026948551 +0600
+@@ -8,4 +8,2 @@ Release date: 2016-02-12
+ 
+-    - Updated libraries for the Windows distribution: UnRAR DLL
+-
+ MComix 1.2
+@@ -162,9 +160,3 @@ Release date: 30.01.2016
+       supported (including encrypted header support, and for all supported
+-      formats: 7z, RAR and ZIP).
+-
+-    - Fixed an issue with unrar.dll that could lead to crashes if 7z is also
+-      present.
+-
+-    - Improved detection of available RAR extractors. (unrar-free is currently
+-      incompatible with MComix and will be ignored.)
++      formats: 7z and ZIP).
+ 
+@@ -174,4 +166,3 @@ Release date: 30.01.2016
+ 
+-    - Updated libraries for the Windows distribution: Pillow 3.1.0 and
+-      UnRAR 5.30
++    - Updated libraries for the Windows distribution: Pillow 3.1.0
+ 
+@@ -456,8 +447,2 @@ Release date: 09.04.2012
+ 
+-MComix 0.97.1
+-Release date: 18.02.2012
+-
+-    - Corrected libunrar regression. (thanks to Giovanni Scafora for pointing
+-      this out)
+-
+ MComix 0.97
+@@ -465,5 +450,2 @@ Release date: 17.02.2012
+ 
+-    - Fixed segmentation fault on x64 platforms when trying to extract RAR
+-      archives with libunrar.
+-
+     - The lens now uses the original pixbuf when preparing the magnified image
+@@ -506,5 +488,2 @@ Release date: 24.12.2011
+ 
+-    - Opening a RAR archive with 7z would destroy the archive, leaving only
+-      a 0-byte file. This has been fixed.
+-
+     - Fixed MComix opening files in other directories after scrolling past the
+@@ -512,5 +491,2 @@ Release date: 24.12.2011
+ 
+-    - Fixed a bug that would hang MComix when trying to open a
+-      password-protected RAR archive.
+-
+     - MComix no longer restores the last opened file when it was terminated
+@@ -684,5 +660,4 @@ Release date: 27.05.2011
+ 
+-    - Added limited support for password-protected ZIP and RAR archives.
+-      For ZIP archives, Python >= 2.6 is required. For RAR archives,
+-      only extraction with libunrar/unrar.dll is supported.
++    - Added limited support for password-protected ZIP archives.
++      For ZIP archives, Python >= 2.6 is required.
+ 
+@@ -703,3 +678,3 @@ Release date: 27.05.2011
+ 
+-    - If applications for extracting RAR or 7Z archives aren't found on
++    - If applications for extracting 7Z archives aren't found on
+       start-up, MComix will no longer allow selecting the corresponding file
+@@ -849,16 +824,2 @@ Release date: 13.03.2011
+ 
+-    - Additional RAR handler using libunrar.so/unrar.dll.
+-
+-      Added archive handler using Rarlab's libunrar library
+-      for extracting files. Apart from being faster for sequential
+-      extractions than calling unrar for each single file,
+-      this library supports Unicode filenames natively and thus
+-      allows Windows users to read most RAR files.
+-      Libunrar can be obtained from http://www.rarlab.com/rar_add.htm
+-      and can be placed either in usual system directories such as
+-      /usr/lib or C:\Windows\system32, or directly in MComix' root directory.
+-
+-    - Fixed rar/unrar failing regularly on Win32 when the archive contains
+-      files not matching the current locale.
+-
+     - Go to Page is now enabled even when the archive is still loading. (by
+@@ -866,4 +827,3 @@ Release date: 13.03.2011
+ 
+-    - Added support for the 7zip archive format. As with rar/unrar, this
+-      requires the "7z" executable being installed and on PATH.
++    - Added support for the 7zip archive format.
+ 
+@@ -982,6 +942,2 @@ Comix 4.0.4
+     to not be printed properly.
+-    
+-    - The rar/unrar program is now invoked in such a way as to keep broken
+-    or incomplete files extracted from RAR archives, since Comix might be
+-    able to display parts of these files anyway.
+ 
+@@ -1142,5 +1098,2 @@ Comix 3.6
+ 
+-    - Fixed a bug in comicthumb with thumbnailing rar archives, plus
+-    some cleanup. (Christoph Wolk)
+-
+ Comix 3.5.1
+@@ -1171,3 +1124,3 @@ Comix 3.5
+     - When a directory is given as a command line parameter, Comix now
+-    recursively searches for cbr, cbz and cbt files as well as image files.
++    recursively searches for cbz and cbt files as well as image files.
+     
+@@ -1257,5 +1210,2 @@ Comix 3.3
+ Comix 3.2.1
+-
+-    - Added support for the `rar` program in addition to `unrar` to handle 
+-    RAR (.cbr) files.
+     
+@@ -1291,6 +1241,2 @@ Comix 3.2
+     
+-    - The workaround against a problem with unrar applied in version 3.1.3 has
+-    been removed again. It created some new problems with archives that
+-    have multiple files with the same filename in different subdirectories.
+-    
+     - Fixed a bug so that translations and extra icons are always available
+@@ -1314,3 +1260,3 @@ Comix 3.1.2
+     adding in recursive mode instead of just archives. Also, only files with
+-    cbz, cbr or cbt as filename extension will now be added in recursive mode
++    cbz or cbt as filename extension will now be added in recursive mode
+     to avoid adding cruft files with the same magic numbers as the archives.
+@@ -1324,6 +1270,2 @@ Comix 3.1.1
+     
+-    - Applied a workaround for a bug(?) in unrar that caused problems with
+-    some RAR archives containing directories with invalid filename encodings.
+-    Thanks to François Ingelrest.
+-    
+     - Updated French translation by Achraf Cherti.
+@@ -1425,3 +1367,3 @@ Comix 2.8
+ 
+-    - MIME types for cbz, cbr and cbt archives are now registered by default.
++    - MIME types for cbz and cbt archives are now registered by default.
+     Use the --no-mime flag for install.py to skip it.
+@@ -1429,3 +1371,3 @@ Comix 2.8
+     - Added a thumbnailer (by Christoph Wolk) that lets file managers create
+-    thumbnails for cbz, cbr and cbt archives. Currently it is only supported
++    thumbnails for cbz and cbt archives. Currently it is only supported
+     by Nautilus and does not affect other file managers. It is installed if
+@@ -1497,3 +1439,3 @@ Comix 2.7
+     
+-    - Added a "comix.xml" file which can be installed to register cbz, cbr and
++    - Added a "comix.xml" file which can be installed to register cbz and
+     cbt mime types. Because of inconsistency on some systems, mime types are
+@@ -2058,3 +2000,3 @@ Comix 0.2
+     - Now uses gtk.gdk.pixbuf_get_file_info() to check image file types
+-    and the `file' program to check filetypes for ZIP/RAR archives.
++    and the `file' program to check filetypes for ZIP archives.
+     Filename extensions should no longer matter for Comix.
+diff -Naurp1 a/mcomix/about_dialog.py b/mcomix/about_dialog.py
+--- a/mcomix/about_dialog.py	2016-02-13 00:51:54.000000000 +0600
++++ b/mcomix/about_dialog.py	2020-10-23 22:12:57.468012043 +0600
+@@ -29,3 +29,3 @@ class _AboutDialog(gtk.AboutDialog):
+             constants.APPNAME + u' ' + \
+-            _('It reads ZIP, RAR and tar archives, as well as plain image files.')
++            _('It reads ZIP and tar archives, as well as plain image files.')
+         self.set_comments(comment)
+diff -Naurp1 a/mcomix/archive_tools.py b/mcomix/archive_tools.py
+--- a/mcomix/archive_tools.py	2016-02-13 00:51:55.000000000 +0600
++++ b/mcomix/archive_tools.py	2020-10-23 22:17:11.079000268 +0600
+@@ -16,4 +16,2 @@ from mcomix.archive import (
+     pdf_external,
+-    rar,
+-    rar_external,
+     sevenzip_external,
+@@ -47,8 +45,2 @@ _HANDLERS = {
+     ),
+-    constants.RAR: (
+-        rar.RarArchive,
+-        rar_external.RarArchive,
+-        # Last resort: some versions of 7z support RAR.
+-        sevenzip_external.SevenZipArchive,
+-    ),
+     # Prefer 7z over lha executable for Unicode support.
+@@ -82,5 +74,2 @@ def szip_available():
+ 
+-def rar_available():
+-    return _is_available(constants.RAR)
+-
+ def lha_available():
+@@ -96,3 +85,2 @@ def get_supported_formats():
+         ('Tar', constants.TAR_FORMATS , True            ),
+-        ('RAR', constants.RAR_FORMATS , rar_available() ),
+         ('7z' , constants.SZIP_FORMATS, szip_available()),
+@@ -151,5 +139,2 @@ def archive_mime_type(path):
+ 
+-            if magic[0:4] == 'Rar!':
+-                return constants.RAR
+-
+             if magic[0:4] == '7z\xBC\xAF':
+diff -Naurp1 a/mcomix/constants.py b/mcomix/constants.py
+--- a/mcomix/constants.py	2016-02-13 01:59:07.000000000 +0600
++++ b/mcomix/constants.py	2020-10-23 23:06:46.553862125 +0600
+@@ -44,3 +44,3 @@ UNION_INDEX = -2
+ 
+-ZIP, RAR, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL = range(10)
++ZIP, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL = range(9)
+ NORMAL_CURSOR, GRAB_CURSOR, WAIT_CURSOR, NO_CURSOR = range(4)
+@@ -72,5 +72,2 @@ ZIP_FORMATS = (
+         ('zip', 'cbz'))
+-RAR_FORMATS = (
+-        ('application/x-rar', 'application/x-cbr'),
+-        ('rar', 'cbr'))
+ TAR_FORMATS = (
+diff -Naurp1 a/mcomix/messages/mcomix.pot b/mcomix/messages/mcomix.pot
+--- a/mcomix/messages/mcomix.pot	2016-02-13 01:59:07.000000000 +0600
++++ b/mcomix/messages/mcomix.pot	2020-10-23 22:20:34.392990829 +0600
+@@ -26,3 +26,3 @@ msgstr ""
+ #: mcomix/about_dialog.py:30
+-msgid "It reads ZIP, RAR and tar archives, as well as plain image files."
++msgid "It reads ZIP and tar archives, as well as plain image files."
+ msgstr ""
+@@ -1505,6 +1505,2 @@ msgid "ZIP archive"
+ msgstr ""
+-
+-#: mcomix/strings.py:10
+-msgid "RAR archive"
+-msgstr ""
+ 
+diff -Naurp1 a/mcomix/strings.py b/mcomix/strings.py
+--- a/mcomix/strings.py	2016-02-13 00:52:12.000000000 +0600
++++ b/mcomix/strings.py	2020-10-23 22:21:10.950989132 +0600
+@@ -5,3 +5,3 @@
+ 
+-from mcomix.constants import ZIP, RAR, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL
++from mcomix.constants import ZIP, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL
+ 
+@@ -9,3 +9,2 @@ ARCHIVE_DESCRIPTIONS = {
+                         ZIP         : _('ZIP archive'),
+-                        RAR         : _('RAR archive'),
+                         TAR         : _('Tar archive'),
+diff -Naurp1 a/mcomix.egg-info/PKG-INFO b/mcomix.egg-info/PKG-INFO
+--- a/mcomix.egg-info/PKG-INFO	2016-02-13 02:19:34.000000000 +0600
++++ b/mcomix.egg-info/PKG-INFO	2020-10-23 22:27:15.710972197 +0600
+@@ -9,3 +9,3 @@ License: License :: OSI Approved :: GNU
+ Download-URL: http://sourceforge.net/projects/mcomix/files
+-Description: MComix is a user-friendly, customizable image viewer. It is specifically designed to handle comic books (both Western comics and manga) and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF). MComix is a fork of Comix.
++Description: MComix is a user-friendly, customizable image viewer. It is specifically designed to handle comic books (both Western comics and manga) and supports a variety of container formats (including CBZ, CB7, CBT, LHA and PDF). MComix is a fork of Comix.
+ Platform: Operating System :: POSIX :: Linux
+diff -Naurp1 a/mcomix.egg-info/SOURCES.txt b/mcomix.egg-info/SOURCES.txt
+--- a/mcomix.egg-info/SOURCES.txt	2016-02-13 02:19:43.000000000 +0600
++++ b/mcomix.egg-info/SOURCES.txt	2020-10-23 22:36:21.619946852 +0600
+@@ -86,4 +86,2 @@ mcomix/archive/lha_external.py
+ mcomix/archive/pdf_external.py
+-mcomix/archive/rar.py
+-mcomix/archive/rar_external.py
+ mcomix/archive/sevenzip_external.py
+@@ -189,3 +187,2 @@ mime/mcomix.xml
+ mime/icons/16x16/application-x-cb7.png
+-mime/icons/16x16/application-x-cbr.png
+ mime/icons/16x16/application-x-cbt.png
+@@ -193,3 +190,2 @@ mime/icons/16x16/application-x-cbz.png
+ mime/icons/22x22/application-x-cb7.png
+-mime/icons/22x22/application-x-cbr.png
+ mime/icons/22x22/application-x-cbt.png
+@@ -197,3 +193,2 @@ mime/icons/22x22/application-x-cbz.png
+ mime/icons/24x24/application-x-cb7.png
+-mime/icons/24x24/application-x-cbr.png
+ mime/icons/24x24/application-x-cbt.png
+@@ -201,3 +196,2 @@ mime/icons/24x24/application-x-cbz.png
+ mime/icons/32x32/application-x-cb7.png
+-mime/icons/32x32/application-x-cbr.png
+ mime/icons/32x32/application-x-cbt.png
+@@ -205,3 +199,2 @@ mime/icons/32x32/application-x-cbz.png
+ mime/icons/48x48/application-x-cb7.png
+-mime/icons/48x48/application-x-cbr.png
+ mime/icons/48x48/application-x-cbt.png
+diff -Naurp1 a/mime/comicbook.schemas b/mime/comicbook.schemas
+--- a/mime/comicbook.schemas	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/comicbook.schemas	2020-10-23 22:22:18.568985992 +0600
+@@ -3,24 +3,2 @@
+         <schema>
+-            <key>/schemas/desktop/gnome/thumbnailers/application@x-cbr/enable</key>
+-            <applyto>/desktop/gnome/thumbnailers/application@x-cbr/enable</applyto>
+-            <owner>comicthumb</owner>
+-            <type>bool</type>
+-            <default>true</default>
+-            <locale name="C">
+-                <short></short>
+-                <long></long>
+-            </locale>
+-        </schema>
+-        <schema>
+-            <key>/schemas/desktop/gnome/thumbnailers/application@x-cbr/command</key>
+-            <applyto>/desktop/gnome/thumbnailers/application@x-cbr/command</applyto>
+-            <owner>comicthumb</owner>
+-            <type>string</type>
+-            <default>comicthumb %i %o %s</default>
+-            <locale name="C">
+-                <short></short>
+-                <long></long>
+-            </locale>
+-        </schema>
+-        <schema>
+             <key>/schemas/desktop/gnome/thumbnailers/application@x-cbz/enable</key>
+diff -Naurp1 a/mime/comicthumb b/mime/comicthumb
+--- a/mime/comicthumb	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/comicthumb	2020-10-23 22:30:29.481963201 +0600
+@@ -9,3 +9,3 @@ re-written from scratch for Comix 4 by P
+ 
+-Supported formats: ZIP, RAR and tar (.cbz, .cbr, .cbt)
++Supported formats: ZIP and tar (.cbz, .cbt)
+ 
+diff -Naurp1 a/mime/comicthumb.thumbnailer b/mime/comicthumb.thumbnailer
+--- a/mime/comicthumb.thumbnailer	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/comicthumb.thumbnailer	2020-10-23 22:29:35.701965697 +0600
+@@ -3,2 +3,2 @@ TryExec=comicthumb
+ Exec=comicthumb %u %o %s
+-MimeType=application/x-cb7;application/x-cbr;application/x-cbt;application/x-cbz;application/x-ext-cb7;application/x-ext-cbr;application/x-ext-cbt;application/x-ext-cbz;
++MimeType=application/x-cb7;application/x-cbt;application/x-cbz;application/x-ext-cb7;application/x-ext-cbt;application/x-ext-cbz;
+diff -Naurp1 a/mime/mcomix.appdata.xml b/mime/mcomix.appdata.xml
+--- a/mime/mcomix.appdata.xml	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/mcomix.appdata.xml	2020-10-23 22:23:39.578982231 +0600
+@@ -12,3 +12,3 @@
+ 	  designed to handle comic books (both Western comics and manga) and supports
+-	  a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF).
++	  a variety of container formats (including CBZ, CB7, CBT, LHA and PDF).
+   </p>
+diff -Naurp1 a/mime/mcomix.desktop b/mime/mcomix.desktop
+--- a/mime/mcomix.desktop	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/mcomix.desktop	2020-10-23 22:24:26.976980031 +0600
+@@ -21,2 +21,2 @@ StartupNotify=true
+ Categories=Graphics;Viewer;
+-MimeType=application/x-cb7;application/x-ext-cb7;application/x-cbr;application/x-ext-cbr;application/x-cbt;application/x-ext-cbt;application/x-cbz;application/x-ext-cbz;application/pdf;application/x-pdf;application/x-ext-pdf;image/bmp;image/x-MS-bmp;image/x-bmp;image/gif;image/jpeg;image/png;image/tiff;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;
++MimeType=application/x-cb7;application/x-ext-cb7;application/x-cbt;application/x-ext-cbt;application/x-cbz;application/x-ext-cbz;application/pdf;application/x-pdf;application/x-ext-pdf;image/bmp;image/x-MS-bmp;image/x-bmp;image/gif;image/jpeg;image/png;image/tiff;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;
+diff -Naurp1 a/mime/mcomix.xml b/mime/mcomix.xml
+--- a/mime/mcomix.xml	2016-02-13 00:51:54.000000000 +0600
++++ b/mime/mcomix.xml	2020-10-23 22:29:53.901964853 +0600
+@@ -7,7 +7,2 @@
+     </mime-type>
+-    <mime-type type="application/x-cbr">
+-        <sub-class-of type="application/x-rar"/>
+-        <comment xml:lang="en">Comic Book Archive (RAR compressed)</comment>
+-        <glob pattern="*.cbr"/> 
+-    </mime-type>
+     <mime-type type="application/x-cbt">
+diff -Naurp1 a/PKG-INFO b/PKG-INFO
+--- a/PKG-INFO	2016-02-13 02:19:43.000000000 +0600
++++ b/PKG-INFO	2020-10-23 22:30:51.598962174 +0600
+@@ -9,3 +9,3 @@ License: License :: OSI Approved :: GNU
+ Download-URL: http://sourceforge.net/projects/mcomix/files
+-Description: MComix is a user-friendly, customizable image viewer. It is specifically designed to handle comic books (both Western comics and manga) and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF). MComix is a fork of Comix.
++Description: MComix is a user-friendly, customizable image viewer. It is specifically designed to handle comic books (both Western comics and manga) and supports a variety of container formats (including CBZ, CB7, CBT, LHA and PDF). MComix is a fork of Comix.
+ Platform: Operating System :: POSIX :: Linux
+diff -Naurp1 a/README b/README
+--- a/README	2016-02-13 00:52:12.000000000 +0600
++++ b/README	2020-10-23 22:29:17.749966531 +0600
+@@ -6,3 +6,3 @@
+   designed to handle comic books (both Western comics and manga) and supports a
+-  variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF).
++  variety of container formats (including CBZ, CB7, CBT, LHA and PDF).
+   MComix is a fork of Comix. It is written in Python and uses GTK+ through the
+@@ -59,10 +59,2 @@
+ 
+-  You also need either the "unrar" or the "rar" program installed if you wish
+-  to read RAR (.cbr) archives.
+-
+-  Alternatively, MComix can use libunrar from Rarlab. Place libunrar.so (or
+-  unrar.dll on Win32) either in the system's standard library path (/usr/lib
+-  or C:\Windows\system32), or directly in MComix' root directory when run
+-  without having first installed MComix.
+-
+   To read 7Zip archives, you need to have the "7z" program installed. Likewise,
+diff -Naurp1 a/setup.py b/setup.py
+--- a/setup.py	2016-02-13 00:51:54.000000000 +0600
++++ b/setup.py	2020-10-23 22:28:09.541969698 +0600
+@@ -77,3 +77,2 @@ setuptools.setup(
+             ['mime/icons/16x16/application-x-cbz.png',
+-             'mime/icons/16x16/application-x-cbr.png',
+              'mime/icons/16x16/application-x-cbt.png']),
+@@ -81,3 +80,2 @@ setuptools.setup(
+             ['mime/icons/22x22/application-x-cbz.png',
+-             'mime/icons/22x22/application-x-cbr.png',
+              'mime/icons/22x22/application-x-cbt.png']),
+@@ -85,3 +83,2 @@ setuptools.setup(
+             ['mime/icons/24x24/application-x-cbz.png',
+-             'mime/icons/24x24/application-x-cbr.png',
+              'mime/icons/24x24/application-x-cbt.png']),
+@@ -89,3 +86,2 @@ setuptools.setup(
+             ['mime/icons/32x32/application-x-cbz.png',
+-             'mime/icons/32x32/application-x-cbr.png',
+              'mime/icons/32x32/application-x-cbt.png']),
+@@ -93,3 +89,2 @@ setuptools.setup(
+             ['mime/icons/48x48/application-x-cbz.png',
+-             'mime/icons/48x48/application-x-cbr.png',
+              'mime/icons/48x48/application-x-cbt.png'])],
+@@ -103,3 +98,3 @@ setuptools.setup(
+         'It is specifically designed to handle comic books (both Western comics and manga) '
+-        'and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF). '
++        'and supports a variety of container formats (including CBZ, CB7, CBT, LHA and PDF). '
+         'MComix is a fork of Comix.',
