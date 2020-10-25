@@ -19,6 +19,7 @@ minitube
 netsurf
 libsynctex
 okular
+openexr
 p7zip
 texlive-core
 texlive-fontsextra

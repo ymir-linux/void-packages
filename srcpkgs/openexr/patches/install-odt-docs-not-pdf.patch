@@ -1,0 +1,61 @@
+--- a/OpenEXR/doc/CMakeLists.txt
++++ b/OpenEXR/doc/CMakeLists.txt
+@@ -3,12 +3,11 @@
+ 
+ install(
+   FILES
+-    TechnicalIntroduction.pdf
+-    ReadingAndWritingImageFiles.pdf
+-    OpenEXRFileLayout.pdf
+-    MultiViewOpenEXR.pdf
+-    InterpretingDeepPixels.pdf
+-    TheoryDeepPixels.pdf
++    TechnicalIntroduction.odt
++    ReadingAndWritingImageFiles.odt
++    OpenEXRFileLayout.odt
++    MultiViewOpenEXR.odt
++    InterpretingDeepPixels.docx
+   DESTINATION
+     ${CMAKE_INSTALL_DOCDIR}
+ )
+--- a/OpenEXR/doc/Makefile.am
++++ b/OpenEXR/doc/Makefile.am
+@@ -4,11 +4,10 @@
+ ##
+ 
+ EXTRA_DIST =  \
+-	ReadingAndWritingImageFiles.pdf \
+-	TechnicalIntroduction.pdf \
+-	OpenEXRFileLayout.pdf \
+-	MultiViewOpenEXR.pdf \
+-	InterpretingDeepPixels.pdf \
+-	TheoryDeepPixels.pdf
++	ReadingAndWritingImageFiles.odt \
++	TechnicalIntroduction.odt \
++	OpenEXRFileLayout.odt \
++	MultiViewOpenEXR.odt \
++	InterpretingDeepPixels.docx
+ 
+ doc_DATA = $(EXTRA_DIST)
+--- a/OpenEXR_Viewers/CMakeLists.txt
++++ b/OpenEXR_Viewers/CMakeLists.txt
+@@ -65,7 +65,7 @@ endif()
+ 
+ # Documentation
+ INSTALL ( FILES
+-  doc/OpenEXRViewers.pdf
++  doc/OpenEXRViewers.odt
+   DESTINATION
+   ${CMAKE_INSTALL_PREFIX}/share/doc/OpenEXR-${OPENEXR_VERSION}
+   )
+--- a/OpenEXR_Viewers/doc/Makefile.am
++++ b/OpenEXR_Viewers/doc/Makefile.am
+@@ -3,7 +3,7 @@
+ ## Copyright Contributors to the OpenEXR Project.
+ ##
+ 
+-EXTRA_DIST = OpenEXRViewers.odt OpenEXRViewers.pdf
++EXTRA_DIST = OpenEXRViewers.odt
+ 
+ docdir=$(datadir)/doc/OpenEXR_Viewers-@OPENEXR_VIEWERS_VERSION@
+ doc_DATA = $(EXTRA_DIST)
