@@ -21,6 +21,7 @@ libsynctex
 okular
 openexr
 p7zip
+psensor:psensor
 texlive-core
 texlive-fontsextra
 texlive-latexextra
