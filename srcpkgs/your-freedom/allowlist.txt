@@ -21,6 +21,7 @@ netsurf
 libsynctex
 okular
 openexr
+openshot:openshot
 p7zip
 ponysay
 psensor:psensor
