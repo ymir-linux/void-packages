@@ -11,6 +11,7 @@ epiphany
 file-roller:file-roller
 freerdp:freerdp
 grub
+gst-plugins-bad1
 khotkeys
 kio
 lesspipe:lesspipe
