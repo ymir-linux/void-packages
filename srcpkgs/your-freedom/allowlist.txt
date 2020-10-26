@@ -9,6 +9,7 @@ engrampa:engrampa
 epdfview
 epiphany
 file-roller:file-roller
+freerdp:freerdp
 grub
 khotkeys
 kio
