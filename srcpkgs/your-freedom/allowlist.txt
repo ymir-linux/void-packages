@@ -2,6 +2,7 @@ abiword
 acpi_call-dkms:acpi_call-dkms
 ark
 atool
+avidemux
 cowsay:cowsay
 engrampa:engrampa
 epdfview
