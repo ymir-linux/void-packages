@@ -13,6 +13,11 @@ homepage="https://www.openexr.com/"
 distfiles="https://github.com/openexr/openexr/archive/v${version}.tar.gz>${pkgname}-${version}.tar.gz"
 checksum=3ebbe9a8e67edb4a25890b98c598e9fe23b10f96d1416d6a3ff0732e99d001c1
 
+pre_patch() {
+	# remove documentation with embedded non-free fonts
+	find . -name *.pdf -exec rm -v '{}' \;
+}
+
 pre_configure() {
 	if [ "$CROSS_BUILD" ]; then
 		vsed -i IlmBase/Half/CMakeLists.txt \

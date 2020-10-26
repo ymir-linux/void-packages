@@ -19,7 +19,10 @@ minitube
 netsurf
 libsynctex
 okular
+openexr
 p7zip
+ponysay
+psensor:psensor
 texlive-core
 texlive-fontsextra
 texlive-latexextra

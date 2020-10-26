@@ -13,9 +13,28 @@ distfiles="https://github.com/erkin/${pkgname}/archive/${version}.tar.gz"
 checksum=c382d7f299fa63667d1a4469e1ffbf10b6813dcd29e861de6be55e56dc52b28a
 patch_args="-Np1"
 
+post_extract() {
+	# Generate a nonfree pony graphics list to replace it with empty files
+	# NOTE: empty files are necessary for the building checking only, --freedom=strict will not include them for the packaging
+	grep -rIl 'FREE: sharable' | cat > nonfree-pony-graphics-list.txt
+	grep -rIl 'FREE: no' | cat >> nonfree-pony-graphics-list.txt
+
+	# Remove nonfree pony graphics
+	rm -v $(grep -rIl 'FREE: sharable')
+	rm -v $(grep -rIl 'FREE: no')
+
+	# Generate empty files
+	for x in $(cat nonfree-pony-graphics-list.txt); do
+	touch $x
+	done
+
+	# Remove list
+	rm -v nonfree-pony-graphics-list.txt
+}
+
 do_install() {
 	python3 setup.py --prefix=/usr --dest-dir=$DESTDIR \
-		--freedom=partial --everything \
+		--freedom=strict --everything \
 		--with-pdf=/usr/share/doc/ponysay --without-pdf-compression \
 		--with-custom-env-python=python3 \
 		install
