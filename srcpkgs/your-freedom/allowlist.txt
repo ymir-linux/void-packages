@@ -24,6 +24,7 @@ openexr
 p7zip
 ponysay
 psensor:psensor
+soundkonverter:soundkonverter
 texlive-core
 texlive-fontsextra
 texlive-latexextra
