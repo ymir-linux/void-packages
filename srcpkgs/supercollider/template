@@ -37,9 +37,9 @@ else
 	configure_args+=" -DSC_USE_QTWEBENGINE=OFF"
 fi
 
-case "$XBPS_TARGET_MACHINE" in
-	*-musl) makedepends+=" libglob-devel";;
-esac
+if [ "$XBPS_TARGET_LIBC" = musl ]; then
+	makedepends+=" libglob-devel"
+fi
 
 case "$XBPS_TARGET_MACHINE" in
 	x86_64*|i686*);;
