@@ -14,6 +14,12 @@ changelog="http://rephial.org/release/"
 distfiles="http://rephial.org/downloads/4.2/angband-${version}.tar.gz"
 checksum=acd735c9d46bf86ee14337c71c56f743ad13ec2a95d62e7115604621e7560d0f
 
+post_patch() {
+	# remove nonfree artwork and sound effects
+	rm -v lib/sounds/*.mp3
+	rm -v lib/tiles/shockbolt/64x64.png
+}
+
 pre_configure() {
 	NOCONFIGURE=1 ./autogen.sh
 }
