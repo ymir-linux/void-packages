@@ -19,4 +19,8 @@ do_install() {
 	vdoc README.md
 	vdoc AUTHORS
 	vlicense LICENSE.txt
+
+	# Liberation
+	vmkdir usr/share/${pkgname}
+	vinstall ${FILESDIR}/menu 644 usr/share/${pkgname}
 }

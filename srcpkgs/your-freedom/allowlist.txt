@@ -5,6 +5,7 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+blackbox
 cowsay:cowsay
 engrampa:engrampa
 epdfview
