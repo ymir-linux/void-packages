@@ -1,5 +1,6 @@
 abiword
 acpi_call-dkms:acpi_call-dkms
+angband
 ark
 asciidoc:asciidoc
 atool
@@ -18,6 +19,7 @@ lesspipe:lesspipe
 libxfce4ui:libxfce4ui
 mc:mc
 mcomix
+memtest86+:memtest86+
 midori
 minitube
 netsurf
