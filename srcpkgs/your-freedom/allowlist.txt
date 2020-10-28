@@ -5,6 +5,7 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+blackbox
 cowsay:cowsay
 engrampa:engrampa
 epdfview
@@ -27,9 +28,11 @@ libsynctex
 okular
 openexr
 openshot:openshot
+openttd:openttd
 p7zip
 ponysay
 psensor:psensor
+shntool:shntool
 soundkonverter:soundkonverter
 texlive-core
 texlive-fontsextra
