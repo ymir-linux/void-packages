@@ -28,6 +28,7 @@ libsynctex
 okular
 openexr
 openshot:openshot
+openttd:openttd
 p7zip
 ponysay
 psensor:psensor
