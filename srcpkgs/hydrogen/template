@@ -20,6 +20,11 @@ checksum=c4eac296a0d20578c274faf7816cf35c16ed43b634d91d2d19686bf9bbfeb970
 post_patch() {
 	vsed -i '/INSTALL/s,"data,"/usr/share/hydrogen/data,' \
 		data/i18n/CMakeLists.txt
+
+	# Liberation
+	# Change to list with free licensed drumkits only
+	sed -i -e 's|[www.]*hydrogen-music[.]org/feeds/drumkit_list[.]php|repo.parabola.nu/other/hydrogen-libre/feeds/drumkit_list.php|'\
+	$(grep -rlI '[www.]*hydrogen-music[.]org/feeds/drumkit_list[.]php')
 }
 
 do_check() {

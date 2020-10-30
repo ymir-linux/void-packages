@@ -1,0 +1,115 @@
+diff -Naurp1 a/meson.build b/meson.build
+--- a/meson.build	2020-05-29 20:14:59.000000000 +0600
++++ b/meson.build	2020-10-29 22:27:44.663604055 +0600
+@@ -358,10 +358,4 @@ subdir('po')
+ if get_option('enable-gtk-doc') and not meson.is_cross_build()
+-    if find_program('gtkdoc-scan', required: true).found()
+-        subdir('docs/reference')
+-    else
+-        message('Not building documentation as gtk-doc was not found')
+-    endif
+ endif
+ if get_option('enable-tests')
+-    subdir('tests')
+ endif
+diff -Naurp1 a/osinfo/osinfo_loader.c b/osinfo/osinfo_loader.c
+--- a/osinfo/osinfo_loader.c	2020-05-29 20:14:59.000000000 +0600
++++ b/osinfo/osinfo_loader.c	2020-10-29 22:13:33.636643566 +0600
+@@ -2207,4 +2207,4 @@ static void osinfo_loader_entity_files_a
+      *
+-     *   $DB_ROOT/os/fedoraproject.org/fedora-19.xml
+-     *   $DB_ROOT/os/fedoraproject.org/fedora-19.d/fragment.xml
++     *   $DB_ROOT/os/ymirlinux.org/ymir-1.xml
++     *   $DB_ROOT/os/ymirlinux.org/ymir-1.d/fragment.xml
+      *
+@@ -2212,3 +2212,3 @@ static void osinfo_loader_entity_files_a
+      *
+-     *   os/fedoraproject.org/fedora-19
++     *   os/ymirlinux.org/ymir-1
+      *
+diff -Naurp1 a/osinfo/osinfo_os.c b/osinfo/osinfo_os.c
+--- a/osinfo/osinfo_os.c	2020-05-29 20:14:59.000000000 +0600
++++ b/osinfo/osinfo_os.c	2020-10-29 22:06:58.046661932 +0600
+@@ -163,5 +163,2 @@ osinfo_os_class_init(OsinfoOsClass *klas
+      * OsinfoOs:distro:
+-     *
+-     * The generic distro this OS belongs to, for example fedora, windows,
+-     * solaris, freebsd etc.
+      */
+@@ -613,5 +610,2 @@ const gchar *osinfo_os_get_family(Osinfo
+  *
+- * Retrieves the generic family the OS @os belongs to, for example fedora,
+- * ubuntu, windows, solaris, freebsd etc.
+- *
+  * Returns: (transfer none): the distro of this os
+diff -Naurp1 a/osinfo/osinfo_os.h b/osinfo/osinfo_os.h
+--- a/osinfo/osinfo_os.h	2020-05-29 20:14:59.000000000 +0600
++++ b/osinfo/osinfo_os.h	2020-10-29 22:11:51.254648319 +0600
+@@ -57,9 +57,7 @@ OSINFO_DECLARE_TYPE_WITH_PRIVATE_AND_CLA
+  * @OSINFO_RELEASE_STATUS_SNAPSHOT: A continuous integration snapshot and not
+- * an actual released product yet. For example, gnome-continuous images for
+- * development snapshots of GNOME and nightly build ISOs of Fedora etc.
++ * an actual released product yet.
+  * (Since: 0.2.9)
+- * @OSINFO_RELEASE_STATUS_PRERELEASE: A pre-release. For example, alpha and
+- * beta pre-releases of Fedora etc. (Since: 0.2.9)
++ * @OSINFO_RELEASE_STATUS_PRERELEASE: A pre-release. (Since: 0.2.9)
+  * @OSINFO_RELEASE_STATUS_ROLLING: A rolling version of an OS and thus with no
+- * actual releases. For example, Gentoo, Arch Linux, etc. (Since: 1.4.0)
++ * actual releases. (Since: 1.4.0)
+  */
+diff -Naurp1 a/osinfo/osinfo_product.c b/osinfo/osinfo_product.c
+--- a/osinfo/osinfo_product.c	2020-05-29 20:14:59.000000000 +0600
++++ b/osinfo/osinfo_product.c	2020-10-29 22:10:49.257651198 +0600
+@@ -41,5 +41,5 @@
+  * OsinfoProductRelationship:
+- * @OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM: a descendent (RHEL-5 derives from Fedora-6)
+- * @OSINFO_PRODUCT_RELATIONSHIP_CLONES: a perfect clone (CentOS-5 clones RHEL-5)
+- * @OSINFO_PRODUCT_RELATIONSHIP_UPGRADES: a new version release (RHEL-6 upgrades RHEL-4)
++ * @OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM: a descendent
++ * @OSINFO_PRODUCT_RELATIONSHIP_CLONES: a perfect clone
++ * @OSINFO_PRODUCT_RELATIONSHIP_UPGRADES: a new version release
+  *
+@@ -57,5 +57,2 @@ struct _OsinfoProductProductLink {
+     /* <product> 'verbs' <other_product>
+-     * fedora11 upgrades fedora10
+-     * centproduct clones rhel
+-     * scientificlinux derives from rhel
+      */
+diff -Naurp1 a/tools/osinfo-query.c b/tools/osinfo-query.c
+--- a/tools/osinfo-query.c	2020-05-29 20:14:59.000000000 +0600
++++ b/tools/osinfo-query.c	2020-10-29 22:24:13.266613870 +0600
+@@ -504,32 +504,6 @@ type will be listed.
+ 
+-  # List all operating systems
+-  $ osinfo-query os
+-   Short ID             | Name       ...
+-  ----------------------+-----------
+-   centos-6.0           | CentOS 6.0 ...
+-   centos-6.1           | CentOS 6.1 ...
+-   ...
+-
+ Conditions allow filtering based on specific properties of an entity.
+-For example, to filter only distros from the Fedora Project, use
+-
+-  # List all operating systems
+-  $ osinfo-query os vendor="Fedora Project"
+-   Short ID             | Name          ...
+-  ----------------------+--------------
+-   fedora1              | Fedora Core 1 ...
+-   fedora2              | Fedora Core 2 ...
+-   ...
+ 
+ The set of fields which are printed can be controlled using the B<--fields>
+-command line argument:
+-
+-  # List all operating systems
+-  $ osinfo-query --fields=short-id,version os vendor="Fedora Project"
+-   Short ID             | Version
+-  ----------------------+----------
+-   fedora1              | 1
+-   fedora2              | 2
+-   ...
+-
++command line argument.
+ 

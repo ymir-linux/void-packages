@@ -29,6 +29,16 @@ if [ -z "$CROSS_BUILD" ] ; then
 	build_options_default+=" gtk_doc"
 fi
 
+# Liberation
+pre_patch() {
+	# Remove docs having references to non-FSDG distros/OS
+	rm -rfv docs
+	# Remove NEWS having references to non-FSDG distros/OS
+	rm -v NEWS
+	# Remove non-FSDG referencing stuff
+	rm -rfv {tests,ci,.gitlab-ci.yml}
+}
+
 libosinfo-devel_package() {
 	depends="libglib-devel ${sourcepkg}-${version}_${revision}"
 	short_desc+=" - development files"

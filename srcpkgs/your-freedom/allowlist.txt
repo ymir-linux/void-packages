@@ -14,6 +14,7 @@ file-roller:file-roller
 freerdp:freerdp
 grub
 gst-plugins-bad1
+hydrogen
 khotkeys
 kio
 lesspipe:lesspipe
@@ -24,6 +25,7 @@ memtest86+:memtest86+
 midori
 minitube
 netsurf
+libosinfo
 libsynctex
 okular
 openexr
