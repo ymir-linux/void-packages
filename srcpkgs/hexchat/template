@@ -31,6 +31,13 @@ if [ "$CROSS_BUILD" ]; then
 	 shared-mime-info"
 fi
 
+# Liberation
+pre_build() {
+	# Remove nonfree browser references
+	sed -i '\|NAME Open Link| s|a new Firefox Window|Browser|' src/common/hexchat.c
+	sed -i '\|NAME Open Link| s|firefox -new-window %s\\n\\n";|xdg-open %s\\n\\n";|' src/common/hexchat.c
+}
+
 post_install() {
 	# Remove useless files.
 	rm -rf ${DESTDIR}/usr/include
