@@ -12,6 +12,7 @@ epdfview
 epiphany
 file-roller:file-roller
 freerdp:freerdp
+gloobus-preview
 grub
 gst-plugins-bad1
 hydrogen
