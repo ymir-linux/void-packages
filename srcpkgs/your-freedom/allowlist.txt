@@ -49,3 +49,4 @@ texlive2020-bin
 unp
 unzip
 xarchiver
+xscreensaver
