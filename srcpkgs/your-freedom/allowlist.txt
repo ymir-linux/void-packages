@@ -6,6 +6,7 @@ asciidoc:asciidoc
 atool
 avidemux
 blackbox
+cool-retro-term
 cowsay:cowsay
 engrampa:engrampa
 epdfview

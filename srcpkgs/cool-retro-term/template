@@ -13,6 +13,19 @@ homepage="https://github.com/Swordfish90/cool-retro-term"
 distfiles="${homepage}/archive/${version}.tar.gz"
 checksum=1252bafa33c8befbb86528ed75db98677cdc1298704db728e326ffd258d5ed13
 
+# Liberation
+post_patch() {
+	# Following commands has been taken from:
+	# https://git.parabola.nu/abslibre.git/tree/libre/cool-retro-term/PKGBUILD
+	# To remove nonfree fonts
+	rm -rv app/qml/fonts/{1977-{apple2,commodore-pet},1982-commodore64}
+	sed -i '/1977-apple2/d
+			/1977-commodore-pet/d
+			/1982-commodore64/d
+			/modern-envy-code-r/d
+			' app/qml/resources.qrc
+}
+
 pre_configure() {
 	sed -i '/qmltermwidget/d' cool-retro-term.pro
 }
