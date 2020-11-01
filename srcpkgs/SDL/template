@@ -37,6 +37,13 @@ if [ "$build_option_opengl" ]; then
 	depends="virtual?libGL"
 fi
 
+# Liberation
+post_patch() {
+	# The command below has been taken from:
+	# https://git.parabola.nu/abslibre.git/tree/libre/sdl/PKGBUILD
+	rm -v src/video/fbcon/riva_mmio.h
+}
+
 SDL-devel_package() {
 	short_desc+=" - development files"
 	depends="${makedepends} SDL>=${version}_${revision}"

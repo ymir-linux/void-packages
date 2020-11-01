@@ -1,0 +1,87 @@
+--- a/hacks/Makefile.in	2018-12-28 20:21:49.000000000 -0400
++++ b/hacks/Makefile.in	2019-07-20 07:28:35.915050337 -0300
+@@ -104,7 +104,7 @@
+ 		  rd-bomb.c coral.c mountain.c triangle.c lissie.c worm.c \
+ 		  rotor.c ant.c xjack.c xlyap.c xscreensaver-sgigl.c \
+ 		  cynosure.c moire2.c flow.c epicycle.c interference.c \
+-		  truchet.c bsod.c crystal.c discrete.c distort.c kumppa.c \
++		  truchet.c crystal.c discrete.c distort.c kumppa.c \
+ 		  demon.c loop.c t3d.c penetrate.c deluxe.c compass.c \
+ 		  squiral.c xflame.c wander.c spotlight.c critical.c \
+ 		  phosphor.c xmatrix.c petri.c shadebobs.c xsublim.c ccurve.c \
+@@ -145,7 +145,7 @@
+ 		  rd-bomb.o coral.o mountain.o triangle.o lissie.o worm.o \
+ 		  rotor.o ant.o xjack.o xlyap.o xscreensaver-sgigl.o \
+ 		  cynosure.o moire2.o flow.o epicycle.o interference.o \
+-		  truchet.o bsod.o crystal.o discrete.o distort.o kumppa.o \
++		  truchet.o crystal.o discrete.o distort.o kumppa.o \
+ 		  demon.o loop.o t3d.o penetrate.o deluxe.o compass.o \
+ 		  squiral.o xflame.o wander.o spotlight.o critical.o \
+ 		  phosphor.o xmatrix.o petri.o shadebobs.o xsublim.o ccurve.o \
+@@ -174,7 +174,7 @@
+ 		  slip strange swirl goop starfish munch \
+ 		  fadeplot rd-bomb coral mountain triangle \
+ 		  xjack xlyap cynosure moire2 flow epicycle \
+-		  interference truchet bsod crystal discrete distort kumppa \
++		  interference truchet crystal discrete distort kumppa \
+ 		  demon loop penetrate deluxe compass squiral xflame \
+ 		  wander spotlight phosphor xmatrix petri shadebobs \
+ 		  ccurve blaster bumps ripples xspirograph \
+@@ -214,7 +214,7 @@
+ 		  apple2.h analogtv.h pacman.h pacman_ai.h pacman_level.h \
+ 		  asm6502.h delaunay.h recanim.h
+ MEN		= anemone.man apollonian.man attraction.man \
+-	          blaster.man blitspin.man bouboule.man braid.man bsod.man \
++	          blaster.man blitspin.man bouboule.man braid.man \
+ 	          bumps.man ccurve.man compass.man coral.man \
+ 	          crystal.man cynosure.man decayscreen.man \
+ 	          deco.man deluxe.man demon.man discrete.man distort.man \
+@@ -688,9 +688,6 @@
+ truchet:	 truchet.o	$(HACK_OBJS) $(COL)
+ 	$(CC_HACK) -o $@ $@.o	$(HACK_OBJS) $(COL) $(HACK_LIBS)
+ 
+-bsod:	 	bsod.o		$(HACK_OBJS) $(GRAB) $(APPLE2) $(PNG)
+-	$(CC_HACK) -o $@ $@.o	$(HACK_OBJS) $(GRAB) $(APPLE2) $(PNG) $(PNG_LIBS) $(THRL)
+-
+ apple2:	 	apple2.o apple2-main.o        $(HACK_OBJS) $(ATV) $(GRAB) $(TEXT) $(PNG)
+ 	$(CC_HACK) -o $@ $@.o	apple2-main.o $(HACK_OBJS) $(ATV) $(GRAB) $(TEXT) $(PNG) $(PNG_LIBS) $(TEXT_LIBS) $(THRL)
+ 
+@@ -1293,38 +1290,6 @@
+ braid.o: $(UTILS_SRC)/yarandom.h
+ braid.o: $(srcdir)/xlockmoreI.h
+ braid.o: $(srcdir)/xlockmore.h
+-bsod.o: $(srcdir)/analogtv.h
+-bsod.o: $(srcdir)/apple2.h
+-bsod.o: ../config.h
+-bsod.o: $(srcdir)/fps.h
+-bsod.o: images/gen/amiga_png.h
+-bsod.o: images/gen/android_png.h
+-bsod.o: images/gen/apple_png.h
+-bsod.o: images/gen/atari_png.h
+-bsod.o: images/gen/atm_png.h
+-bsod.o: images/gen/dvd_png.h
+-bsod.o: images/gen/hmac_png.h
+-bsod.o: images/gen/macbomb_png.h
+-bsod.o: images/gen/mac_png.h
+-bsod.o: images/gen/osx_10_2_png.h
+-bsod.o: images/gen/osx_10_3_png.h
+-bsod.o: images/gen/ransomware_png.h
+-bsod.o: images/gen/sun_png.h
+-bsod.o: $(srcdir)/recanim.h
+-bsod.o: $(srcdir)/screenhackI.h
+-bsod.o: $(srcdir)/screenhack.h
+-bsod.o: $(UTILS_SRC)/aligned_malloc.h
+-bsod.o: $(UTILS_SRC)/colors.h
+-bsod.o: $(UTILS_SRC)/font-retry.h
+-bsod.o: $(UTILS_SRC)/grabscreen.h
+-bsod.o: $(UTILS_SRC)/hsv.h
+-bsod.o: $(UTILS_SRC)/resources.h
+-bsod.o: $(UTILS_SRC)/thread_util.h
+-bsod.o: $(UTILS_SRC)/usleep.h
+-bsod.o: $(UTILS_SRC)/visual.h
+-bsod.o: $(UTILS_SRC)/xshm.h
+-bsod.o: $(UTILS_SRC)/yarandom.h
+-bsod.o: $(srcdir)/ximage-loader.h
+ bubbles-default.o: $(srcdir)/bubbles.h
+ bubbles-default.o: ../config.h
+ bubbles-default.o: images/gen/blood10_png.h

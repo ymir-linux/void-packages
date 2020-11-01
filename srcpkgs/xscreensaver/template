@@ -19,6 +19,16 @@ changelog="https://www.jwz.org/xscreensaver/changelog.html"
 distfiles="https://www.jwz.org/xscreensaver/xscreensaver-${version}.tar.gz"
 checksum=73d8089cfc7d7363b5dac99b5b01dffb3429d0a855e6af16ce9a4b7777017b95
 
+# Liberation
+post_patch() {
+	# Commands below is collected and modified from:
+	# https://git.parabola.nu/abslibre.git/tree/libre/xscreensaver/PKGBUILD
+	# Deleting dmsc.asm file due which don't have source code supplied
+	rm -v hacks/images/m6502/dmsc.asm
+	# Remove BSOD for referneces to non-free (Issue #2391)
+	rm -v hacks/bsod*
+}
+
 do_install() {
 	vmkdir etc/pam.d
 	make install_prefix=${DESTDIR} install

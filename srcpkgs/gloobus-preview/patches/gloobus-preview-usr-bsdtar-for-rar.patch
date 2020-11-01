@@ -1,0 +1,40 @@
+diff -Naurp1 a/src/plugin-comic/comic-loader.cpp b/src/plugin-comic/comic-loader.cpp
+--- a/src/plugin-comic/comic-loader.cpp	2015-12-22 12:45:23.000000000 +0600
++++ b/src/plugin-comic/comic-loader.cpp	2020-10-31 21:13:11.044175426 +0600
+@@ -75,4 +75,4 @@ DocumentState ComicLoader::loadDocument(
+     else if(!g_strcmp0 ("application/x-cbr", type)) {
+-        list_cmd_ = "unrar vb -c- -- ";
+-        extract_cmd_ = "unrar p -c- -ierr";
++        list_cmd_ = "bsdtar -tf";
++        extract_cmd_ = "bsdtar -xOf";
+     }
+diff -Naurp1 a/src/plugin-comic/comic-plugin.h b/src/plugin-comic/comic-plugin.h
+--- a/src/plugin-comic/comic-plugin.h	2015-12-22 12:45:23.000000000 +0600
++++ b/src/plugin-comic/comic-plugin.h	2020-10-31 21:12:35.027177098 +0600
+@@ -14,5 +14,2 @@ if(interface::is_program_available("bsdt
+ } else {
+-	if(interface::is_program_available("unrar")) {
+-		PluginManager::register_filetype("application/x-cbr", 1);
+-	}
+ 	if(interface::is_program_available("tar")) {
+diff -Naurp1 a/src/plugin-compressed/plugin-compressed.cpp b/src/plugin-compressed/plugin-compressed.cpp
+--- a/src/plugin-compressed/plugin-compressed.cpp	2015-12-22 12:45:23.000000000 +0600
++++ b/src/plugin-compressed/plugin-compressed.cpp	2020-10-31 20:54:21.747227857 +0600
+@@ -62,7 +62,4 @@ bool iCompressed::get_archive_files () {
+ 	{
+-		cmd_args.push_back("unrar");
+-		cmd_args.push_back("vb");
+-		cmd_args.push_back("-c-");
+-		cmd_args.push_back("-p-"); // do not query for password
+-		cmd_args.push_back("--");
++		cmd_args.push_back("bsdtar");
++		cmd_args.push_back("-tf");
+ 		line_parser = &iCompressed::parse_line;
+diff -Naurp1 a/src/plugin-compressed/plugin-compressed.h b/src/plugin-compressed/plugin-compressed.h
+--- a/src/plugin-compressed/plugin-compressed.h	2015-12-22 12:45:23.000000000 +0600
++++ b/src/plugin-compressed/plugin-compressed.h	2020-10-31 20:55:10.758225581 +0600
+@@ -127,3 +127,3 @@ if(interface::is_program_available("bsdt
+ 
+-	if(interface::is_program_available("unrar")) {
++	if(interface::is_program_available("bsdtar")) {
+ 		PluginManager::register_filetype(GP_COMPRESSED_RAR, 1);
