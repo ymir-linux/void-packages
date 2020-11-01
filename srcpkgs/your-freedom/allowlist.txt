@@ -35,6 +35,7 @@ openttd:openttd
 p7zip
 ponysay
 psensor:psensor
+SDL
 shntool:shntool
 soundkonverter:soundkonverter
 texlive-core
