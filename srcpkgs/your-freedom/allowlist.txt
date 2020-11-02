@@ -38,6 +38,7 @@ openexr
 openshot:openshot
 openttd:openttd
 p7zip
+plasma-desktop
 ponysay
 psensor:psensor
 SDL
