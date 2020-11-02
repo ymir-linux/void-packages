@@ -4,6 +4,7 @@ version=1.3.1
 revision=2
 archs=noarch
 wrksrc="faenza-icon-theme-${version%.*}"
+hostmakedepends="librsvg-utils"
 depends="gtk-update-icon-cache hicolor-icon-theme"
 short_desc="Faenza icon theme"
 maintainer="Alexander Mamay <alexander@mamay.su>"
@@ -12,16 +13,54 @@ homepage="http://tiheum.deviantart.com/art/Faenza-Icons-173323228"
 distfiles="http://ppa.launchpad.net/tiheum/equinox/ubuntu/pool/main/f/faenza-icon-theme/faenza-icon-theme_${version}.tar.gz"
 checksum=afd1c32229989e4cf09733c1ce5f2a651e585d86f45e98e9de6e8813f15d0edc
 
+# Liberation
+# Some commands below has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/faenza-icon-theme/PKGBUILD
+pre_build() {
+	rm -rv debian
+
+	# remove nonfree distros and application logos
+	for nonfree in archlinux debian fedora frugalware gentoo linux-mint mandriva opensuse redhat slackware ubuntu flash rpmdrake novell skype; do
+		find -name *$nonfree* -delete
+	done
+
+	# add the Parabola GNU/Linux-libre logos to the source code
+	cp -a "${FILESDIR}/distributor-logo-parabola.svg" Faenza/places/scalable
+	cp -a "${FILESDIR}/distributor-logo-parabola.svg" Faenza/places/scalable/start-here-parabola.svg
+	cp -a "${FILESDIR}/start-here-parabola-symbolic.svg" Faenza/places/scalable
+
+	for size in 22 24 32 48 64 96; do
+		rsvg-convert -w $size -h $size -o Faenza/places/$size/distributor-logo-parabola.png "${FILESDIR}/distributor-logo-parabola.svg"
+		rsvg-convert -w $size -h $size -o Faenza/places/$size/start-here-parabola.png "${FILESDIR}/distributor-logo-parabola.svg"
+		rsvg-convert -w $size -h $size -o Faenza/places/$size/start-here-parabola-symbolic.png "${FILESDIR}/start-here-parabola-symbolic.svg"
+
+		ln -sf Faenza/places/$size/distributor-logo-parabola.png Faenza/places/$size/parabola-logo.png
+		ln -sf Faenza/places/scalable/distributor-logo-parabola.svg parabola-logo.svg
+		ln -sf Faenza/places/scalable/start-here-parabola.svg Faenza-Dark/places/scalable/start-here-parabola.svg
+		ln -sf Faenza/places/scalable/start-here-parabola-symbolic.svg  Faenza-Dark/places/scalable/start-here-parabola-symbolic.svg
+	done
+}
+
 do_install() {
 	vmkdir usr/share/icons
 	vcopy Faenza* usr/share/icons/
 
 	for theme in Faenza{,-Dark}; do
 		cd "${DESTDIR}/usr/share/icons/${theme}/apps/scalable/"
+
+		# Liberation: no distributor-logo for Faenza-Dark
+		[[ $theme == Faenza ]] && ln -sf ${FILESDIR}/distributor-logo{-parabola,}.svg
+		ln -sf ${FILESDIR}/start-here{-parabola,}.svg
+		ln -sf ${FILESDIR}/start-here{-parabola-symbolic,-symbolic}.svg
+
 		ln -sf gnome-session-reboot.svg system-reboot.svg
 		for size in 16 22 24 32 48 64 96; do
 			cd "${DESTDIR}/usr/share/icons/${theme}/apps/${size}/"
 			ln -sf gnome-session-reboot.png system-reboot.png
+
+			# Liberation: no distributor-logo for Faenza-Dark
+			[[ $theme == Faenza ]] && ln -sf ${FILESDIR}/distributor-logo{-parabola,}.png
+			ln -sf ${FILESDIR}/start-here{-parabola,}.png
 		done
 	done
 }

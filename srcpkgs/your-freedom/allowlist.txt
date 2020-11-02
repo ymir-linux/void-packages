@@ -11,11 +11,14 @@ cowsay:cowsay
 engrampa:engrampa
 epdfview
 epiphany
+faenza-icon-theme
+faience-icon-theme
 file-roller:file-roller
 freerdp:freerdp
 gloobus-preview
 grub
 gst-plugins-bad1
+hexchat
 hydrogen
 khotkeys
 kio
@@ -26,6 +29,7 @@ mcomix
 memtest86+:memtest86+
 midori
 minitube
+mplayer:mplayer
 netsurf
 libosinfo
 libsynctex
@@ -34,6 +38,7 @@ openexr
 openshot:openshot
 openttd:openttd
 p7zip
+plasma-desktop
 ponysay
 psensor:psensor
 SDL

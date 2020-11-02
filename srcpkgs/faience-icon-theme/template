@@ -12,6 +12,25 @@ homepage="http://tiheum.deviantart.com/art/Faience-icon-theme-255099649"
 distfiles="http://ppa.launchpad.net/tiheum/equinox/ubuntu/pool/main/f/faience-icon-theme/faience-icon-theme_${version}.tar.gz"
 checksum=da4e6e921c465caeb8904d4fc6a183b173c8000c08abce625b5b6739f5a0867a
 
+# Liberation
+# Commands are taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/faience-icon-theme/PKGBUILD
+post_patch() {
+	rm -rv debian
+
+	# remove nonfree distros and application logos
+	for nonfree in archlinux debian fedora frugalware gentoo linux-mint mandriva opensuse redhat slackware ubuntu flash rpmdrake skype; do
+	find -name *$nonfree* -delete
+	done
+
+	# add the Parabola GNU/Linux-libre logo to the source code
+	cp -a "${FILESDIR}/start-here-parabola-symbolic.svg" Faience/places/scalable
+
+	# set the Parabola GNU/Linux-libre start menu logo
+	cd Faience/places/scalable
+	ln -sf start-here{-parabola-symbolic,-symbolic}.svg
+}
+
 do_install() {
 	vmkdir usr/share/icons
 	vcopy Faience* usr/share/icons/
