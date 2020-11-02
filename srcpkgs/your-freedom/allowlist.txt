@@ -12,6 +12,7 @@ engrampa:engrampa
 epdfview
 epiphany
 faenza-icon-theme
+faience-icon-theme
 file-roller:file-roller
 freerdp:freerdp
 gloobus-preview
