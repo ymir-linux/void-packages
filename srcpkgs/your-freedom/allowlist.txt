@@ -11,6 +11,7 @@ cowsay:cowsay
 engrampa:engrampa
 epdfview
 epiphany
+faenza-icon-theme
 file-roller:file-roller
 freerdp:freerdp
 gloobus-preview
