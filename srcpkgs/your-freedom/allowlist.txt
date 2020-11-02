@@ -18,6 +18,7 @@ freerdp:freerdp
 gloobus-preview
 grub
 gst-plugins-bad1
+hexchat
 hydrogen
 khotkeys
 kio
@@ -28,6 +29,7 @@ mcomix
 memtest86+:memtest86+
 midori
 minitube
+mplayer:mplayer
 netsurf
 libosinfo
 libsynctex
