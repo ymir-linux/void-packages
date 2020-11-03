@@ -2,14 +2,14 @@
 # MUST BE RUN AS ROOT
 
 # Replace default libre repository with your own if desired
-url=http://198.255.68.182/libre
+url=https://ymirlinux.org/libre
 
 # Replace with whatever 5.x kernel you wish to install
 kern=5.8
 
 # install libre base-system with linux-libre and remove evil nonfree kernel and blobs
 echo "repository=$url" > /etc/xbps.d/40-ymir-repo-libre.conf
-xbps-install -Sf base-system && xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
+xbps-install -Sf base-system base-files && xbps-remove linux $(xbps-query --regex -s '^linux[0-9.]+-[0-9._]+' | awk '{print $2}') linux-firmware linux-firmware-amd linux-firmware-intel linux-firmware-network linux-firmware-nvidia
 
 # remove old kernels from /boot
 vkpurge rm all
