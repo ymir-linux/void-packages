@@ -40,6 +40,7 @@ openttd:openttd
 p7zip
 plasma-desktop
 ponysay
+povray
 psensor:psensor
 SDL
 shntool:shntool
