@@ -42,6 +42,7 @@ plasma-desktop
 ponysay
 povray
 psensor:psensor
+python-reportlab
 SDL
 shntool:shntool
 smplayer

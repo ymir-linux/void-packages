@@ -1,0 +1,56 @@
+--- reportlab-3.5.6.orig/setup.py	2018-08-06 07:48:32.000000000 -0500
++++ reportlab-3.5.6/setup.py	2018-08-29 16:22:01.988572223 -0500
+@@ -308,8 +308,6 @@
+         xitmsg = "not downloading T1 font curve files"
+     else:
+         try:
+-            infoline("Downloading standard T1 font curves")
+-            zipdata = url2data("http://www.reportlab.com/ftp/pfbfer-20180109.zip")
+             archive = zipfile.ZipFile(zipdata)
+             dst = pjoin(rl_dir, 'fonts')
+ 
+@@ -320,7 +318,6 @@
+             xitmsg = "Finished download of standard T1 font curves"
+         except:
+             xitmsg = "Failed to download standard T1 font curves"
+-    infoline(xitmsg)
+ 
+ def get_glyphlist_module(PACKAGE_DIR):
+     try:
+--- reportlab-3.5.6.orig/src/reportlab/pdfbase/_fontdata.py	2017-11-06 04:30:20.000000000 -0500
++++ reportlab-3.5.6/src/reportlab/pdfbase/_fontdata.py	2018-08-29 14:08:12.683088319 -0500
+@@ -72,20 +72,20 @@
+                     }
+ if sys.platform in ('linux2',):
+     _font2fnrMapLinux2 ={
+-                'symbol': 'Symbol',
+-                'zapfdingbats': 'ZapfDingbats',
+-                'helvetica': 'Arial',
+-                'helvetica-bold': 'Arial-Bold',
+-                'helvetica-boldoblique': 'Arial-BoldItalic',
+-                'helvetica-oblique': 'Arial-Italic',
+-                'times-bold': 'TimesNewRoman-Bold',
+-                'times-bolditalic':'TimesNewRoman-BoldItalic',
+-                'times-italic': 'TimesNewRoman-Italic',
+-                'times-roman': 'TimesNewRoman',
+-                'courier-bold': 'Courier-Bold',
+-                'courier-boldoblique': 'Courier-BoldOblique',
+-                'courier': 'Courier',
+-                'courier-oblique': 'Courier-Oblique',
++                'symbol': 's050000l.pfb',
++                'zapfdingbats': 'd050000l.pfb',
++                'helvetica': 'n019003l.pfb',
++                'helvetica-bold': 'n019004l.pfb',
++                'helvetica-boldoblique': 'n019024l.pfb',
++                'helvetica-oblique': 'n019023l.pfb',
++                'times-bold': 'n021004l.pfb',
++                'times-bolditalic':'n021024l.pfb',
++                'times-italic': 'n021023l.pfb',
++                'times-roman': 'n021003l.pfb',
++                'courier-bold': 'n022004l.pfb',
++                'courier-boldoblique': 'n022024l.pfb',
++                'courier': 'n022003l.pfb',
++                'courier-oblique': 'n022023l.pfb',
+                 }
+     _font2fnrMap = _font2fnrMapLinux2
+     for k, v in _font2fnrMap.items():
