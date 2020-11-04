@@ -16,3 +16,11 @@ do_install() {
 	vmkdir usr/share/PySolFC/cardsets
 	bsdtar -xjf PySolFC-Cardsets-${version}.tar.bz2 --strip-components=1 -C $DESTDIR/usr/share/PySolFC/cardsets
 }
+
+# Liberation
+# Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/pysolfc-cardsets/PKGBUILD
+post_install() {
+	# removing nonfree cardsets included in pysolfc
+	rm -rv $DESTDIR/usr/share/PySolFC/cardsets/cardset-{greywyvern,jacoby,patience,rangoon-{d,e,r},tksol}
+}
