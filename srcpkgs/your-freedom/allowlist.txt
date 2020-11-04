@@ -42,8 +42,11 @@ plasma-desktop
 ponysay
 povray
 psensor:psensor
+pysolfc-cardsets
+python-reportlab
 SDL
 shntool:shntool
+smplayer
 soundkonverter:soundkonverter
 texlive-core
 texlive-fontsextra
@@ -56,5 +59,6 @@ texlive2019-bin
 texlive2020-bin
 unp
 unzip
+virt-manager
 xarchiver
 xscreensaver

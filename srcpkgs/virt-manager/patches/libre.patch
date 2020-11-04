@@ -1,0 +1,617 @@
+--- a/virtManager/oslist.py
++++ b/virtManager/oslist.py
+@@ -53,6 +53,11 @@ class vmmOSList(vmmGObjectUI):
+         os_list_model = Gtk.ListStore(object, str)
+ 
+         all_os = virtinst.OSDB.list_os()
++        all_os = [os for os in all_os if os.name in [ 'generic'   , \
++                                                      'parabola'  , \
++                                                      'pureos'    , \
++                                                      'trisquel8' , \
++                                                      'trisquel9' ] ]
+ 
+         for os in all_os:
+             os_list_model.append([os, "%s (%s)" % (os.label, os.name)])
+--- a/virtinst/install/urldetect.py
++++ b/virtinst/install/urldetect.py
+@@ -177,109 +177,6 @@ class _DistroCache(object):
+         return True
+ 
+ 
+-class _SUSEContent(object):
+-    """
+-    Helper class tracking the SUSE 'content' files
+-    """
+-    def __init__(self, content_str):
+-        self.content_str = content_str
+-        self.content_dict = {}
+-
+-        for line in self.content_str.splitlines():
+-            for prefix in ["LABEL", "DISTRO", "VERSION",
+-                           "BASEARCHS", "DEFAULTBASE", "REPOID"]:
+-                if line.startswith(prefix + " "):
+-                    self.content_dict[prefix] = line.split(" ", 1)[1]
+-
+-        log.debug("SUSE content dict: %s", self.content_dict)
+-        self.tree_arch = self._get_tree_arch()
+-        self.product_name = self._get_product_name()
+-        self.product_version = self._get_product_version()
+-        log.debug("SUSE content product_name=%s product_version=%s "
+-            "tree_arch=%s", self.product_name, self.product_version,
+-            self.tree_arch)
+-
+-    def _get_tree_arch(self):
+-        # Examples:
+-        # opensuse 11.4: BASEARCHS i586 x86_64
+-        # opensuse 12.3: BASEARCHS i586 x86_64
+-        # opensuse 10.3: DEFAULTBASE i586
+-        distro_arch = (self.content_dict.get("BASEARCHS") or
+-                       self.content_dict.get("DEFAULTBASE"))
+-        if not distro_arch and "REPOID" in self.content_dict:
+-            distro_arch = self.content_dict["REPOID"].rsplit('/', 1)[1]
+-        if not distro_arch:
+-            return None  # pragma: no cover
+-
+-        tree_arch = distro_arch.strip()
+-        # Fix for 13.2 official oss repo
+-        if tree_arch.find("i586-x86_64") != -1:
+-            tree_arch = "x86_64"
+-        return tree_arch
+-
+-    def _get_product_name(self):
+-        """
+-        Parse the SUSE product name. Examples:
+-        SUSE Linux Enterprise Server 11 SP4
+-        openSUSE 11.4
+-        """
+-        # Some field examples in the wild
+-        #
+-        # opensuse 10.3: LABEL openSUSE 10.3
+-        # opensuse 11.4: LABEL openSUSE 11.4
+-        # opensuse 12.3: LABEL openSUSE
+-        # sles11sp4 DVD: LABEL SUSE Linux Enterprise Server 11 SP4
+-        #
+-        #
+-        # DISTRO cpe:/o:opensuse:opensuse:13.2,openSUSE
+-        # DISTRO cpe:/o:suse:sled:12:sp3,SUSE Linux Enterprise Desktop 12 SP3
+-        #
+-        # As of 2018 all latest distros match only DISTRO and REPOID.
+-        product_name = None
+-        if "LABEL" in self.content_dict:
+-            product_name = self.content_dict["LABEL"]
+-        elif "," in self.content_dict.get("DISTRO", ""):
+-            product_name = self.content_dict["DISTRO"].rsplit(",", 1)[1]
+-
+-        log.debug("SUSE content product_name=%s", product_name)
+-        return product_name
+-
+-    def _get_product_version(self):
+-        # Some example fields:
+-        #
+-        # opensuse 10.3: VERSION 10.3
+-        # opensuse 12.3: VERSION 12.3
+-        # SLES-10-SP4-DVD-x86_64-GM-DVD1.iso: VERSION 10.4-0
+-        #
+-        # REPOID obsproduct://build.suse.de/SUSE:SLE-11-SP4:GA/SUSE_SLES/11.4/DVD/x86_64
+-        # REPOID obsproduct://build.suse.de/SUSE:SLE-12-SP3:GA/SLES/12.3/DVD/aarch64
+-        #
+-        # As of 2018 all latest distros match only DISTRO and REPOID.
+-        if not self.product_name:
+-            return None  # pragma: no cover
+-
+-        distro_version = self.content_dict.get("VERSION", "")
+-        if "-" in distro_version:
+-            distro_version = distro_version.split('-', 1)[0]
+-
+-        # Special case, parse version out of a line like this
+-        # cpe:/o:opensuse:opensuse:13.2,openSUSE
+-        if (not distro_version and
+-            re.match("^.*:.*,openSUSE*", self.content_dict["DISTRO"])):
+-            distro_version = self.content_dict["DISTRO"].rsplit(
+-                    ",", 1)[0].strip().rsplit(":")[4]
+-        distro_version = distro_version.strip()
+-
+-        if "Enterprise" in self.product_name or "SLES" in self.product_name:
+-            sle_version = self.product_name.strip().rsplit(' ')[4]
+-            if len(self.product_name.strip().rsplit(' ')) > 5:
+-                sle_version = (sle_version + '.' +
+-                        self.product_name.strip().rsplit(' ')[5][2])
+-            distro_version = sle_version
+-
+-        return distro_version
+-
+-
+ def getDistroStore(guest, fetcher, skip_error):
+     log.debug("Finding distro store for location=%s", fetcher.location)
+ 
+@@ -400,422 +297,6 @@ class _DistroTree(object):
+         return self.cache.libosinfo_treeobj
+ 
+ 
+-class _FedoraDistro(_DistroTree):
+-    PRETTY_NAME = "Fedora"
+-    matching_distros = ["fedora"]
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        famregex = ".*Fedora.*"
+-        return cache.treeinfo_family_regex(famregex)
+-
+-    def _detect_version(self):
+-        latest_variant = "fedora-unknown"
+-
+-        verstr = self.cache.treeinfo_version
+-        if not verstr:  # pragma: no cover
+-            log.debug("No treeinfo version? Assume latest_variant=%s",
+-                    latest_variant)
+-            return latest_variant
+-
+-        # rawhide trees changed to use version=Rawhide in Apr 2016
+-        if verstr in ["development", "rawhide", "Rawhide"]:
+-            log.debug("treeinfo version=%s, using latest_variant=%s",
+-                    verstr, latest_variant)
+-            return latest_variant
+-
+-        # treeinfo version is just an integer
+-        variant = "fedora" + verstr
+-        if OSDB.lookup_os(variant):
+-            return variant
+-
+-        log.debug(
+-                "variant=%s from treeinfo version=%s not found, "
+-                "using latest_variant=%s", variant, verstr, latest_variant)
+-        return latest_variant
+-
+-
+-class _RHELDistro(_DistroTree):
+-    PRETTY_NAME = "Red Hat Enterprise Linux"
+-    matching_distros = ["rhel"]
+-    _variant_prefix = "rhel"
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        # Matches:
+-        #   Red Hat Enterprise Linux
+-        #   RHEL Atomic Host
+-        famregex = ".*(Red Hat Enterprise Linux|RHEL).*"
+-        if cache.treeinfo_family_regex(famregex):
+-            return True
+-
+-    def _detect_version(self):
+-        if not self.cache.treeinfo_version:  # pragma: no cover
+-            log.debug("No treeinfo version? Not setting an os_variant")
+-            return
+-
+-        version, update = self.cache.split_version()
+-
+-        # start with example base=rhel7, then walk backwards
+-        # through the OS list to find the latest os name that matches
+-        # this way we handle rhel7.6 from treeinfo when osdict only
+-        # knows about rhel7.5
+-        base = self._variant_prefix + str(version)
+-        while update >= 0:
+-            tryvar = base + ".%s" % update
+-            if OSDB.lookup_os(tryvar):
+-                return tryvar
+-            update -= 1
+-
+-
+-class _CentOSDistro(_RHELDistro):
+-    PRETTY_NAME = "CentOS"
+-    matching_distros = ["centos"]
+-    _variant_prefix = "centos"
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        if cache.treeinfo_family_regex(".*CentOS.*"):
+-            return True
+-        if cache.treeinfo_family_regex(".*Scientific.*"):
+-            return True
+-
+-
+-
+-class _SuseDistro(_RHELDistro):
+-    PRETTY_NAME = None
+-    _suse_regex = []
+-    matching_distros = []
+-    _variant_prefix = NotImplementedError
+-    famregex = NotImplementedError
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        if cache.treeinfo_family_regex(cls.famregex):
+-            return True
+-
+-        if not cache.checked_for_suse_content:
+-            cache.checked_for_suse_content = True
+-            content_str = cache.acquire_file_content("content")
+-            if content_str is None:
+-                return False
+-
+-            try:
+-                cache.suse_content = _SUSEContent(content_str)
+-            except Exception as e:  # pragma: no cover
+-                log.debug("Error parsing SUSE content file: %s", str(e))
+-                return False
+-
+-        if not cache.suse_content:
+-            return False
+-        for regex in cls._suse_regex:
+-            if re.match(regex, cache.suse_content.product_name or ""):
+-                return True
+-        return False
+-
+-    def _set_manual_kernel_paths(self):
+-        # We only reach here if no treeinfo was matched
+-        tree_arch = self.cache.suse_content.tree_arch
+-
+-        if re.match(r'i[4-9]86', tree_arch):
+-            tree_arch = 'i386'
+-
+-        oldkern = "linux"
+-        oldinit = "initrd"
+-        if tree_arch == "x86_64":
+-            oldkern += "64"
+-            oldinit += "64"
+-
+-        if self.type == "xen":
+-            # Matches Opensuse > 10.2 and sles 10
+-            self._kernel_paths.append(
+-                ("boot/%s/vmlinuz-xen" % tree_arch,
+-                 "boot/%s/initrd-xen" % tree_arch))
+-
+-        if str(self._os_variant).startswith(("sles11", "sled11")):
+-            if tree_arch == "s390x":
+-                self._kernel_paths.append(
+-                    ("boot/s390x/vmrdr.ikr", "boot/s390x/initrd"))
+-            if tree_arch == "ppc64":
+-                self._kernel_paths.append(
+-                    ("suseboot/linux64", "suseboot/initrd64"))
+-
+-        # Tested with SLES 12 for ppc64le, all s390x
+-        self._kernel_paths.append(
+-            ("boot/%s/linux" % tree_arch,
+-             "boot/%s/initrd" % tree_arch))
+-        # Tested with Opensuse 10.0
+-        self._kernel_paths.append(
+-            ("boot/loader/%s" % oldkern,
+-             "boot/loader/%s" % oldinit))
+-        # Tested with Opensuse >= 10.2, 11, and sles 10
+-        self._kernel_paths.append(
+-            ("boot/%s/loader/linux" % tree_arch,
+-             "boot/%s/loader/initrd" % tree_arch))
+-
+-    def _detect_osdict_from_suse_content(self):
+-        if not self.cache.suse_content:
+-            return  # pragma: no cover
+-
+-        distro_version = self.cache.suse_content.product_version
+-        if not distro_version:
+-            return  # pragma: no cover
+-
+-        version = distro_version.split('.', 1)[0].strip()
+-
+-        if str(self._variant_prefix).startswith(("sles", "sled")):
+-            sp_version = ""
+-            if len(distro_version.split('.', 1)) == 2:
+-                sp_version = 'sp' + distro_version.split('.', 1)[1].strip()
+-
+-            return self._variant_prefix + version + sp_version
+-
+-        return self._variant_prefix + distro_version
+-
+-    def _detect_osdict_from_url(self):
+-        root = "opensuse"
+-        oses = [n for n in OSDB.list_os() if n.name.startswith(root)]
+-
+-        for osobj in oses:
+-            codename = osobj.name[len(root):]
+-            if re.search("/%s/" % codename, self.uri):
+-                return osobj.name
+-
+-    def _detect_from_treeinfo(self):
+-        if not self.cache.treeinfo_name:
+-            return
+-        if re.search("openSUSE Tumbleweed", self.cache.treeinfo_name):
+-            return "opensusetumbleweed"
+-
+-        version, update = self.cache.split_version()
+-        base = self._variant_prefix + str(version)
+-        while update >= 0:
+-            tryvar = base
+-            # SLE doesn't use '.0' for initial releases in
+-            # osinfo-db (sles11, sles12, etc)
+-            if update > 0 or not base.startswith('sle'):
+-                tryvar += ".%s" % update
+-            if OSDB.lookup_os(tryvar):
+-                return tryvar
+-            update -= 1
+-
+-    def _detect_version(self):
+-        var = self._detect_from_treeinfo()
+-        if not var:
+-            var = self._detect_osdict_from_url()
+-        if not var:
+-            var = self._detect_osdict_from_suse_content()
+-        return var
+-
+-
+-class _SLESDistro(_SuseDistro):
+-    PRETTY_NAME = "SLES"
+-    matching_distros = ["sles"]
+-    _variant_prefix = "sles"
+-    _suse_regex = [".*SUSE Linux Enterprise Server*", ".*SUSE SLES*"]
+-    famregex = ".*SUSE Linux Enterprise.*"
+-
+-
+-class _SLEDDistro(_SuseDistro):
+-    PRETTY_NAME = "SLED"
+-    matching_distros = ["sled"]
+-    _variant_prefix = "sled"
+-    _suse_regex = [".*SUSE Linux Enterprise Desktop*"]
+-    famregex = ".*SUSE Linux Enterprise.*"
+-
+-
+-class _OpensuseDistro(_SuseDistro):
+-    PRETTY_NAME = "openSUSE"
+-    matching_distros = ["opensuse"]
+-    _variant_prefix = "opensuse"
+-    _suse_regex = [".*openSUSE.*"]
+-    famregex = ".*openSUSE.*"
+-
+-
+-class _DebianDistro(_DistroTree):
+-    # ex. http://ftp.egr.msu.edu/debian/dists/sarge/main/installer-i386/
+-    # daily builds: https://d-i.debian.org/daily-images/amd64/
+-    PRETTY_NAME = "Debian"
+-    matching_distros = ["debian"]
+-    _debname = "debian"
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        def check_manifest(mfile):
+-            is_ubuntu = cls._debname == "ubuntu"
+-            if cache.content_regex(mfile, ".*[Uu]buntu.*"):
+-                return is_ubuntu
+-            return cache.content_regex(mfile, ".*[Dd]ebian.*")
+-
+-        media_type = None
+-        if check_manifest("current/images/MANIFEST"):
+-            media_type = "url"
+-        elif check_manifest("current/legacy-images/MANIFEST"):
+-            media_type = "legacy_url"
+-        elif check_manifest("daily/MANIFEST"):
+-            media_type = "daily"
+-        elif cache.content_regex(".disk/info",
+-                "%s.*" % cls._debname.capitalize()):
+-            # There's two cases here:
+-            # 1) Direct access ISO, attached as CDROM afterwards. We
+-            #    use one set of kernels in that case which seem to
+-            #    assume the prescence of CDROM media
+-            # 2) ISO mounted and exported over URL. We use a different
+-            #    set of kernels that expect to boot from the network
+-            if cache.fetcher_is_iso():
+-                media_type = "disk"
+-            else:
+-                media_type = "mounted_iso_url"
+-
+-        if media_type:
+-            cache.debian_media_type = media_type
+-        return bool(media_type)
+-
+-
+-    def _set_manual_kernel_paths(self):
+-        if self.cache.debian_media_type == "disk":
+-            self._set_installcd_paths()
+-        else:
+-            self._set_url_paths()
+-
+-
+-    def _find_treearch(self):
+-        for pattern in [r"^.*/installer-(\w+)/?$",
+-                        r"^.*/daily-images/(\w+)/?$"]:
+-            arch = re.findall(pattern, self.uri)
+-            if not arch:
+-                continue
+-            log.debug("Found pattern=%s treearch=%s in uri",
+-                pattern, arch[0])
+-            return arch[0]
+-
+-        # Check for standard arch strings which will be
+-        # in the URI name for --location $ISO mounts
+-        for arch in ["i386", "amd64", "x86_64", "arm64"]:
+-            if arch in self.uri:
+-                log.debug("Found treearch=%s in uri", arch)
+-                if arch == "x86_64":
+-                    arch = "amd64"  # pragma: no cover
+-                return arch
+-
+-        # Otherwise default to i386
+-        arch = "i386"
+-        log.debug("No treearch found in uri, defaulting to arch=%s", arch)
+-        return arch
+-
+-    def _set_url_paths(self):
+-        url_prefix = "current/images"
+-        if self.cache.debian_media_type == "daily":
+-            url_prefix = "daily"
+-        elif self.cache.debian_media_type == "mounted_iso_url":
+-            url_prefix = "install"
+-        elif self.cache.debian_media_type == "legacy_url":
+-            url_prefix = "current/legacy-images"
+-
+-        tree_arch = self._find_treearch()
+-        hvmroot = "%s/netboot/%s-installer/%s/" % (url_prefix,
+-                self._debname, tree_arch)
+-        initrd_basename = "initrd.gz"
+-        kernel_basename = "linux"
+-        if tree_arch in ["ppc64el"]:
+-            kernel_basename = "vmlinux"
+-
+-        if tree_arch == "s390x":
+-            hvmroot = "%s/generic/" % url_prefix
+-            kernel_basename = "kernel.%s" % self._debname
+-            initrd_basename = "initrd.%s" % self._debname
+-
+-
+-        if self.type == "xen":
+-            xenroot = "%s/netboot/xen/" % url_prefix
+-            self._kernel_paths.append(
+-                    (xenroot + "vmlinuz", xenroot + "initrd.gz"))
+-        self._kernel_paths.append(
+-                (hvmroot + kernel_basename, hvmroot + initrd_basename))
+-
+-    def _set_installcd_paths(self):
+-        if self._debname == "ubuntu":
+-            if not self.arch == "s390x":
+-                kpair = ("install/vmlinuz", "install/initrd.gz")
+-            else:
+-                kpair = ("boot/kernel.ubuntu", "boot/initrd.ubuntu")
+-        elif self.arch == "x86_64":
+-            kpair = ("install.amd/vmlinuz", "install.amd/initrd.gz")
+-        elif self.arch == "i686":
+-            kpair = ("install.386/vmlinuz", "install.386/initrd.gz")
+-        elif self.arch == "aarch64":
+-            kpair = ("install.a64/vmlinuz", "install.a64/initrd.gz")
+-        elif self.arch == "ppc64le":
+-            kpair = ("install/vmlinux", "install/initrd.gz")
+-        elif self.arch == "s390x":
+-            kpair = ("boot/linux_vm", "boot/root.bin")
+-        else:
+-            kpair = ("install/vmlinuz", "install/initrd.gz")
+-        self._kernel_paths += [kpair]
+-        return True
+-
+-    def _detect_version(self):
+-        oses = [n for n in OSDB.list_os() if n.name.startswith(self._debname)]
+-
+-        if self.cache.debian_media_type == "daily":
+-            log.debug("Appears to be debian 'daily' URL, using latest "
+-                "debian OS")
+-            return oses[0].name
+-
+-        for osobj in oses:
+-            if osobj.codename:
+-                # Ubuntu codenames look like 'Warty Warthog'
+-                codename = osobj.codename.split()[0].lower()
+-            else:
+-                if " " not in osobj.label:
+-                    continue  # pragma: no cover
+-                # Debian labels look like 'Debian Sarge'
+-                codename = osobj.label.split()[1].lower()
+-
+-            if ("/%s/" % codename) in self.uri:
+-                log.debug("Found codename=%s in the URL string", codename)
+-                return osobj.name
+-
+-
+-class _UbuntuDistro(_DebianDistro):
+-    # https://archive.ubuntu.com/ubuntu/dists/natty/main/installer-amd64/
+-    PRETTY_NAME = "Ubuntu"
+-    matching_distros = ["ubuntu"]
+-    _debname = "ubuntu"
+-
+-
+-class _MageiaDistro(_DistroTree):
+-    # https://distro.ibiblio.org/mageia/distrib/cauldron/x86_64/
+-    PRETTY_NAME = "Mageia"
+-    matching_distros = ["mageia"]
+-
+-    @classmethod
+-    def is_valid(cls, cache):
+-        if not cache.mageia_version:
+-            content = cache.acquire_file_content("VERSION")
+-            if not content:
+-                return False
+-
+-            m = re.match(r"^Mageia (\d+) .*", content)
+-            if not m:
+-                return False  # pragma: no cover
+-
+-            cache.mageia_version = m.group(1)
+-
+-        return bool(cache.mageia_version)
+-
+-    def _set_manual_kernel_paths(self):
+-        self._kernel_paths += [
+-            ("isolinux/%s/vmlinuz" % self.arch,
+-             "isolinux/%s/all.rdz" % self.arch)]
+-
+-    def _detect_version(self):
+-        # version is just an integer
+-        variant = "mageia" + self.cache.mageia_version
+-        if OSDB.lookup_os(variant):
+-            return variant
+-
+-
+ class _GenericTreeinfoDistro(_DistroTree):
+     """
+     Generic catchall class for .treeinfo using distros
+@@ -855,15 +336,6 @@ def _build_distro_list(osobj):
+     allstores = [
+         # Libosinfo takes priority
+         _LibosinfoDistro,
+-        _FedoraDistro,
+-        _RHELDistro,
+-        _CentOSDistro,
+-        _SLESDistro,
+-        _SLEDDistro,
+-        _OpensuseDistro,
+-        _DebianDistro,
+-        _UbuntuDistro,
+-        _MageiaDistro,
+         # Always stick GenericDistro at the end, since it's a catchall
+         _GenericTreeinfoDistro,
+     ]
+--- a/virtinst/osdict.py
++++ b/virtinst/osdict.py
+@@ -132,49 +132,8 @@ class _OSDB(object):
+     # This is only for back compatibility with pre-libosinfo support.
+     # This should never change.
+     _aliases = {
+-        "altlinux": "altlinux1.0",
+-        "debianetch": "debian4",
+-        "debianlenny": "debian5",
+-        "debiansqueeze": "debian6",
+-        "debianwheezy": "debian7",
+-        "freebsd10": "freebsd10.0",
+-        "freebsd6": "freebsd6.0",
+-        "freebsd7": "freebsd7.0",
+-        "freebsd8": "freebsd8.0",
+-        "freebsd9": "freebsd9.0",
+-        "mandriva2009": "mandriva2009.0",
+-        "mandriva2010": "mandriva2010.0",
+-        "mbs1": "mbs1.0",
+-        "msdos": "msdos6.22",
+-        "openbsd4": "openbsd4.2",
+-        "opensolaris": "opensolaris2009.06",
+-        "opensuse11": "opensuse11.4",
+-        "opensuse12": "opensuse12.3",
+-        "rhel4": "rhel4.0",
+-        "rhel5": "rhel5.0",
+-        "rhel6": "rhel6.0",
+-        "rhel7": "rhel7.0",
+-        "ubuntuhardy": "ubuntu8.04",
+-        "ubuntuintrepid": "ubuntu8.10",
+-        "ubuntujaunty": "ubuntu9.04",
+-        "ubuntukarmic": "ubuntu9.10",
+-        "ubuntulucid": "ubuntu10.04",
+-        "ubuntumaverick": "ubuntu10.10",
+-        "ubuntunatty": "ubuntu11.04",
+-        "ubuntuoneiric": "ubuntu11.10",
+-        "ubuntuprecise": "ubuntu12.04",
+-        "ubuntuquantal": "ubuntu12.10",
+-        "ubunturaring": "ubuntu13.04",
+-        "ubuntusaucy": "ubuntu13.10",
+-        "virtio26": "fedora10",
+-        "vista": "winvista",
+-        "winxp64": "winxp",
+-
+         # Old --os-type values
+         "linux": "generic",
+-        "windows": "winxp",
+-        "solaris": "solaris10",
+-        "unix": "freebsd9.0",
+         "other": "generic",
+     }
+ 
