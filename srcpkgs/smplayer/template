@@ -16,6 +16,14 @@ checksum=be76596b9a0b7079bc41be8f200c1024670bd80ffe9d6ec5f24879519f7ba930
 
 export QT_SELECT=5
 
+# Liberation
+# Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/smplayer/PKGBUILD
+post_patch() {
+	# fix GNU/Linux name
+	sed -i 's|Linux|GNU/Linux|' src/smplayer.cpp
+}
+
 pre_build() {
 	sed -i 's:#\(DEFINES += NO_DEBUG_ON_CONSOLE\):\1:' src/smplayer.pro
 	sed -i 's|PREFIX=/usr/local|PREFIX=/usr|' Makefile
