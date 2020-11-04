@@ -1,0 +1,327 @@
+--- a/man/virt-install.rst
++++ b/man/virt-install.rst
+@@ -627,17 +627,11 @@ DIRECTORY
+ 
+ Some distro specific url samples:
+ 
+-Fedora/Red Hat Based
+-    https://download.fedoraproject.org/pub/fedora/linux/releases/29/Server/x86_64/os
++Parabola GNU/Linux-libre
++    https://redirector.parabola.nu/iso/x86_64-mini-latest
+ 
+-Debian
+-    https://ftp.us.debian.org/debian/dists/stable/main/installer-amd64/
+-
+-Ubuntu
+-    https://us.archive.ubuntu.com/ubuntu/dists/wily/main/installer-amd64/
+-
+-Suse
+-    https://download.opensuse.org/pub/opensuse/distribution/leap/42.3/repo/oss/
++Trisquel
++    http://mirror.fsf.org/trisquel-images/trisquel-mini_8.0_amd64.iso
+ 
+ Additionally, --location can take 'kernel' and 'initrd' sub options. These paths
+ relative to the specified location URL/ISO that allow selecting specific files
+@@ -702,11 +696,11 @@ command has multiple subarguments, similar to --disk and friends. This
+ option is strictly for VM install operations, essentially configuring the
+ first boot.
+ 
+-The simplest usage to ex: install fedora29 is:
++The simplest usage to ex: install parabola is:
+ 
+ .. code-block::
+ 
+-    --install fedora29
++    --install parabola
+ 
+ And virt-install will fetch a --location URL from libosinfo, and populate
+ defaults from there.
+@@ -715,7 +709,7 @@ Available suboptions:
+ 
+ ``os=``
+     This is os install option described above. The explicit way to specify that
+-    would be ``--install os=fedora29`` . os= is the default option if none is
++    would be ``--install os=parabola`` . os= is the default option if none is
+     specified
+ 
+ ``kernel=``, ``initrd=``
+@@ -784,19 +778,11 @@ device will be added.
+ 
+ Perform an unattended install using libosinfo's install script support.
+ This is essentially a database of auto install scripts for various
+-distros: Red Hat kickstarts, Debian installer scripting, Windows
+-unattended installs, and potentially others. The simplest invocation
+-is to combine it with --install like:
++distros. The simplest invocation is to combine it with --install.
+ 
+ .. code-block::
+ 
+-    --install fedora29 --unattended
+-
+-A Windows install will look like
+-
+-.. code-block::
+-
+-    --cdrom /path/to/my/windows.iso --unattended
++    --install parabola --unattended
+ 
+ Sub options are:
+ 
+@@ -827,9 +813,6 @@ Sub options are:
+     Note that only the first line of the file will be considered, including
+     any whitespace characters and excluding new-line.
+ 
+-``product-key=``
+-    Set a Windows product key
+-
+ 
+ 
+ ``--cloud-init``
+@@ -972,20 +955,20 @@ GUEST OS OPTIONS
+ **Syntax:** ``--os-variant`` [OS_VARIANT|OPT1=VAL1,...]
+ 
+ Optimize the guest configuration for a specific operating system (ex.
+-'fedora29', 'rhel7', 'win10'). While not required, specifying this
++'parabola', 'trisquel8'). While not required, specifying this
+ options is HIGHLY RECOMMENDED, as it can greatly increase performance
+ by specifying virtio among other guest tweaks.
+ 
+ The simplest usage is ``--os-variant OS-NAME``, for example
+-``--os-variant fedora32``. ``--os-variant`` supports explicit suboption
++``--os-variant systemd-cli``. ``--os-variant`` supports explicit suboption
+ syntax as well:
+ 
+ ``name=``, ``short-id=``
+-    The OS name/short-id from libosinfo. Examples: ``fedora32``, ``win10``
++    The OS name/short-id from libosinfo. Examples: ``parabola``, ``trisquel8``
+ 
+ ``id=``
+-    The full URL style libosinfo ID. For example, ``name=win10`` is
+-    the same as ``id=http://microsoft.com/win/10``
++    The full URL style libosinfo ID. For example, ``name=parabola`` is
++    the same as ``id=https://parabola.nu/parabola/rolling``
+ 
+ ``detect=on|off``
+     Whether virt-install should attempt OS detection from the specified
+@@ -1157,7 +1140,7 @@ Some example device configuration suboptions:
+     "stop", "ignore", or "enospace"
+ 
+ ``serial``
+-    Serial number of the emulated disk device. This is used in linux guests
++    Serial number of the emulated disk device. This is used in GNU/Linux guests
+     to set /dev/disk/by-id symlinks. An example serial number might be:
+     WD-WMAP9A966149
+ 
+@@ -1185,7 +1168,7 @@ invocation is:
+ 
+       --filesystem /source/on/host,/target/point/in/guest
+ 
+-Which will work for recent QEMU and linux guest OS or LXC containers. For
++Which will work for recent QEMU and GNU/Linux guest OS or LXC containers. For
+ QEMU, the target point is just a mounting hint in sysfs, so will not be
+ automatically mounted.
+ 
+@@ -2052,26 +2035,26 @@ The debugging information is also stored in
+ EXAMPLES
+ ========
+ 
+-The simplest invocation to interactively install a Fedora 29 KVM VM
++The simplest invocation to interactively install a Parabola KVM VM
+ with recommended defaults. virt-viewer(1) will be launched to
+ graphically interact with the VM install
+ 
+ .. code-block::
+ 
+-    # sudo virt-install --install fedora29
++    # sudo virt-install --install parabola
+ 
+ 
+ 
+ Similar, but use libosinfo's unattended install support, which will
+-perform the fedora29 install automatically without user intervention:
++perform the parabola install automatically without user intervention:
+ 
+ .. code-block::
+ 
+-    # sudo virt-install --install fedora29 --unattended
++    # sudo virt-install --install parabola --unattended
+ 
+ 
+ 
+-Install a Windows 10 VM, using 40GiB storage in the default location
++Install a Parabola VM, using 40GiB storage in the default location
+ and 4096MiB of ram, and ensure we are connecting to the system libvirtd
+ instance:
+ 
+@@ -2079,15 +2062,15 @@ instance:
+ 
+     # virt-install \
+        --connect qemu:///system \
+-       --name my-win10-vm \
++       --name my-parabola-vm \
+        --memory 4096 \
+        --disk size=40 \
+-       --os-variant win10 \
+-       --cdrom /path/to/my/win10.iso
++       --os-variant parabola \
++       --cdrom /path/to/parabola.iso
+ 
+ 
+ 
+-Install a CentOS 7 KVM from a URL, with recommended device defaults and
++Install a Parabola KVM from a URL, with recommended device defaults and
+ default required storage, but specifically request VNC graphics instead
+ of the default SPICE, and request 8 virtual CPUs and 8192 MiB of memory:
+ 
+@@ -2098,20 +2081,20 @@ of the default SPICE, and request 8 virtual CPUs and 8192 MiB of memory:
+         --memory 8192 \
+         --vcpus 8 \
+         --graphics vnc \
+-        --os-variant centos7.0 \
+-        --location http://mirror.centos.org/centos-7/7/os/x86_64/
++        --os-variant systemd-cli \
++        --location https://redirector.parabola.nu/iso/x86_64-systemd-cli-latest
+ 
+ 
+ 
+-Create a VM around an existing debian9 disk image:
++Create a VM around an existing Parabola disk image:
+ 
+ .. code-block::
+ 
+     # virt-install \
+         --import \
+         --memory 512 \
+-        --disk /home/user/VMs/my-debian9.img \
+-        --os-variant debian9
++        --disk /path/to/parabola.img \
++        --os-variant systemd-cli
+ 
+ 
+ 
+--- a/man/virt-xml.rst
++++ b/man/virt-xml.rst
+@@ -182,7 +182,7 @@ GUEST OS OPTIONS
+ 
+ ``--os-variant``, ``--osinfo`` OS_VARIANT
+     Optimize the guest configuration for a specific operating system (ex.
+-    'fedora29', 'rhel7', 'win10'). While not required, specifying this
++    'parabola', 'trisquel8'). While not required, specifying this
+     options is HIGHLY RECOMMENDED, as it can greatly increase performance
+     by specifying virtio among other guest tweaks.
+ 
+@@ -299,32 +299,32 @@ Change the <description> of domain 'EXAMPLE':
+    # virt-xml EXAMPLE --edit --boot menu=on
+ 
+ 
+-Clear the previous <cpu> definition of domain 'winxp', change it to 'host-model', but interactively confirm the diff before saving:
++Clear the previous <cpu> definition of domain 'parabola', change it to 'host-model', but interactively confirm the diff before saving:
+ 
+ .. code-block::
+ 
+-   # virt-xml winxp --edit --cpu host-model,clearxml=yes --confirm
++   # virt-xml parabola --edit --cpu host-model,clearxml=yes --confirm
+ 
+ 
+-Change the second sound card to model=ich6 on 'fedora19', but only output the diff:
++Change the second sound card to model=ich6 on 'parabola', but only output the diff:
+ 
+ .. code-block::
+ 
+-   # virt-xml fedora19 --edit 2 --sound model=ich6 --print-diff
++   # virt-xml parabola --edit 2 --sound model=ich6 --print-diff
+ 
+ 
+-Update the every graphics device password to 'foo' of the running VM 'rhel6':
++Update the every graphics device password to 'foo' of the running VM 'parabola':
+ 
+ .. code-block::
+ 
+-   # virt-xml rhel6 --edit all --graphics password=foo --update
++   # virt-xml parabola --edit all --graphics password=foo --update
+ 
+ 
+ Remove the disk path from disk device hdc:
+ 
+ .. code-block::
+ 
+-   # virt-xml rhel6 --edit target=hdc --disk path=
++   # virt-xml parabola --edit target=hdc --disk path=
+ 
+ 
+ Change all disk devices of type 'disk' to use cache=none, using XML from stdin, printing the new XML to stdout.
+@@ -338,37 +338,37 @@ Change disk 'hda' IO to native and use startup policy as 'optional'.
+ 
+ .. code-block::
+ 
+-   # virt-xml fedora20 --edit target=hda \
++   # virt-xml parabola --edit target=hda \
+               --disk io=native,startup_policy=optional
+ 
+ 
+-Change all host devices to use driver_name=vfio for VM 'fedora20' on the remote connection
++Change all host devices to use driver_name=vfio for VM 'parabola' on the remote connection
+ 
+ .. code-block::
+ 
+    # virt-xml --connect qemu+ssh://remotehost/system \
+-              fedora20 --edit all --hostdev driver_name=vfio
++              parabola --edit all --hostdev driver_name=vfio
+ 
+ 
+-Hotplug host USB device 001.003 to running domain 'fedora19':
++Hotplug host USB device 001.003 to running domain 'parabola':
+ 
+ .. code-block::
+ 
+-   # virt-xml fedora19 --update --add-device --hostdev 001.003
++   # virt-xml parabola --update --add-device --hostdev 001.003
+ 
+ 
+-Add a spicevmc channel to the domain 'winxp', that will be available after the next VM shutdown.
++Add a spicevmc channel to the domain 'parabola', that will be available after the next VM shutdown.
+ 
+ .. code-block::
+ 
+-   # virt-xml winxp --add-device --channel spicevmc
++   # virt-xml parabola --add-device --channel spicevmc
+ 
+ 
+-Create a 10G qcow2 disk image and attach it to 'fedora18' for the next VM startup:
++Create a 10G qcow2 disk image and attach it to 'parabola' for the next VM startup:
+ 
+ .. code-block::
+ 
+-   # virt-xml fedora18 --add-device \
++   # virt-xml parabola --add-device \
+      --disk /var/lib/libvirt/images/newimage.qcow2,format=qcow2,size=10
+ 
+ 
+@@ -377,22 +377,22 @@ for the guest OS by providing information about it on the command line:
+ 
+ .. code-block::
+ 
+-   # virt-xml fedora18 --os-variant fedora18 --add-device \
++   # virt-xml parabola --os-variant systemd-cli --add-device \
+      --disk /var/lib/libvirt/images/newimage.qcow2,format=qcow2,size=10
+ 
+ 
+-Hotunplug the disk vdb from the running domain 'rhel7':
++Hotunplug the disk vdb from the running domain 'parabola':
+ 
+ .. code-block::
+ 
+-   # virt-xml rhel7 --update --remove-device --disk target=vdb
++   # virt-xml parabola --update --remove-device --disk target=vdb
+ 
+ 
+-Remove all graphics devices from the VM 'rhel7' after the next shutdown:
++Remove all graphics devices from the VM 'parabola' after the next shutdown:
+ 
+ .. code-block::
+ 
+-   # virt-xml rhel7 --remove-device --graphics all
++   # virt-xml parabola --remove-device --graphics all
+ 
+ 
+ Generate XML for a virtio console device and print it to stdout:
