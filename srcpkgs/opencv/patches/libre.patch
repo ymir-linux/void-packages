@@ -1,0 +1,84 @@
+diff --git a/modules/highgui/src/window_QT.cpp b/modules/highgui/src/window_QT.cpp
+index 1600bd9..9a05294 100644
+--- a/modules/highgui/src/window_QT.cpp
++++ b/modules/highgui/src/window_QT.cpp
+@@ -1996,47 +1996,47 @@ void CvWindow::createActions()
+     QWidget* view = myView->getWidget();
+ 
+     //if the shortcuts are changed in window_QT.h, we need to update the tooltip manually
+-    vect_QActions[0] = new QAction(QIcon(":/left-icon"), "Panning left (CTRL+arrowLEFT)", this);
++    vect_QActions[0] = new QAction(QIcon::fromTheme(QStringLiteral("go-previous")), "Panning left (CTRL+arrowLEFT)", this);
+     vect_QActions[0]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[0], SIGNAL(triggered()), view, SLOT(siftWindowOnLeft()));
+ 
+-    vect_QActions[1] = new QAction(QIcon(":/right-icon"), "Panning right (CTRL+arrowRIGHT)", this);
++    vect_QActions[1] = new QAction(QIcon::fromTheme(QStringLiteral("go-next")), "Panning right (CTRL+arrowRIGHT)", this);
+     vect_QActions[1]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[1], SIGNAL(triggered()), view, SLOT(siftWindowOnRight()));
+ 
+-    vect_QActions[2] = new QAction(QIcon(":/up-icon"), "Panning up (CTRL+arrowUP)", this);
++    vect_QActions[2] = new QAction(QIcon::fromTheme(QStringLiteral("go-up")), "Panning up (CTRL+arrowUP)", this);
+     vect_QActions[2]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[2], SIGNAL(triggered()), view, SLOT(siftWindowOnUp()));
+ 
+-    vect_QActions[3] = new QAction(QIcon(":/down-icon"), "Panning down (CTRL+arrowDOWN)", this);
++    vect_QActions[3] = new QAction(QIcon::fromTheme(QStringLiteral("go-down")), "Panning down (CTRL+arrowDOWN)", this);
+     vect_QActions[3]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[3], SIGNAL(triggered()), view, SLOT(siftWindowOnDown()) );
+ 
+-    vect_QActions[4] = new QAction(QIcon(":/zoom_x1-icon"), "Zoom x1 (CTRL+P)", this);
++    vect_QActions[4] = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), "Zoom x1 (CTRL+P)", this);
+     vect_QActions[4]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[4], SIGNAL(triggered()), view, SLOT(resetZoom()));
+ 
+-    vect_QActions[5] = new QAction(QIcon(":/imgRegion-icon"), tr("Zoom x%1 (see label) (CTRL+X)").arg(threshold_zoom_img_region), this);
++    vect_QActions[5] = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), tr("Zoom x%1 (see label) (CTRL+X)").arg(threshold_zoom_img_region), this);
+     vect_QActions[5]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[5], SIGNAL(triggered()), view, SLOT(imgRegion()));
+ 
+-    vect_QActions[6] = new QAction(QIcon(":/zoom_in-icon"), "Zoom in (CTRL++)", this);
++    vect_QActions[6] = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), "Zoom in (CTRL++)", this);
+     vect_QActions[6]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[6], SIGNAL(triggered()), view, SLOT(ZoomIn()));
+ 
+-    vect_QActions[7] = new QAction(QIcon(":/zoom_out-icon"), "Zoom out (CTRL+-)", this);
++    vect_QActions[7] = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), "Zoom out (CTRL+-)", this);
+     vect_QActions[7]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[7], SIGNAL(triggered()), view, SLOT(ZoomOut()));
+ 
+-    vect_QActions[8] = new QAction(QIcon(":/save-icon"), "Save current image (CTRL+S)", this);
++    vect_QActions[8] = new QAction(QIcon::fromTheme(QStringLiteral("document-save")), "Save current image (CTRL+S)", this);
+     vect_QActions[8]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[8], SIGNAL(triggered()), view, SLOT(saveView()));
+ 
+-    vect_QActions[9] = new QAction(QIcon(":/copy_clipbrd-icon"), "Copy image to clipboard (CTRL+C)", this);
++    vect_QActions[9] = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), "Copy image to clipboard (CTRL+C)", this);
+     vect_QActions[9]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[9], SIGNAL(triggered()), view, SLOT(copy2Clipbrd()));
+ 
+-    vect_QActions[10] = new QAction(QIcon(":/properties-icon"), "Display properties window (CTRL+P)", this);
++    vect_QActions[10] = new QAction(QIcon::fromTheme(QStringLiteral("document-properties")), "Display properties window (CTRL+P)", this);
+     vect_QActions[10]->setIconVisibleInMenu(true);
+     QObject::connect(vect_QActions[10], SIGNAL(triggered()), this, SLOT(displayPropertiesWin()));
+ 
+diff --git a/modules/highgui/src/window_QT.qrc b/modules/highgui/src/window_QT.qrc
+index efdd8c2..f7e6f37 100644
+--- a/modules/highgui/src/window_QT.qrc
++++ b/modules/highgui/src/window_QT.qrc
+@@ -1,16 +1,5 @@
+ <RCC>
+     <qresource prefix="/">
+-        <file alias="left-icon">files_Qt/Milky/48/28.png</file>
+-        <file alias="right-icon">files_Qt/Milky/48/23.png</file>
+-        <file alias="up-icon">files_Qt/Milky/48/19.png</file>
+-        <file alias="down-icon">files_Qt/Milky/48/24.png</file>
+-        <file alias="zoom_x1-icon">files_Qt/Milky/48/27.png</file>
+-        <file alias="imgRegion-icon">files_Qt/Milky/48/61.png</file>
+-        <file alias="zoom_in-icon">files_Qt/Milky/48/106.png</file>
+-        <file alias="zoom_out-icon">files_Qt/Milky/48/107.png</file>
+-        <file alias="save-icon">files_Qt/Milky/48/7.png</file>
+-        <file alias="copy_clipbrd-icon">files_Qt/Milky/48/43.png</file>
+-        <file alias="properties-icon">files_Qt/Milky/48/38.png</file>
+         <file alias="stylesheet-trackbar">files_Qt/stylesheet_trackbar.qss</file>
+     </qresource>
+ </RCC>

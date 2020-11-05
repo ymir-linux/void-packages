@@ -37,6 +37,17 @@ if [ "$CROSS_BUILD" ]; then
 	 -DPYTHON3_NUMPY_INCLUDE_DIRS=${XBPS_CROSS_BASE}/${py3_sitelib}/${_npincdir}"
 fi
 
+# Liberation
+# Some of the code is taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/opencv/PKGBUILD
+post_patch() {
+	# remove nonfree Milky icons
+	rm -rv modules/highgui/src/files_Qt/Milky
+
+	# remove nonfree lena.png and lena.jpg images
+	rm -v $(find . -iname '*lena*')
+}
+
 post_install() {
 	vlicense LICENSE
 }
