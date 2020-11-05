@@ -35,6 +35,7 @@ libosinfo
 libsynctex
 okular
 opencv
+opencv4
 openexr
 openshot:openshot
 openttd:openttd
