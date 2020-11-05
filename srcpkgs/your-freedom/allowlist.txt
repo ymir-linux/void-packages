@@ -34,6 +34,7 @@ netsurf
 libosinfo
 libsynctex
 okular
+opencv
 openexr
 openshot:openshot
 openttd:openttd
