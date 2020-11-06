@@ -27,6 +27,7 @@ libxfce4ui:libxfce4ui
 mc:mc
 mcomix
 memtest86+:memtest86+
+mesa-demos
 midori
 minitube
 mplayer:mplayer

@@ -1,0 +1,116 @@
+diff -Nur mesa-demos-8.3.0.orig/src/demos/Makefile.am mesa-demos-8.3.0/src/demos/Makefile.am
+--- mesa-demos-8.3.0.orig/src/demos/Makefile.am	2012-06-25 12:34:58.000000000 -0300
++++ mesa-demos-8.3.0/src/demos/Makefile.am	2015-12-14 15:25:22.843272149 -0300
+@@ -65,7 +65,6 @@
+ 	multiarb \
+ 	paltex \
+ 	pixeltest \
+-	pointblast \
+ 	projtex \
+ 	ray \
+ 	readpix \
+@@ -74,7 +73,6 @@
+ 	shadowtex \
+ 	singlebuffer \
+ 	spectex \
+-	spriteblast \
+ 	stex3d \
+ 	teapot \
+ 	terrain \
+diff -Nur mesa-demos-8.3.0.orig/src/demos/Makefile.in mesa-demos-8.3.0/src/demos/Makefile.in
+--- mesa-demos-8.3.0.orig/src/demos/Makefile.in	2015-12-09 18:24:00.000000000 -0300
++++ mesa-demos-8.3.0/src/demos/Makefile.in	2015-12-14 15:27:35.253289256 -0300
+@@ -128,11 +128,11 @@
+ @HAVE_GLUT_TRUE@	ipers$(EXEEXT) isosurf$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	lodbias$(EXEEXT) morph3d$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	multiarb$(EXEEXT) paltex$(EXEEXT) \
+-@HAVE_GLUT_TRUE@	pixeltest$(EXEEXT) pointblast$(EXEEXT) \
++@HAVE_GLUT_TRUE@	pixeltest$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	projtex$(EXEEXT) ray$(EXEEXT) readpix$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	reflect$(EXEEXT) renormal$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	shadowtex$(EXEEXT) singlebuffer$(EXEEXT) \
+-@HAVE_GLUT_TRUE@	spectex$(EXEEXT) spriteblast$(EXEEXT) \
++@HAVE_GLUT_TRUE@	spectex$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	stex3d$(EXEEXT) teapot$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	terrain$(EXEEXT) tessdemo$(EXEEXT) \
+ @HAVE_GLUT_TRUE@	texcyl$(EXEEXT) texenv$(EXEEXT) \
+@@ -256,9 +256,6 @@
+ pixeltest_SOURCES = pixeltest.c
+ pixeltest_OBJECTS = pixeltest.$(OBJEXT)
+ pixeltest_LDADD = $(LDADD)
+-pointblast_SOURCES = pointblast.c
+-pointblast_OBJECTS = pointblast.$(OBJEXT)
+-pointblast_LDADD = $(LDADD)
+ projtex_SOURCES = projtex.c
+ projtex_OBJECTS = projtex.$(OBJEXT)
+ projtex_DEPENDENCIES = ../util/libutil.la
+@@ -283,9 +280,6 @@
+ spectex_SOURCES = spectex.c
+ spectex_OBJECTS = spectex.$(OBJEXT)
+ spectex_LDADD = $(LDADD)
+-spriteblast_SOURCES = spriteblast.c
+-spriteblast_OBJECTS = spriteblast.$(OBJEXT)
+-spriteblast_LDADD = $(LDADD)
+ stex3d_SOURCES = stex3d.c
+ stex3d_OBJECTS = stex3d.$(OBJEXT)
+ stex3d_LDADD = $(LDADD)
+@@ -362,8 +356,8 @@
+ 	fbotexture.c fire.c fogcoord.c fplight.c fslight.c gamma.c \
+ 	gearbox.c gears.c geartrain.c glinfo.c gloss.c gltestperf.c \
+ 	ipers.c isosurf.c lodbias.c morph3d.c multiarb.c paltex.c \
+-	pixeltest.c pointblast.c projtex.c ray.c readpix.c reflect.c \
+-	renormal.c shadowtex.c singlebuffer.c spectex.c spriteblast.c \
++	pixeltest.c projtex.c ray.c readpix.c reflect.c \
++	renormal.c shadowtex.c singlebuffer.c spectex.c \
+ 	stex3d.c teapot.c terrain.c tessdemo.c texcyl.c texenv.c \
+ 	textures.c trispd.c $(tunnel_SOURCES) tunnel2.c vao_demo.c \
+ 	winpos.c
+@@ -373,8 +367,8 @@
+ 	fbotexture.c fire.c fogcoord.c fplight.c fslight.c gamma.c \
+ 	gearbox.c gears.c geartrain.c glinfo.c gloss.c gltestperf.c \
+ 	ipers.c isosurf.c lodbias.c morph3d.c multiarb.c paltex.c \
+-	pixeltest.c pointblast.c projtex.c ray.c readpix.c reflect.c \
+-	renormal.c shadowtex.c singlebuffer.c spectex.c spriteblast.c \
++	pixeltest.c projtex.c ray.c readpix.c reflect.c \
++	renormal.c shadowtex.c singlebuffer.c spectex.c \
+ 	stex3d.c teapot.c terrain.c tessdemo.c texcyl.c texenv.c \
+ 	textures.c trispd.c $(tunnel_SOURCES) tunnel2.c vao_demo.c \
+ 	winpos.c
+@@ -814,10 +808,6 @@
+ 	@rm -f pixeltest$(EXEEXT)
+ 	$(AM_V_CCLD)$(LINK) $(pixeltest_OBJECTS) $(pixeltest_LDADD) $(LIBS)
+ 
+-pointblast$(EXEEXT): $(pointblast_OBJECTS) $(pointblast_DEPENDENCIES) $(EXTRA_pointblast_DEPENDENCIES) 
+-	@rm -f pointblast$(EXEEXT)
+-	$(AM_V_CCLD)$(LINK) $(pointblast_OBJECTS) $(pointblast_LDADD) $(LIBS)
+-
+ projtex$(EXEEXT): $(projtex_OBJECTS) $(projtex_DEPENDENCIES) $(EXTRA_projtex_DEPENDENCIES) 
+ 	@rm -f projtex$(EXEEXT)
+ 	$(AM_V_CCLD)$(LINK) $(projtex_OBJECTS) $(projtex_LDADD) $(LIBS)
+@@ -850,10 +840,6 @@
+ 	@rm -f spectex$(EXEEXT)
+ 	$(AM_V_CCLD)$(LINK) $(spectex_OBJECTS) $(spectex_LDADD) $(LIBS)
+ 
+-spriteblast$(EXEEXT): $(spriteblast_OBJECTS) $(spriteblast_DEPENDENCIES) $(EXTRA_spriteblast_DEPENDENCIES) 
+-	@rm -f spriteblast$(EXEEXT)
+-	$(AM_V_CCLD)$(LINK) $(spriteblast_OBJECTS) $(spriteblast_LDADD) $(LIBS)
+-
+ stex3d$(EXEEXT): $(stex3d_OBJECTS) $(stex3d_DEPENDENCIES) $(EXTRA_stex3d_DEPENDENCIES) 
+ 	@rm -f stex3d$(EXEEXT)
+ 	$(AM_V_CCLD)$(LINK) $(stex3d_OBJECTS) $(stex3d_LDADD) $(LIBS)
+@@ -941,7 +927,6 @@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/multiarb.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paltex.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixeltest.Po@am__quote@
+-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointblast.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/projtex.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ray.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/readpix.Po@am__quote@
+@@ -950,7 +935,6 @@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shadowtex.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/singlebuffer.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spectex.Po@am__quote@
+-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spriteblast.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stex3d.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teapot.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/terrain.Po@am__quote@
