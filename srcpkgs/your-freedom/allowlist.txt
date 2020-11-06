@@ -43,6 +43,7 @@ openexr
 openshot:openshot
 openttd:openttd
 p7zip
+perl-Algorithm-Diff
 plasma-desktop
 ponysay
 povray
