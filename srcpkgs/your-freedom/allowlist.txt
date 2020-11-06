@@ -24,6 +24,7 @@ khotkeys
 kio
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
+mate-sensors-applet:mate-sensors-applet
 mc:mc
 mcomix
 memtest86+:memtest86+
