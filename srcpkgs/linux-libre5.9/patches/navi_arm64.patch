@@ -9,21 +9,9 @@ since I don't have the relevant hardware available, but there
 is no way to conditionally disable them, so I've done them anyway.
 
 Signed-off-by: Daniel Kolesa <daniel@octaforge.org>
----
- drivers/gpu/drm/amd/display/Kconfig           |  2 +-
- drivers/gpu/drm/amd/display/dc/calcs/Makefile |  7 ++
- .../gpu/drm/amd/display/dc/clk_mgr/Makefile   |  7 ++
- drivers/gpu/drm/amd/display/dc/dcn10/Makefile |  7 ++
- .../drm/amd/display/dc/dcn10/dcn10_resource.c | 81 ++++++++++++-------
- drivers/gpu/drm/amd/display/dc/dcn20/Makefile |  4 +
- drivers/gpu/drm/amd/display/dc/dcn21/Makefile |  4 +
- drivers/gpu/drm/amd/display/dc/dml/Makefile   | 13 +++
- drivers/gpu/drm/amd/display/dc/dsc/Makefile   |  7 ++
- drivers/gpu/drm/amd/display/dc/os_types.h     |  4 +
- 10 files changed, 104 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index 87858bc..21bf65b 100644
+index 34ae4f3a3..f6f5ac865 100644
 --- a/drivers/gpu/drm/amd/display/Kconfig
 +++ b/drivers/gpu/drm/amd/display/Kconfig
 @@ -6,7 +6,7 @@ config DRM_AMD_DC
@@ -36,7 +24,7 @@ index 87858bc..21bf65b 100644
  	  Choose this option if you want to use the new display engine
  	  support for AMDGPU. This adds required support for Vega and
 diff --git a/drivers/gpu/drm/amd/display/dc/calcs/Makefile b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
-index 4674aca..64f515d 100644
+index 4674aca8f..64f515d74 100644
 --- a/drivers/gpu/drm/amd/display/dc/calcs/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
 @@ -33,6 +33,10 @@ ifdef CONFIG_PPC64
@@ -61,7 +49,7 @@ index 4674aca..64f515d 100644
  BW_CALCS = dce_calcs.o bw_fixed.o custom_float.o
  
 diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
-index c0f6a8c..3b74569 100644
+index 6874276bb..f7a8c5e9c 100644
 --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile
 @@ -93,6 +93,13 @@ ifdef CONFIG_PPC64
@@ -79,7 +67,7 @@ index c0f6a8c..3b74569 100644
  
  AMD_DISPLAY_FILES += $(AMD_DAL_CLK_MGR_DCN21)
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/Makefile b/drivers/gpu/drm/amd/display/dc/dcn10/Makefile
-index 62ad1a1..733e6e6 100644
+index 62ad1a11b..733e6e6e4 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn10/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dcn10/Makefile
 @@ -31,4 +31,11 @@ DCN10 = dcn10_init.o dcn10_resource.o dcn10_ipp.o dcn10_hw_sequencer.o \
@@ -95,10 +83,10 @@ index 62ad1a1..733e6e6 100644
 +
  AMD_DISPLAY_FILES += $(AMD_DAL_DCN10)
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-index ba849aa..924d967 100644
+index 8939541ad..1abd81e17 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-@@ -1318,6 +1318,47 @@ static uint32_t read_pipe_fuses(struct dc_context *ctx)
+@@ -1339,6 +1339,47 @@ static uint32_t read_pipe_fuses(struct dc_context *ctx)
  	return value;
  }
  
@@ -146,7 +134,7 @@ index ba849aa..924d967 100644
  static bool dcn10_resource_construct(
  	uint8_t num_virtual_links,
  	struct dc *dc,
-@@ -1435,37 +1476,15 @@ static bool dcn10_resource_construct(
+@@ -1490,37 +1531,15 @@ static bool dcn10_resource_construct(
  	memcpy(dc->dcn_ip, &dcn10_ip_defaults, sizeof(dcn10_ip_defaults));
  	memcpy(dc->dcn_soc, &dcn10_soc_defaults, sizeof(dcn10_soc_defaults));
  
@@ -194,7 +182,7 @@ index ba849aa..924d967 100644
  	pool->base.pp_smu = dcn10_pp_smu_create(ctx);
  
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/Makefile b/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
-index 5fcaf78..624cb13 100644
+index 5fcaf7833..624cb1341 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
 @@ -17,6 +17,10 @@ ifdef CONFIG_PPC64
@@ -209,7 +197,7 @@ index 5fcaf78..624cb13 100644
  ifeq ($(call cc-ifversion, -lt, 0701, y), y)
  IS_OLD_GCC = 1
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/Makefile b/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
-index 07684d3..51a2f3d 100644
+index 07684d3e3..51a2f3d4c 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
 @@ -13,6 +13,10 @@ ifdef CONFIG_PPC64
@@ -224,7 +212,7 @@ index 07684d3..51a2f3d 100644
  ifeq ($(call cc-ifversion, -lt, 0701, y), y)
  IS_OLD_GCC = 1
 diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-index e34c337..9845cf1 100644
+index 417331438..dbc7e2abe 100644
 --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
 @@ -33,6 +33,10 @@ ifdef CONFIG_PPC64
@@ -238,7 +226,7 @@ index e34c337..9845cf1 100644
  ifdef CONFIG_CC_IS_GCC
  ifeq ($(call cc-ifversion, -lt, 0701, y), y)
  IS_OLD_GCC = 1
-@@ -60,9 +64,18 @@ CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_mode_vba_20v2.o := $(dml_ccflags)
+@@ -60,6 +64,13 @@ CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_mode_vba_20v2.o := $(dml_ccflags)
  CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_rq_dlg_calc_20v2.o := $(dml_ccflags)
  CFLAGS_$(AMDDALPATH)/dc/dml/dcn21/display_mode_vba_21.o := $(dml_ccflags)
  CFLAGS_$(AMDDALPATH)/dc/dml/dcn21/display_rq_dlg_calc_21.o := $(dml_ccflags)
@@ -250,6 +238,10 @@ index e34c337..9845cf1 100644
 +CFLAGS_REMOVE_$(AMDDALPATH)/dc/dml/dcn21/display_mode_vba_21.o := $(dml_rcflags)
 +CFLAGS_REMOVE_$(AMDDALPATH)/dc/dml/dcn21/display_rq_dlg_calc_21.o := $(dml_rcflags)
  endif
+ ifdef CONFIG_DRM_AMD_DC_DCN3_0
+ CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) -Wframe-larger-than=2048
+@@ -67,6 +78,8 @@ CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_rq_dlg_calc_30.o := $(dml_ccflags)
+ endif
  CFLAGS_$(AMDDALPATH)/dc/dml/dml1_display_rq_dlg_calc.o := $(dml_ccflags)
  CFLAGS_$(AMDDALPATH)/dc/dml/display_rq_dlg_helpers.o := $(dml_ccflags)
 +CFLAGS_REMOVE_$(AMDDALPATH)/dc/dml/dml1_display_rq_dlg_calc.o := $(dml_rcflags)
@@ -258,10 +250,10 @@ index e34c337..9845cf1 100644
  DML = display_mode_lib.o display_rq_dlg_helpers.o dml1_display_rq_dlg_calc.o \
  
 diff --git a/drivers/gpu/drm/amd/display/dc/dsc/Makefile b/drivers/gpu/drm/amd/display/dc/dsc/Makefile
-index 3f66868..3c176c9 100644
+index ea29cf95d..f2624a115 100644
 --- a/drivers/gpu/drm/amd/display/dc/dsc/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dsc/Makefile
-@@ -10,6 +10,10 @@
+@@ -10,6 +10,10 @@ ifdef CONFIG_PPC64
  dsc_ccflags := -mhard-float -maltivec
  endif
  
@@ -272,16 +264,16 @@ index 3f66868..3c176c9 100644
  ifdef CONFIG_CC_IS_GCC
  ifeq ($(call cc-ifversion, -lt, 0701, y), y)
  IS_OLD_GCC = 1
-@@ -28,6 +32,7 @@
+@@ -28,6 +32,7 @@ endif
  endif
  
  CFLAGS_$(AMDDALPATH)/dc/dsc/rc_calc.o := $(dsc_ccflags)
 +CFLAGS_REMOVE_$(AMDDALPATH)/dc/dsc/rc_calc.o := $(dsc_rcflags)
  
  DSC = dc_dsc.o rc_calc.o rc_calc_dpi.o
-
+ 
 diff --git a/drivers/gpu/drm/amd/display/dc/os_types.h b/drivers/gpu/drm/amd/display/dc/os_types.h
-index 6d7bca5..6547a1a 100644
+index c3bbfe397..330acaaed 100644
 --- a/drivers/gpu/drm/amd/display/dc/os_types.h
 +++ b/drivers/gpu/drm/amd/display/dc/os_types.h
 @@ -55,6 +55,10 @@
@@ -295,6 +287,3 @@ index 6d7bca5..6547a1a 100644
  #elif defined(CONFIG_PPC64)
  #include <asm/switch_to.h>
  #include <asm/cputable.h>
--- 
-2.28.0
-

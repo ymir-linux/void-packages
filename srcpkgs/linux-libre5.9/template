@@ -1,6 +1,6 @@
-# Template file for 'linux-libre5.9'
+# Template file for 'linux5.9'
 pkgname=linux-libre5.9
-version=5.9.4
+version=5.9.6
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,12 +8,12 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=9e86401630b683bc505ce2f0491504aaa53806a57b5a844cdde471c6275319a5
+checksum=111bc3d0c32614fe7cac03129e7db7e2a7e8bc338185a4a7a3550044cb2eaeb3
 python_version=3
 patch_args="-Np1"
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
-archs="x86_64* i686* mips* ppc* aarch64*"
+archs="x86_64* i686* ppc* aarch64*"
 
 nodebug=yes  # -dbg package is generated below manually
 nostrip=yes
@@ -22,7 +22,7 @@ noshlibprovides=yes
 preserve=yes
 
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
- libressl-devel perl uboot-mkimage cpio pahole"
+ libressl-devel perl uboot-mkimage cpio pahole python3"
 
 _kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
@@ -41,6 +41,13 @@ mutable_files="
  /usr/lib/modules/${_kernver}/modules.alias.bin
  /usr/lib/modules/${_kernver}/modules.devname"
 
+if [ "$CROSS_BUILD" ]; then
+	_cross="CROSS_COMPILE=${XBPS_CROSS_TRIPLET}-"
+fi
+if [ "${_patchver}" ]; then
+	_version="EXTRAVERSION=${_patchver}"
+fi
+
 do_configure() {
 	# 5.8 misses Documentation/DocBook. We ship the directory from 4.12 here.
 	cp -a $FILESDIR/DocBook -t Documentation
@@ -48,7 +55,7 @@ do_configure() {
 	# If there's a file called <arch>-dotconfig, use it to
 	# configure the kernel; otherwise use arch defaults and all stuff
 	# as modules (allmodconfig).
-	local arch subarch _args
+	local arch subarch
 
 	case "$XBPS_TARGET_MACHINE" in
 		i686*) arch=i386;;
@@ -61,32 +68,34 @@ do_configure() {
 		mips*) arch=mips;;
 	esac
 
-	if [ "$CROSS_BUILD" ]; then
-		_args="CROSS_COMPILE=${XBPS_CROSS_TRIPLET}-"
-	fi
+	case "$XBPS_TARGET_MACHINE" in
+		aarch64*) # XXX: fix segfault in pahole 1.18; should be fixed in new releases
+			vsed -i scripts/link-vmlinux.sh -e's;${PAHOLE} -J;& --btf_encode_force;'
+			;;
+	esac
 
 	if [ -f ${FILESDIR}/${subarch:-$arch}-dotconfig-custom ]; then
 		msg_normal "Detected a custom .config file for your arch, using it.\n"
 		cp -f ${FILESDIR}/${subarch:-$arch}-dotconfig-custom .config
-		make ${makejobs} ARCH=$arch ${_args} oldconfig
+		make ${makejobs} ARCH=$arch ${_cross} oldconfig
 	elif [ -f ${FILESDIR}/${subarch:-$arch}-dotconfig ]; then
 		msg_normal "Detected a .config file for your arch, using it.\n"
 		cp -f ${FILESDIR}/${subarch:-$arch}-dotconfig .config
-		make ${makejobs} ARCH=$arch ${_args} oldconfig
+		make ${makejobs} ARCH=$arch ${_cross} oldconfig
 	elif [ -f ${FILESDIR}/${XBPS_TARGET_MACHINE%%-musl}-dotconfig ]; then
 		msg_normal "Detected a .config file for your cpu family, using it.\n"
 		cp -f ${FILESDIR}/${XBPS_TARGET_MACHINE%%-musl}-dotconfig .config
-		make ${makejobs} ARCH=$arch ${_args} oldconfig
+		make ${makejobs} ARCH=$arch ${_cross} oldconfig
 	else
 		msg_normal "Defaulting to 'allmodconfig'.\n"
-		make ${makejobs} ARCH=$arch ${_args} allmodconfig
+		make ${makejobs} ARCH=$arch ${_cross} allmodconfig
 	fi
 	# Always use our revision to CONFIG_LOCALVERSION to match our pkg version.
 	sed -i -e "s|^\(CONFIG_LOCALVERSION=\).*|\1\"_${revision}\"|" .config
 }
 
 do_build() {
-	local arch _cross _args
+	local arch _args
 
 	case "$XBPS_TARGET_MACHINE" in
 		i686*) _args="bzImage modules"; arch=i386;;
@@ -96,12 +105,6 @@ do_build() {
 		ppc*) _args="zImage modules"; arch=powerpc;;
 		mips*) _args="uImage modules dtbs"; arch=mips;;
 	esac
-	if [ "$CROSS_BUILD" ]; then
-		_cross="CROSS_COMPILE=${XBPS_CROSS_TRIPLET}-"
-	fi
-	if [ "${_patchver}" ]; then
-		_version="EXTRAVERSION=${_patchver}"
-	fi
 	export LDFLAGS=
 	make ARCH=$arch ${_version} ${_cross} ${makejobs} prepare
 	make ARCH=$arch ${_version} ${_cross} ${makejobs} ${_args}
@@ -123,7 +126,7 @@ do_install() {
 	sed -i '2iexit 0' scripts/depmod.sh
 
 	# Install kernel, firmware and modules
-	make ${makejobs} ARCH=${subarch:-$arch} INSTALL_MOD_PATH=${DESTDIR} modules_install
+	make ${makejobs} ARCH=${subarch:-$arch} INSTALL_MOD_PATH=${DESTDIR} ${_cross} modules_install
 
 	hdrdest=${DESTDIR}/usr/src/kernel-headers-${_kernver}
 
@@ -136,11 +139,11 @@ do_install() {
 			;;
 		arm)
 			vinstall arch/arm/boot/zImage 644 boot
-			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} dtbs_install
+			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} ${_cross} dtbs_install
 			;;
 		arm64)
 			vinstall arch/arm64/boot/Image 644 boot vmlinux-${_kernver}
-			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} dtbs_install
+			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} ${_cross} dtbs_install
 			;;
 		powerpc)
 			# zImage on powerpc is useless as it won't load initramfs
@@ -150,7 +153,7 @@ do_install() {
 			;;
 		mips)
 			vinstall arch/mips/boot/uImage.bin 644 boot uImage-${_kernver}
-			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} dtbs_install
+			make ${makejobs} ARCH=${subarch:-$arch} INSTALL_DTBS_PATH=${DESTDIR}/boot/dtbs/dtbs-${_kernver} ${_cross} dtbs_install
 			;;
 	esac
 
@@ -192,7 +195,7 @@ do_install() {
 	# if generated files from the scripts/ directory need to be included,
 	# they need to be copied to ${hdrdest} before this step
 	if [ "$CROSS_BUILD" ]; then
-		make ${makejobs} ARCH=${subarch:-$arch} _mrproper_scripts
+		make ${makejobs} ARCH=${subarch:-$arch} ${_cross} _mrproper_scripts
 		# remove host specific objects as well
 		find scripts -name '*.o' -delete
 	fi
@@ -312,7 +315,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux-libre5.8-headers_package() {
+linux5.9-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -322,7 +325,7 @@ linux-libre5.8-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux-libre5.8-dbg_package() {
+linux5.9-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
