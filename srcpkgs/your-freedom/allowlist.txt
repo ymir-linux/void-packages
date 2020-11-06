@@ -8,6 +8,7 @@ avidemux
 blackbox
 cool-retro-term
 cowsay:cowsay
+cups-filters:cups-filters
 engrampa:engrampa
 epdfview
 epiphany
