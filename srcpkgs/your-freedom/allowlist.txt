@@ -8,6 +8,7 @@ avidemux
 blackbox
 cool-retro-term
 cowsay:cowsay
+cups-filters:cups-filters
 engrampa:engrampa
 epdfview
 epiphany
@@ -24,13 +25,16 @@ khotkeys
 kio
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
+mate-sensors-applet:mate-sensors-applet
 mc:mc
 mcomix
 memtest86+:memtest86+
+mesa-demos
 midori
 minitube
 mplayer:mplayer
 netsurf
+libogre:libogre
 libosinfo
 libsynctex
 okular
@@ -40,6 +44,7 @@ openexr
 openshot:openshot
 openttd:openttd
 p7zip
+perl-Algorithm-Diff
 plasma-desktop
 ponysay
 povray
@@ -47,6 +52,7 @@ psensor:psensor
 pysolfc-cardsets
 python-reportlab
 SDL
+SDL-devel-32bit
 shntool:shntool
 smplayer
 soundkonverter:soundkonverter
