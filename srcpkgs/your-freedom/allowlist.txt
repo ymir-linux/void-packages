@@ -50,6 +50,7 @@ psensor:psensor
 pysolfc-cardsets
 python-reportlab
 SDL
+SDL-devel-32bit
 shntool:shntool
 smplayer
 soundkonverter:soundkonverter
