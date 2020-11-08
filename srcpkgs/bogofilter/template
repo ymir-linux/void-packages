@@ -16,6 +16,14 @@ checksum=3248a1373bff552c500834adbea4b6caee04224516ae581fb25a4c6a6dee89ea
 
 conf_files="/etc/bogofilter/bogofilter.cf"
 
+# Liberation
+# Some code has been taken and modified from:
+# https://git.parabola.nu/abslibre.git/tree/libre/bogofilter/PKGBUILD
+post_patch() {
+	# Several of the documentation files are nonfree
+	rm doc/bogofilter-SA-{2005-0{1,2},2010-01}
+}
+
 post_install() {
 	vinstall bogofilter.cf.example 644  etc/bogofilter bogofilter.cf
 	rm ${PKGDESTDIR}/etc/bogofilter/bogofilter.cf.example

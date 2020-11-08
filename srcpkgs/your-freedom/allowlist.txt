@@ -6,6 +6,7 @@ asciidoc:asciidoc
 atool
 avidemux
 blackbox
+bogofilter
 cool-retro-term
 cowsay:cowsay
 cups-filters:cups-filters
