@@ -41,6 +41,7 @@ okular
 opencv
 opencv4
 openexr
+openmw
 openshot:openshot
 openttd:openttd
 p7zip
