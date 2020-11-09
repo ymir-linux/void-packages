@@ -22,6 +22,7 @@ gloobus-preview
 grub
 gst-plugins-bad1
 hexchat
+hplip
 hydrogen
 khotkeys
 kio
