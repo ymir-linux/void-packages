@@ -71,5 +71,6 @@ texlive2020-bin
 unp
 unzip
 virt-manager
+wireguard:wireguard
 xarchiver
 xscreensaver
