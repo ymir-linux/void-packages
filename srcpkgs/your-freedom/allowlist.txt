@@ -25,6 +25,7 @@ gst-plugins-bad1
 hexchat
 hplip
 hydrogen
+kdepim-runtime
 khotkeys
 kio
 lesspipe:lesspipe

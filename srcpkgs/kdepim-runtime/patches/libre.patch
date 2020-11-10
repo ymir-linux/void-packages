@@ -1,0 +1,61 @@
+diff -Naurp1 a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2020-11-03 06:46:42.000000000 +0600
++++ b/CMakeLists.txt	2020-11-10 21:50:39.918988711 +0600
+@@ -103,3 +103,3 @@ option(KDEPIM_RUN_AKONADI_TEST "Enable a
+ # QT5 package
+-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED TextToSpeech Network Widgets Test XmlPatterns DBus WebEngineWidgets NetworkAuth)
++find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED TextToSpeech Network Widgets Test XmlPatterns DBus NetworkAuth)
+ 
+diff -Naurp1 a/resources/CMakeLists.txt b/resources/CMakeLists.txt
+--- a/resources/CMakeLists.txt	2020-10-17 13:34:03.000000000 +0600
++++ b/resources/CMakeLists.txt	2020-11-10 21:53:09.888981748 +0600
+@@ -47,4 +47,2 @@ endif()
+ 
+-#Disable it as it seems Facebook disabled the login and event API has been crippled
+-#add_subdirectory( facebook )
+ add_subdirectory( maildir )
+@@ -65,2 +63 @@ add_subdirectory( folderarchivesettings
+ add_subdirectory( tomboynotes )
+-add_subdirectory( ews )
+diff -Naurp1 a/resources/tomboynotes/CMakeLists.txt b/resources/tomboynotes/CMakeLists.txt
+--- a/resources/tomboynotes/CMakeLists.txt	2020-10-17 13:34:03.000000000 +0600
++++ b/resources/tomboynotes/CMakeLists.txt	2020-11-10 21:53:31.696980735 +0600
+@@ -67,3 +67,2 @@ target_link_libraries(akonadi_tomboynote
+     Qt5::Network
+-    Qt5::WebEngineWidgets
+     KF5::AkonadiAgentBase
+diff -Naurp1 a/resources/tomboynotes/tomboyserverauthenticatejob.cpp b/resources/tomboynotes/tomboyserverauthenticatejob.cpp
+--- a/resources/tomboynotes/tomboyserverauthenticatejob.cpp	2020-10-17 13:34:03.000000000 +0600
++++ b/resources/tomboynotes/tomboyserverauthenticatejob.cpp	2020-11-10 21:55:11.354976108 +0600
+@@ -27,5 +27,3 @@ TomboyServerAuthenticateJob::TomboyServe
+     : TomboyJobBase(manager, parent)
+-    , mWebView(new QWebEngineView(nullptr))
+ {
+-    mWebView->setContextMenuPolicy(Qt::NoContextMenu);
+     // Connect the o2 authenfication signals
+@@ -33,4 +31,2 @@ TomboyServerAuthenticateJob::TomboyServe
+     connect(mO1, &O1::linkingSucceeded, this, &TomboyServerAuthenticateJob::onLinkingSucceeded);
+-    connect(mO1, &O1::openBrowser, this, &TomboyServerAuthenticateJob::onOpenBrowser);
+-    connect(mO1, &O1::closeBrowser, mWebView, &QWebEngineView::close);
+ }
+@@ -39,3 +35,2 @@ TomboyServerAuthenticateJob::~TomboyServ
+ {
+-    delete mWebView;
+ }
+@@ -85,4 +80,2 @@ void TomboyServerAuthenticateJob::onOpen
+ {
+-    mWebView->setUrl(url);
+-    mWebView->show();
+ }
+diff -Naurp1 a/resources/tomboynotes/tomboyserverauthenticatejob.h b/resources/tomboynotes/tomboyserverauthenticatejob.h
+--- a/resources/tomboynotes/tomboyserverauthenticatejob.h	2020-10-17 13:34:03.000000000 +0600
++++ b/resources/tomboynotes/tomboyserverauthenticatejob.h	2020-11-10 21:55:41.780974696 +0600
+@@ -24,3 +24,2 @@
+ #include <QString>
+-#include <QWebEngineView>
+ 
+@@ -49,4 +48,2 @@ private:
+     QString mUserURL;
+-
+-    QWebEngineView *mWebView = nullptr;
+ };
