@@ -5,6 +5,7 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+bibletime
 blackbox
 bogofilter
 clementine
