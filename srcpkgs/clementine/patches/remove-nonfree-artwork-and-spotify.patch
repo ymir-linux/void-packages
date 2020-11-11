@@ -1,0 +1,574 @@
+diff -Naurp1 a/3rdparty/SPMediaKeyTap/SPMediaKeyTap.m b/3rdparty/SPMediaKeyTap/SPMediaKeyTap.m
+--- a/3rdparty/SPMediaKeyTap/SPMediaKeyTap.m	2020-09-24 08:34:08.000000000 +0600
++++ b/3rdparty/SPMediaKeyTap/SPMediaKeyTap.m	2020-11-08 18:25:45.944167054 +0600
+@@ -100,3 +100,2 @@ static CGEventRef tapEventCallback(CGEve
+ 		[[NSBundle mainBundle] bundleIdentifier], // your app
+-		@"com.spotify.client",
+ 		@"com.apple.iTunes",
+diff -Naurp1 a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2020-09-24 08:34:08.000000000 +0600
++++ b/CMakeLists.txt	2020-11-08 18:28:33.915159255 +0600
+@@ -12,3 +12,2 @@ include(cmake/Version.cmake)
+ include(cmake/Deb.cmake)
+-include(cmake/SpotifyVersion.cmake)
+ include(cmake/OptionalSource.cmake)
+@@ -77,3 +76,2 @@ pkg_check_modules(LIBPULSE libpulse)
+ pkg_check_modules(LIBXML libxml-2.0)
+-pkg_check_modules(LIBSPOTIFY libspotify>=12.1.45)
+ pkg_check_modules(TAGLIB taglib)
+@@ -169,8 +167,2 @@ if (APPLE)
+   find_library(SPARKLE Sparkle)
+-  find_library(LIBSPOTIFY libspotify)
+-
+-  if(LIBSPOTIFY_FOUND)
+-    set(LIBSPOTIFY_INCLUDE_DIRS ${LIBSPOTIFY})
+-    set(LIBSPOTIFY_LIBRARIES ${LIBSPOTIFY})
+-  endif(LIBSPOTIFY_FOUND)
+ 
+@@ -298,15 +290,2 @@ optional_component(UDISKS2 ON "Devices:
+ 
+-optional_component(SPOTIFY_BLOB ON "Spotify support: non-GPL binary helper"
+-  DEPENDS "protobuf" PROTOBUF_FOUND PROTOBUF_PROTOC_EXECUTABLE
+-  DEPENDS "libspotify" LIBSPOTIFY_FOUND
+-)
+-
+-if (CRYPTOPP_FOUND OR HAVE_SPOTIFY_BLOB)
+-  set(CRYPTOPP_OR_HAVE_SPOTIFY_BLOB ON)
+-endif()
+-
+-optional_component(SPOTIFY ON "Spotify support"
+-  DEPENDS "cryptopp or spotify blob" CRYPTOPP_OR_HAVE_SPOTIFY_BLOB
+-)
+-
+ optional_component(MOODBAR ON "Moodbar support"
+@@ -344,5 +323,2 @@ if(CRYPTOPP_FOUND)
+   set(HAVE_CRYPTOPP ON)
+-  if(HAVE_SPOTIFY)
+-    set(HAVE_SPOTIFY_DOWNLOADER ON)
+-  endif(HAVE_SPOTIFY)
+ endif(CRYPTOPP_FOUND)
+@@ -456,5 +432,2 @@ add_subdirectory(ext/clementine-tagreade
+ add_subdirectory(ext/libclementine-remote)
+-if(HAVE_SPOTIFY)
+-  add_subdirectory(ext/libclementine-spotifyblob)
+-endif(HAVE_SPOTIFY)
+ 
+@@ -469,6 +442,2 @@ endif(HAVE_BREAKPAD)
+ 
+-if(HAVE_SPOTIFY_BLOB)
+-  add_subdirectory(ext/clementine-spotifyblob)
+-endif(HAVE_SPOTIFY_BLOB)
+-
+ if(HAVE_MOODBAR)
+diff -Naurp1 a/data/data.qrc b/data/data.qrc
+--- a/data/data.qrc	2020-09-24 08:34:08.000000000 +0600
++++ b/data/data.qrc	2020-11-08 18:30:09.525154816 +0600
+@@ -5,3 +5,2 @@
+         <file>clementine_remote_qr.png</file>
+-        <file>clementine-spotify-public.pem</file>
+         <file>currenttrack_bar_left.png</file>
+@@ -286,3 +285,3 @@
+         <file>nomusic.png</file>
+-        <file>nyancat.png</file>
++        <file>moognu.png</file>
+         <file>oauthsuccess.html</file>
+@@ -354,3 +353,2 @@
+         <file>providers/22x22/soundcloud.png</file>
+-        <file>providers/22x22/spotify.png</file>
+         <file>providers/22x22/subsonic.png</file>
+@@ -387,3 +385,2 @@
+         <file>providers/32x32/soundcloud.png</file>
+-        <file>providers/32x32/spotify.png</file>
+         <file>providers/32x32/subsonic.png</file>
+@@ -420,3 +417,2 @@
+         <file>providers/48x48/soundcloud.png</file>
+-        <file>providers/48x48/spotify.png</file>
+         <file>providers/48x48/subsonic.png</file>
+@@ -485,3 +481,2 @@
+         <file>spinner.gif</file>
+-        <file>spotify-attribution.png</file>
+         <file>star-off.png</file>
+diff -Naurp1 a/dist/codesign.py b/dist/codesign.py
+--- a/dist/codesign.py	2020-09-24 08:34:08.000000000 +0600
++++ b/dist/codesign.py	2020-11-08 18:31:12.019151915 +0600
+@@ -35,3 +35,3 @@ def main():
+         SignPath(os.path.join(root, file), developer_id)
+-      elif re.match(r'(clementine-spotifyblob|clementine-tagreader|gst-plugin-scanner)', file):
++      elif re.match(r'(clementine-tagreader|gst-plugin-scanner)', file):
+         SignPath(os.path.join(root, file), developer_id)
+diff -Naurp1 a/dist/macdeploy.py b/dist/macdeploy.py
+--- a/dist/macdeploy.py	2020-09-24 08:34:08.000000000 +0600
++++ b/dist/macdeploy.py	2020-11-08 18:31:58.517149756 +0600
+@@ -484,6 +484,3 @@ def main():
+   try:
+-    FixPlugin('clementine-spotifyblob', '.')
+     FixPlugin('clementine-tagreader', '.')
+-  except:
+-    print('Failed to find blob: %s' % traceback.format_exc())
+ 
+diff -Naurp1 a/dist/windows/clementine.nsi.in b/dist/windows/clementine.nsi.in
+--- a/dist/windows/clementine.nsi.in	2020-09-24 08:34:08.000000000 +0600
++++ b/dist/windows/clementine.nsi.in	2020-11-08 18:33:39.033145089 +0600
+@@ -189,5 +189,2 @@ Section "Delete old files" oldfiles
+ 
+-  ; 1.0 prerelease
+-  Delete "$INSTDIR\spotify.dll"
+-
+   ; 1.0
+@@ -304,3 +301,2 @@ Section "Clementine" Clementine
+   File "clementine-tagreader.exe"
+-  File "clementine-spotifyblob.exe"
+   File "clementine.ico"
+@@ -357,3 +353,2 @@ Section "Clementine" Clementine
+   File "libspeex-1.dll"
+-  File "libspotify.dll"
+   File "libssl-1_1.dll"
+@@ -1139,3 +1134,2 @@ Section "Uninstall"
+   Delete "$INSTDIR\clementine-tagreader.exe"
+-  Delete "$INSTDIR\clementine-spotifyblob.exe"
+   Delete "$INSTDIR\clementine.ico"
+@@ -1192,3 +1186,2 @@ Section "Uninstall"
+   Delete "$INSTDIR\libspeex-1.dll"
+-  Delete "$INSTDIR\libspotify.dll"
+   Delete "$INSTDIR\libssl-1_1.dll"
+diff -Naurp1 a/ext/libclementine-common/core/logging.cpp b/ext/libclementine-common/core/logging.cpp
+--- a/ext/libclementine-common/core/logging.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/ext/libclementine-common/core/logging.cpp	2020-11-08 18:34:30.977142678 +0600
+@@ -16,5 +16,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+ 
+diff -Naurp1 a/ext/libclementine-common/core/logging.h b/ext/libclementine-common/core/logging.h
+--- a/ext/libclementine-common/core/logging.h	2020-09-24 08:34:08.000000000 +0600
++++ b/ext/libclementine-common/core/logging.h	2020-11-08 18:35:26.695140091 +0600
+@@ -16,5 +16,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+ 
+diff -Naurp1 a/ext/libclementine-common/core/messagehandler.cpp b/ext/libclementine-common/core/messagehandler.cpp
+--- a/ext/libclementine-common/core/messagehandler.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/ext/libclementine-common/core/messagehandler.cpp	2020-11-08 18:35:45.766139206 +0600
+@@ -16,5 +16,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+ 
+diff -Naurp1 a/ext/libclementine-common/core/messagehandler.h b/ext/libclementine-common/core/messagehandler.h
+--- a/ext/libclementine-common/core/messagehandler.h	2020-09-24 08:34:08.000000000 +0600
++++ b/ext/libclementine-common/core/messagehandler.h	2020-11-08 18:36:05.359138296 +0600
+@@ -16,5 +16,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+ 
+diff -Naurp1 a/ext/libclementine-common/core/override.h b/ext/libclementine-common/core/override.h
+--- a/ext/libclementine-common/core/override.h	2020-09-24 08:34:08.000000000 +0600
++++ b/ext/libclementine-common/core/override.h	2020-11-08 18:36:26.411137319 +0600
+@@ -16,5 +16,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+ 
+diff -Naurp1 a/src/analyzers/rainbowanalyzer.cpp b/src/analyzers/rainbowanalyzer.cpp
+--- a/src/analyzers/rainbowanalyzer.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/analyzers/rainbowanalyzer.cpp	2020-11-08 18:40:32.914125874 +0600
+@@ -43,3 +43,3 @@ const int Rainbow::RainbowAnalyzer::kSle
+ 
+-const char* Rainbow::NyanCatAnalyzer::kName = "Nyanalyzer Cat";
++const char* Rainbow::NyanCatAnalyzer::kName = "MooGNU";
+ const char* Rainbow::RainbowDashAnalyzer::kName = "Rainbow Dash";
+@@ -60,3 +60,3 @@ Rainbow::RainbowAnalyzer::RainbowAnalyze
+   rainbowtype = rbtype;
+-  cat_dash_[0] = QPixmap(":/nyancat.png");
++  cat_dash_[0] = QPixmap(":/moognu.png");
+   cat_dash_[1] = QPixmap(":/rainbowdash.png");
+@@ -194,4 +194,4 @@ void Rainbow::RainbowAnalyzer::analyze(Q
+ 
+-  // Draw rainbow analyzer (nyan cat or rainbowdash)
+-  // Nyan nyan nyan nyan dash dash dash dash.
++  // Draw rainbow analyzer (moo gnu or rainbowdash)
++  // Moo moo moo moo dash dash dash dash.
+   if (!is_playing_) {
+diff -Naurp1 a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt	2020-09-24 08:34:08.000000000 +0600
++++ b/src/CMakeLists.txt	2020-11-08 18:38:37.819131218 +0600
+@@ -49,6 +49,2 @@ include_directories(${CMAKE_SOURCE_DIR}/
+ include_directories(${CMAKE_BINARY_DIR}/ext/libclementine-remote)
+-if(HAVE_SPOTIFY)
+-  include_directories(${CMAKE_SOURCE_DIR}/ext/libclementine-spotifyblob)
+-  include_directories(${CMAKE_BINARY_DIR}/ext/libclementine-spotifyblob)
+-endif(HAVE_SPOTIFY)
+ 
+@@ -307,3 +303,2 @@ set(SOURCES
+   songinfo/songplaystats.cpp
+-  songinfo/spotifyimages.cpp
+   songinfo/streamdiscoverer.cpp
+@@ -601,3 +596,2 @@ set(HEADERS
+   songinfo/songplaystats.h
+-  songinfo/spotifyimages.h
+   songinfo/streamdiscoverer.h
+@@ -847,29 +841,2 @@ optional_source(HAVE_LIBLASTFM
+ 
+-# Spotify support
+-optional_source(HAVE_SPOTIFY
+-  SOURCES
+-    internet/spotify/spotifyserver.cpp
+-    internet/spotify/spotifyservice.cpp
+-    internet/spotify/spotifysettingspage.cpp
+-    globalsearch/spotifysearchprovider.cpp
+-  HEADERS
+-    globalsearch/spotifysearchprovider.h
+-    internet/spotify/spotifyserver.h
+-    internet/spotify/spotifyservice.h
+-    internet/spotify/spotifysettingspage.h
+-  UI
+-    internet/spotify/spotifysettingspage.ui
+-)
+-
+-if(HAVE_SPOTIFY)
+-  optional_source(HAVE_SPOTIFY_DOWNLOADER
+-    SOURCES
+-      internet/spotify/spotifyblobdownloader.cpp
+-    HEADERS
+-      internet/spotify/spotifyblobdownloader.h
+-    INCLUDE_DIRECTORIES
+-      ${CRYPTOPP_INCLUDE_DIRS}
+-  )
+-endif(HAVE_SPOTIFY)
+-
+ # Platform specific - OS X
+@@ -1331,13 +1298,2 @@ endif(HAVE_BREAKPAD)
+ 
+-if(HAVE_SPOTIFY)
+-  target_link_libraries(clementine_lib clementine-spotifyblob-messages)
+-endif(HAVE_SPOTIFY)
+-
+-if(HAVE_SPOTIFY_DOWNLOADER)
+-  target_link_libraries(clementine_lib
+-    ${CRYPTOPP_LIBRARIES}
+-  )
+-  link_directories(${CRYPTOPP_LIBRARY_DIRS})
+-endif(HAVE_SPOTIFY_DOWNLOADER)
+-
+ if(HAVE_LIBPULSE)
+@@ -1428,6 +1384,2 @@ target_link_libraries(clementine
+ 
+-# macdeploy.py relies on the blob being built first.
+-if(HAVE_SPOTIFY_BLOB)
+-  add_dependencies(clementine clementine-spotifyblob)
+-endif(HAVE_SPOTIFY_BLOB)
+ add_dependencies(clementine clementine-tagreader)
+diff -Naurp1 a/src/config.h.in b/src/config.h.in
+--- a/src/config.h.in	2020-09-24 08:34:08.000000000 +0600
++++ b/src/config.h.in	2020-11-08 18:41:18.375123763 +0600
+@@ -44,3 +44,2 @@
+ #cmakedefine HAVE_SPARKLE
+-#cmakedefine HAVE_SPOTIFY_DOWNLOADER
+ #cmakedefine HAVE_UDISKS2
+@@ -49,3 +48,2 @@
+ #cmakedefine HAVE_TRANSLATIONS
+-#cmakedefine HAVE_SPOTIFY
+ #cmakedefine TAGLIB_HAS_OPUS
+diff -Naurp1 a/src/core/backgroundstreams.cpp b/src/core/backgroundstreams.cpp
+--- a/src/core/backgroundstreams.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/core/backgroundstreams.cpp	2020-11-08 18:42:05.017121598 +0600
+@@ -30,4 +30,2 @@ const char* BackgroundStreams::kSettings
+ const char* BackgroundStreams::kHypnotoadUrl = "hypnotoad:///";
+-const char* BackgroundStreams::kRainUrl =
+-    "http://data.clementine-player.org/rainymood";
+ const char* BackgroundStreams::kEnterpriseUrl = "enterprise:///";
+@@ -46,3 +44,2 @@ void BackgroundStreams::LoadStreams() {
+     AddStream(QT_TR_NOOP("Hypnotoad"), QUrl(kHypnotoadUrl));
+-    AddStream(QT_TR_NOOP("Rain"), QUrl(kRainUrl));
+   }
+diff -Naurp1 a/src/core/timeconstants.h b/src/core/timeconstants.h
+--- a/src/core/timeconstants.h	2020-09-24 08:34:08.000000000 +0600
++++ b/src/core/timeconstants.h	2020-11-08 18:42:34.981120207 +0600
+@@ -18,6 +18,2 @@
+ 
+-// Note: this file is licensed under the Apache License instead of GPL because
+-// it is used by the Spotify blob which links against libspotify and is not GPL
+-// compatible.
+-
+ #ifndef CORE_TIMECONSTANTS_H_
+diff -Naurp1 a/src/core/utilities.cpp b/src/core/utilities.cpp
+--- a/src/core/utilities.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/core/utilities.cpp	2020-11-08 18:43:04.465118838 +0600
+@@ -399,5 +399,2 @@ QString GetConfigPath(ConfigPath config)
+ 
+-    case Path_LocalSpotifyBlob:
+-      return GetConfigPath(Path_Root) + "/spotifyblob";
+-
+     default:
+diff -Naurp1 a/src/core/utilities.h b/src/core/utilities.h
+--- a/src/core/utilities.h	2020-09-24 08:34:08.000000000 +0600
++++ b/src/core/utilities.h	2020-11-08 18:43:24.698117899 +0600
+@@ -137,3 +137,2 @@ enum ConfigPath {
+   Path_DefaultMusicLibrary,
+-  Path_LocalSpotifyBlob,
+   Path_MoodbarCache,
+diff -Naurp1 a/src/covers/albumcoverloader.cpp b/src/covers/albumcoverloader.cpp
+--- a/src/covers/albumcoverloader.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/covers/albumcoverloader.cpp	2020-11-08 18:46:13.241110074 +0600
+@@ -36,5 +36,2 @@
+ #include "internet/core/internetmodel.h"
+-#ifdef HAVE_SPOTIFY
+-#include "internet/spotify/spotifyservice.h"
+-#endif
+ 
+@@ -44,4 +41,3 @@ AlbumCoverLoader::AlbumCoverLoader(QObje
+       next_id_(1),
+-      network_(new NetworkAccessManager(this)),
+-      connected_spotify_(false) {
++      network_(new NetworkAccessManager(this)) {
+   setObjectName("Album cover loader");
+@@ -183,25 +179,2 @@ AlbumCoverLoader::TryLoadResult AlbumCov
+   }
+-#ifdef HAVE_SPOTIFY
+-  else if (filename.toLower().startsWith("spotify://image/")) {
+-    // HACK: we should add generic image URL handlers
+-    SpotifyService* spotify = InternetModel::Service<SpotifyService>();
+-
+-    if (!connected_spotify_) {
+-      connect(spotify, SIGNAL(ImageLoaded(QString, QImage)),
+-              SLOT(SpotifyImageLoaded(QString, QImage)));
+-      connected_spotify_ = true;
+-    }
+-
+-    QString id = QUrl(filename).path();
+-    if (id.startsWith('/')) {
+-      id.remove(0, 1);
+-    }
+-    remote_spotify_tasks_.insert(id, task);
+-
+-    // Need to schedule this in the spotify service's thread
+-    QMetaObject::invokeMethod(spotify, "LoadImage", Qt::QueuedConnection,
+-                              Q_ARG(QString, id));
+-    return TryLoadResult(true, false, QImage());
+-  }
+-#endif
+   else if (filename.isEmpty()) {
+@@ -218,14 +191,2 @@ AlbumCoverLoader::TryLoadResult AlbumCov
+ 
+-#ifdef HAVE_SPOTIFY
+-void AlbumCoverLoader::SpotifyImageLoaded(const QString& id,
+-                                          const QImage& image) {
+-  if (!remote_spotify_tasks_.contains(id)) return;
+-
+-  Task task = remote_spotify_tasks_.take(id);
+-  QImage scaled = ScaleAndPad(task.options, image);
+-  emit ImageLoaded(task.id, scaled);
+-  emit ImageLoaded(task.id, scaled, image);
+-}
+-#endif
+-
+ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply* reply) {
+diff -Naurp1 a/src/covers/albumcoverloader.h b/src/covers/albumcoverloader.h
+--- a/src/covers/albumcoverloader.h	2020-09-24 08:34:08.000000000 +0600
++++ b/src/covers/albumcoverloader.h	2020-11-08 18:47:03.475107741 +0600
+@@ -69,5 +69,2 @@ class AlbumCoverLoader : public QObject
+   void RemoteFetchFinished(QNetworkReply* reply);
+-#ifdef HAVE_SPOTIFY
+-  void SpotifyImageLoaded(const QString& url, const QImage& image);
+-#endif
+ 
+@@ -111,3 +108,2 @@ class AlbumCoverLoader : public QObject
+   QMap<QNetworkReply*, Task> remote_tasks_;
+-  QMap<QString, Task> remote_spotify_tasks_;
+   quint64 next_id_;
+@@ -116,4 +112,2 @@ class AlbumCoverLoader : public QObject
+ 
+-  bool connected_spotify_;
+-
+   static const int kMaxRedirects = 3;
+diff -Naurp1 a/src/engines/gstenginepipeline.cpp b/src/engines/gstenginepipeline.cpp
+--- a/src/engines/gstenginepipeline.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/engines/gstenginepipeline.cpp	2020-11-08 18:49:12.699101742 +0600
+@@ -38,6 +38,2 @@
+ #include "internet/core/internetmodel.h"
+-#ifdef HAVE_SPOTIFY
+-#include "internet/spotify/spotifyserver.h"
+-#include "internet/spotify/spotifyservice.h"
+-#endif
+ 
+@@ -172,41 +168,2 @@ GstElement* GstEnginePipeline::CreateDec
+   GstElement* new_bin = nullptr;
+-#ifdef HAVE_SPOTIFY
+-  if (url.scheme() == "spotify") {
+-    new_bin = gst_bin_new("spotify_bin");
+-    if (!new_bin) return nullptr;
+-
+-    // Create elements
+-    GstElement* src = engine_->CreateElement("tcpserversrc", new_bin);
+-    if (!src) {
+-      gst_object_unref(GST_OBJECT(new_bin));
+-      return nullptr;
+-    }
+-    GstElement* gdp = engine_->CreateElement("gdpdepay", new_bin);
+-    if (!gdp) {
+-      gst_object_unref(GST_OBJECT(new_bin));
+-      return nullptr;
+-    }
+-
+-    // Pick a port number
+-    const int port = Utilities::PickUnusedPort();
+-    g_object_set(G_OBJECT(src), "host", "127.0.0.1", nullptr);
+-    g_object_set(G_OBJECT(src), "port", port, nullptr);
+-
+-    // Link the elements
+-    gst_element_link(src, gdp);
+-
+-    // Add a ghost pad
+-    GstPad* pad = gst_element_get_static_pad(gdp, "src");
+-    gst_element_add_pad(GST_ELEMENT(new_bin), gst_ghost_pad_new("src", pad));
+-    gst_object_unref(GST_OBJECT(pad));
+-
+-    // Tell spotify to start sending data to us.
+-    SpotifyServer* spotify_server =
+-        InternetModel::Service<SpotifyService>()->server();
+-    // Need to schedule this in the spotify server's thread
+-    QMetaObject::invokeMethod(
+-        spotify_server, "StartPlayback", Qt::QueuedConnection,
+-        Q_ARG(QString, url.toString()), Q_ARG(quint16, port));
+-  } else {
+-#endif
+     QByteArray uri = GstUriFromUrl(url);
+@@ -220,5 +177,2 @@ GstElement* GstEnginePipeline::CreateDec
+                      this);
+-#ifdef HAVE_SPOTIFY
+-  }
+-#endif
+ 
+@@ -1020,10 +974,3 @@ void GstEnginePipeline::SourceDrainedCal
+ 
+-  if (instance->has_next_valid_url() &&
+-      // I'm not sure why, but calling this when previous track is a local song
+-      // and the next track is a Spotify song is buggy: the Spotify song will
+-      // not start or with some offset. So just do nothing here: when the song
+-      // finished, EndOfStreamReached/TrackEnded will be emitted anyway so
+-      // NextItem will be called.
+-      !(instance->current_.url_.scheme() != "spotify" &&
+-        instance->next_.url_.scheme() == "spotify")) {
++  if (instance->has_next_valid_url()) {
+     instance->TransitionToNext();
+@@ -1140,22 +1087,2 @@ GstState GstEnginePipeline::state() cons
+ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(GstState state) {
+-#ifdef HAVE_SPOTIFY
+-  if (current_.url_.scheme() == "spotify" && !buffering_) {
+-    const GstState current_state = this->state();
+-
+-    if (state == GST_STATE_PAUSED && current_state == GST_STATE_PLAYING) {
+-      SpotifyService* spotify = InternetModel::Service<SpotifyService>();
+-
+-      // Need to schedule this in the spotify service's thread
+-      QMetaObject::invokeMethod(spotify, "SetPaused", Qt::QueuedConnection,
+-                                Q_ARG(bool, true));
+-    } else if (state == GST_STATE_PLAYING &&
+-               current_state == GST_STATE_PAUSED) {
+-      SpotifyService* spotify = InternetModel::Service<SpotifyService>();
+-
+-      // Need to schedule this in the spotify service's thread
+-      QMetaObject::invokeMethod(spotify, "SetPaused", Qt::QueuedConnection,
+-                                Q_ARG(bool, false));
+-    }
+-  }
+-#endif
+   return ConcurrentRun::Run<GstStateChangeReturn, GstElement*, GstState>(
+diff -Naurp1 a/src/internet/core/internetmodel.cpp b/src/internet/core/internetmodel.cpp
+--- a/src/internet/core/internetmodel.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/internet/core/internetmodel.cpp	2020-11-08 18:50:17.387098738 +0600
+@@ -61,5 +61,2 @@
+ #endif
+-#ifdef HAVE_SPOTIFY
+-#include "internet/spotify/spotifyservice.h"
+-#endif
+ 
+@@ -96,5 +93,2 @@ InternetModel::InternetModel(Application
+   AddService(new IntergalacticFMService(app, this));
+-#ifdef HAVE_SPOTIFY
+-  AddService(new SpotifyService(app, this));
+-#endif
+   AddService(new SubsonicService(app, this));
+diff -Naurp1 a/src/main.cpp b/src/main.cpp
+--- a/src/main.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/main.cpp	2020-11-08 18:50:44.353097486 +0600
+@@ -142,4 +142,2 @@ void SetEnv(const char* key, const QStri
+ 
+-// This must be done early so that the spotify blob process also picks up
+-// these environment variables.
+ void SetGstreamerEnvironment() {
+diff -Naurp1 a/src/playlist/playlistbackend.h b/src/playlist/playlistbackend.h
+--- a/src/playlist/playlistbackend.h	2020-09-24 08:34:08.000000000 +0600
++++ b/src/playlist/playlistbackend.h	2020-11-08 18:51:23.355095676 +0600
+@@ -49,4 +49,2 @@ class PlaylistBackend : public QObject {
+ 
+-    // Special playlists have different behaviour, eg. the "spotify-search"
+-    // type has a spotify search box at the top, replacing the ordinary filter.
+     QString special_type;
+diff -Naurp1 a/src/playlist/playlistdelegates.cpp b/src/playlist/playlistdelegates.cpp
+--- a/src/playlist/playlistdelegates.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/playlist/playlistdelegates.cpp	2020-11-08 18:52:14.753093289 +0600
+@@ -460,5 +460,3 @@ QPixmap SongSourceDelegate::LookupPixmap
+   } else {
+-    if (url.scheme() == "spotify") {
+-      icon = IconLoader::Load("spotify", IconLoader::Provider);
+-    } else if (url.scheme() == "file") {
++    if (url.scheme() == "file") {
+       icon = IconLoader::Load("folder-sound", IconLoader::Base);
+diff -Naurp1 a/src/songinfo/artistinfoview.cpp b/src/songinfo/artistinfoview.cpp
+--- a/src/songinfo/artistinfoview.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/songinfo/artistinfoview.cpp	2020-11-08 18:53:07.451090843 +0600
+@@ -22,3 +22,2 @@
+ #include "songinfo/songkickconcerts.h"
+-#include "songinfo/spotifyimages.h"
+ #include "widgets/prettyimageview.h"
+@@ -27,3 +26,2 @@ ArtistInfoView::ArtistInfoView(QWidget*
+   fetcher_->AddProvider(new SongkickConcerts);
+-  fetcher_->AddProvider(new SpotifyImages);
+   fetcher_->AddProvider(new ArtistBiography);
+diff -Naurp1 a/src/ui/about.cpp b/src/ui/about.cpp
+--- a/src/ui/about.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/ui/about.cpp	2020-11-08 18:54:19.674087490 +0600
+@@ -91,3 +91,2 @@ QString About::MakeHtml() const {
+   ret += QString("<p><b>%1</b>").arg(tr("And:"));
+-  ret += QString("<br /><a href=\"http://rainymood.com\">Rainy Mood</a>");
+   ret += QString(
+@@ -99,7 +98,2 @@ QString About::MakeHtml() const {
+ 
+-  ret +=
+-      "<p>This product uses Music by Spotify but is not endorsed, certified "
+-      "or otherwise approved in any way by Spotify. Spotify is the registered "
+-      "trade mark of the Spotify Group.</p>";
+-
+   return ret;
+diff -Naurp1 a/src/ui/settingsdialog.cpp b/src/ui/settingsdialog.cpp
+--- a/src/ui/settingsdialog.cpp	2020-09-24 08:34:08.000000000 +0600
++++ b/src/ui/settingsdialog.cpp	2020-11-08 18:55:04.412085413 +0600
+@@ -79,6 +79,2 @@
+ 
+-#ifdef HAVE_SPOTIFY
+-#include "internet/spotify/spotifysettingspage.h"
+-#endif
+-
+ #include <QAbstractButton>
+@@ -179,6 +175,2 @@ SettingsDialog::SettingsDialog(Applicati
+ #endif
+-
+-#ifdef HAVE_SPOTIFY
+-  AddPage(Page_Spotify, new SpotifySettingsPage(this), providers);
+-#endif
+ 
+diff -Naurp1 a/src/ui/settingsdialog.h b/src/ui/settingsdialog.h
+--- a/src/ui/settingsdialog.h	2020-09-24 08:34:08.000000000 +0600
++++ b/src/ui/settingsdialog.h	2020-11-08 18:55:22.257084584 +0600
+@@ -71,3 +71,2 @@ class SettingsDialog : public QDialog {
+     Page_SoundCloud,
+-    Page_Spotify,
+     Page_Magnatune,

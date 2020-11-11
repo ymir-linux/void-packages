@@ -1,1 +1,2 @@
+clementine-spotify
 p7zip-unrar

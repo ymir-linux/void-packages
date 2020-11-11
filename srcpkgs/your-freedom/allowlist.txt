@@ -5,7 +5,10 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+bibletime
 blackbox
+bogofilter
+clementine
 cool-retro-term
 cowsay:cowsay
 cups-filters:cups-filters
@@ -20,7 +23,9 @@ gloobus-preview
 grub
 gst-plugins-bad1
 hexchat
+hplip
 hydrogen
+kdepim-runtime
 khotkeys
 kio
 lesspipe:lesspipe
@@ -41,6 +46,7 @@ okular
 opencv
 opencv4
 openexr
+openmw
 openshot:openshot
 openttd:openttd
 p7zip
@@ -68,5 +74,6 @@ texlive2020-bin
 unp
 unzip
 virt-manager
+wireguard:wireguard
 xarchiver
 xscreensaver

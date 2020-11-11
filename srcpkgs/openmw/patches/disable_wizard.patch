@@ -1,0 +1,23 @@
+diff -Naurp1 a/apps/launcher/CMakeLists.txt b/apps/launcher/CMakeLists.txt
+--- a/apps/launcher/CMakeLists.txt	2020-06-08 15:11:24.000000000 +0600
++++ b/apps/launcher/CMakeLists.txt	2020-11-08 13:55:52.547918872 +0600
+@@ -121,2 +121,6 @@ endif()
+ 
+-
++if (BUILD_WIZARD)
++  add_definitions(-DBUILD_WIZARD_ENABLED=1)
++else()
++  add_definitions(-DBUILD_WIZARD_ENABLED=0)
++endif()
+diff -Naurp1 a/apps/launcher/maindialog.cpp b/apps/launcher/maindialog.cpp
+--- a/apps/launcher/maindialog.cpp	2020-06-08 15:11:24.000000000 +0600
++++ b/apps/launcher/maindialog.cpp	2020-11-08 13:57:41.680913805 +0600
+@@ -155,3 +155,3 @@ Launcher::FirstRunDialogResult Launcher:
+         return FirstRunDialogResultFailure;
+-
++if (BUILD_WIZARD_ENABLED) // parabola patch - disable wizard
+     if (mLauncherSettings.value(QString("General/firstrun"), QString("true")) == QLatin1String("true"))
+@@ -398,2 +398,3 @@ bool Launcher::MainDialog::setupGameData
+                 msgBox.addButton(tr("Run &Installation Wizard..."), QMessageBox::ActionRole);
++if (!BUILD_WIZARD_ENABLED) msgBox.removeButton(wizardButton) ; // parabola patch - disable wizard
+         QAbstractButton *skipButton =

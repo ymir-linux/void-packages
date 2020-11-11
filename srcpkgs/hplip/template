@@ -36,6 +36,34 @@ conflicts="hplip-gui"
 
 CFLAGS="-I${XBPS_CROSS_BASE}/usr/include/libusb-1.0 -I${XBPS_CROSS_BASE}/${py3_inc}"
 
+# Liberation
+# Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/hplip/PKGBUILD
+post_patch() {
+	echo "Removing printers not supported with free drivers from the database"
+
+	# based on https://devel.trisquel.info/trisquel/package-helpers/raw/master/helpers/make-hplip
+	# keep header license
+	sed '/\[/,99999d' data/models/models.dat > mktemp
+
+	for model in $(grep '\[' data/models/models.dat | sed 's/\[//; s/\]//'); do
+		sed -n "/\[$model\]/,/^$/p;" data/models/models.dat > mktemp1
+		grep '^download=True' -q mktemp1 && continue
+		grep '^plugin=1' -q mktemp1 && continue
+		grep '^support-type=0' -q mktemp1 && continue
+		cat mktemp1 >> mktemp
+	done
+
+	sed -i 's/plugin=2/plugin=0/g' mktemp
+
+	cp mktemp data/models/models.dat
+
+	rm -v mktemp{,1}
+
+	# remove nonfree software recommendation - https://labs.parabola.nu/issues/893
+	sed -i 's/\, requires proprietary plugin//' $(grep -rlI '[,] requires proprietary plugin')
+}
+
 pre_configure() {
 	export AUTOMAKE='automake --foreign'
 	libtoolize -f
