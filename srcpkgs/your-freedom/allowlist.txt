@@ -57,6 +57,7 @@ povray
 psensor:psensor
 pysolfc-cardsets
 python-reportlab
+qutebrowser
 SDL
 SDL-devel-32bit
 shntool:shntool
