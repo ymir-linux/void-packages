@@ -1,7 +1,8 @@
 # Template file for 'vim-gnupg'
 pkgname=vim-gnupg
+reverts="2.7.0_1 2.7.0_2"
 version=2.6.1
-revision=2
+revision=3
 depends="vim-common gnupg"
 short_desc="Plugin for transparent editing of gpg encrypted files"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
