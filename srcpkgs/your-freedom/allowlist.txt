@@ -39,6 +39,7 @@ midori
 minitube
 mplayer:mplayer
 netsurf
+libksysguard
 libogre:libogre
 libosinfo
 libsynctex

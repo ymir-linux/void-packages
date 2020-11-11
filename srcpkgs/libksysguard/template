@@ -5,7 +5,7 @@ revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules gettext kauth qt5-host-tools qt5-qmake"
 makedepends="plasma-framework-devel qt5-webchannel-devel knewstuff-devel
- $(vopt_if webengine 'qt5-webengine-devel qt5-location-devel')"
+ kio qt5-tools-devel"
 short_desc="KDE libksysguard"
 maintainer="John <me@johnnynator.dev>"
 license="LGPL-2.1-or-later"
@@ -13,15 +13,7 @@ homepage="https://invent.kde.org/plasma/libksysguard"
 distfiles="${KDE_SITE}/plasma/${version}/${pkgname}-${version}.tar.xz"
 checksum=9f57a3719d665df6d6b3c494a62bb7d60c79b06f30c0e9c75eb03568d2046d71
 
-build_options="webengine"
-
-if [ "$XBPS_TARGET_ENDIAN" = "le" ] && [ "$XBPS_TARGET_WORDSIZE" = "$XBPS_WORDSIZE" ]; then
-	# qt5-webengine cannot be built for armv5tel
-	case "$XBPS_TARGET_MACHINE" in
-		armv5tel*) ;;
-		*) build_options_default=webengine ;;
-	esac
-fi
+# Liberation: Removed webengine related code
 
 pre_check() {
 	export QT_QPA_PLATFORM=offscreen
