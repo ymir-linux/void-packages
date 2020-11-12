@@ -22,6 +22,8 @@ freerdp:freerdp
 gloobus-preview
 grub
 gst-plugins-bad1
+handbrake:handbrake
+handbrake-cli:handbrake-cli
 hexchat
 hplip
 hydrogen
