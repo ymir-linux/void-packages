@@ -40,6 +40,7 @@ mesa-demos
 midori
 minitube
 mplayer:mplayer
+musescore
 netsurf
 libksysguard
 libogre:libogre
