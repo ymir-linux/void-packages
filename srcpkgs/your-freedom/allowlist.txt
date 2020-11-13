@@ -42,6 +42,7 @@ minitube
 mplayer:mplayer
 musescore
 netsurf
+nextcloud-client
 libksysguard
 libogre:libogre
 libosinfo
