@@ -22,6 +22,8 @@ freerdp:freerdp
 gloobus-preview
 grub
 gst-plugins-bad1
+handbrake:handbrake
+handbrake-cli:handbrake-cli
 hexchat
 hplip
 hydrogen
@@ -38,7 +40,10 @@ mesa-demos
 midori
 minitube
 mplayer:mplayer
+musescore
 netsurf
+nextcloud-client
+libksysguard
 libogre:libogre
 libosinfo
 libsynctex
@@ -57,6 +62,8 @@ povray
 psensor:psensor
 pysolfc-cardsets
 python-reportlab
+qtcreator
+qutebrowser
 SDL
 SDL-devel-32bit
 shntool:shntool

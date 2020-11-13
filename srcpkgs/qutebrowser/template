@@ -6,7 +6,7 @@ build_style=python3-module
 hostmakedepends="python3-setuptools asciidoc"
 depends="python3-PyQt5-quick python3-Jinja2 python3-Pygments python3-pyPEG2
  python3-yaml python3-attrs python3-PyQt5-opengl python3-PyQt5-sql
- qt5-plugin-sqlite"
+ qt5-plugin-sqlite python3-PyQt5-webkit"
 short_desc="Keyboard-focused browser with a minimal GUI"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-3.0-or-later"
@@ -16,21 +16,18 @@ distfiles="https://github.com/qutebrowser/qutebrowser/releases/download/v${versi
 checksum=76eb14097bab873ffae73bb4d017b4d22aa5c4604d45f0b9570dfaed4720374a
 nostrip=yes
 
-build_options="webengine"
-desc_option_webengine="Build Qt5 WebEngine support"
+# Liberation: Removed webengine related code
 
-if [ "$XBPS_TARGET_ENDIAN" = "le" ]; then
-	# qt5-webengine is only available for little-endian systems
-	if [ "$XBPS_WORDSIZE" = "$XBPS_TARGET_WORDSIZE" ]; then
-		build_options_default="webengine"
-	fi
-fi
+# Liberation
+# Some code has been taken and modified from:
+# https://git.parabola.nu/abslibre.git/tree/libre/qutebrowser/PKGBUILD
+post_patch() {
+	# Show warning related to webkit being old and it may contain vulnerabilities
+	cp "$FILESDIR"/warning-webkit.html qutebrowser/html/
 
-if [ "$build_option_webengine" ]; then
-	depends+=" python3-PyQt5-webengine"
-else
-	depends+=" python3-PyQt5-webkit"
-fi
+	# make sure webkit is the default backend
+	sed -i 's/webengine/webkit/' qutebrowser/config/configdata.yml
+}
 
 pre_build() {
 	a2x -f manpage doc/qutebrowser.1.asciidoc

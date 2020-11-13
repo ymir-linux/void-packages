@@ -1,0 +1,164 @@
+diff --git a/src/plugins/help/CMakeLists.txt b/src/plugins/help/CMakeLists.txt
+index a6711862..0eeea39c 100644
+--- a/src/plugins/help/CMakeLists.txt
++++ b/src/plugins/help/CMakeLists.txt
+@@ -36,17 +36,6 @@ extend_qtc_plugin(Help
+     macwebkithelpviewer.mm
+ )
+ 
+-find_package(Qt5WebEngineWidgets QUIET)
+-extend_qtc_plugin(Help
+-  CONDITION TARGET Qt5::WebEngineWidgets
+-  FEATURE_INFO "QtWebEngine help viewer"
+-  DEPENDS Qt5::WebEngineWidgets
+-  DEFINES QTC_WEBENGINE_HELPVIEWER
+-  SOURCES
+-    webenginehelpviewer.cpp
+-    webenginehelpviewer.h
+-)
+-
+ if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/qlitehtml/litehtml/CMakeLists.txt)
+   add_subdirectory(qlitehtml)
+ else()
+diff --git a/src/plugins/help/help.pro b/src/plugins/help/help.pro
+index 7b58578e..c1627e89 100644
+--- a/src/plugins/help/help.pro
++++ b/src/plugins/help/help.pro
+@@ -53,13 +53,6 @@ FORMS += docsettingspage.ui \
+     filtersettingspage.ui \
+     generalsettingspage.ui
+ 
+-!isEmpty(QT.webenginewidgets.name) {
+-    QT += webenginewidgets
+-    HEADERS += webenginehelpviewer.h
+-    SOURCES += webenginehelpviewer.cpp
+-    DEFINES += QTC_WEBENGINE_HELPVIEWER
+-}
+-
+ osx {
+     DEFINES += QTC_MAC_NATIVE_HELPVIEWER
+     HEADERS += macwebkithelpviewer.h
+diff --git a/src/plugins/help/help.qbs b/src/plugins/help/help.qbs
+index e1268e72..0abaa91f 100644
+--- a/src/plugins/help/help.qbs
++++ b/src/plugins/help/help.qbs
+@@ -10,7 +10,6 @@ Project {
+ 
+         Depends { name: "Qt"; submodules: ["help", "network", "sql"]; }
+         Depends { name: "Qt.printsupport" }
+-        Depends { name: "Qt.webenginewidgets"; required: false }
+ 
+         Depends { name: "Aggregation" }
+         Depends { name: "Utils" }
+@@ -24,8 +23,6 @@ Project {
+ 
+         cpp.defines: {
+             var defines = base.concat(["QT_CLUCENE_SUPPORT"]);
+-            if (Qt.webenginewidgets.present)
+-                defines.push("QTC_WEBENGINE_HELPVIEWER");
+             if (qlitehtml.present)
+                 defines.push("QTC_LITEHTML_HELPVIEWER")
+             return defines;
+@@ -60,13 +57,6 @@ Project {
+             ]
+         }
+ 
+-        Group {
+-            name: "WebEngine Sources"
+-            condition: Qt.webenginewidgets.present
+-            files: [
+-                "webenginehelpviewer.cpp", "webenginehelpviewer.h"
+-            ]
+-        }
+ 
+         Group {
+             name: "litehtml-specific sources"
+diff --git a/src/plugins/help/localhelpmanager.cpp b/src/plugins/help/localhelpmanager.cpp
+index f8a02eb7..f993a192 100644
+--- a/src/plugins/help/localhelpmanager.cpp
++++ b/src/plugins/help/localhelpmanager.cpp
+@@ -31,12 +31,6 @@
+ #include "helpviewer.h"
+ #include "textbrowserhelpviewer.h"
+ 
+-#ifdef QTC_WEBENGINE_HELPVIEWER
+-#include "webenginehelpviewer.h"
+-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+-#include <QWebEngineUrlScheme>
+-#endif
+-#endif
+ #ifdef QTC_LITEHTML_HELPVIEWER
+ #include "litehtmlhelpviewer.h"
+ #endif
+@@ -87,7 +81,6 @@ static const char kLastShownPagesZoomKey[] = "Help/LastShownPagesZoom";
+ static const char kLastSelectedTabKey[] = "Help/LastSelectedTab";
+ static const char kViewerBackend[] = "Help/ViewerBackend";
+ 
+-static const char kQtWebEngineBackend[] = "qtwebengine";
+ static const char kTextBrowserBackend[] = "textbrowser";
+ 
+ static const int kDefaultFallbackFontSize = 14;
+@@ -318,29 +311,13 @@ HelpViewerFactory LocalHelpManager::defaultViewerBackend()
+             return *factory;
+     }
+     if (!backend.isEmpty())
+-        qWarning("Help viewer backend \"%s\" not found, using default.", backend.constData());
+-    const Utils::optional<HelpViewerFactory> factory = backendForId(kQtWebEngineBackend);
+-    if (factory)
+-        return *factory;
++        qWarning("Help viewer backend \"%s\" not found.", backend.constData());
+     return backendForId(kTextBrowserBackend).value_or(HelpViewerFactory());
+ }
+ 
+ QVector<HelpViewerFactory> LocalHelpManager::viewerBackends()
+ {
+     QVector<HelpViewerFactory> result;
+-#ifdef QTC_WEBENGINE_HELPVIEWER
+-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+-    static bool schemeRegistered = false;
+-    if (!schemeRegistered) {
+-        schemeRegistered = true;
+-        QWebEngineUrlScheme scheme("qthelp");
+-        scheme.setFlags(QWebEngineUrlScheme::LocalScheme | QWebEngineUrlScheme::LocalAccessAllowed);
+-        QWebEngineUrlScheme::registerScheme(scheme);
+-    }
+-#endif
+-    result.append(
+-        {kQtWebEngineBackend, tr("QtWebEngine"), []() { return new WebEngineHelpViewer; }});
+-#endif
+ #ifdef QTC_LITEHTML_HELPVIEWER
+     result.append({"litehtml", tr("litehtml"), []() { return new LiteHtmlHelpViewer; }});
+ #endif
+diff --git a/tests/system/suite_general/tst_opencreator_qbs/testdata/projecttree_creator.tsv b/tests/system/suite_general/tst_opencreator_qbs/testdata/projecttree_creator.tsv
+index eee34382..b9413fc2 100644
+--- a/tests/system/suite_general/tst_opencreator_qbs/testdata/projecttree_creator.tsv
++++ b/tests/system/suite_general/tst_opencreator_qbs/testdata/projecttree_creator.tsv
+@@ -8098,8 +8098,6 @@
+ "qtcreator_pch.h"	"5"
+ "WebEngine Sources"	"3"
+ "help.qbs:56"	"4"
+-"webenginehelpviewer.cpp"	"4"
+-"webenginehelpviewer.h"	"4"
+ "ImageViewer"	"2"
+ "imageviewer.qbs:3"	"3"
+ "PluginMetaData"	"3"
+diff --git a/tests/system/suite_general/tst_openqt_creator/testdata/projecttree_creator.tsv b/tests/system/suite_general/tst_openqt_creator/testdata/projecttree_creator.tsv
+index 4710adcf..486a0044 100644
+--- a/tests/system/suite_general/tst_openqt_creator/testdata/projecttree_creator.tsv
++++ b/tests/system/suite_general/tst_openqt_creator/testdata/projecttree_creator.tsv
+@@ -7980,7 +7980,6 @@
+ "searchtaskhandler.h"	"4"
+ "searchwidget.h"	"4"
+ "textbrowserhelpviewer.h"	"4"
+-"webenginehelpviewer.h"	"4"
+ "xbelsupport.h"	"4"
+ "Sources"	"3"
+ "centralwidget.cpp"	"4"
+@@ -8002,7 +8001,6 @@
+ "searchtaskhandler.cpp"	"4"
+ "searchwidget.cpp"	"4"
+ "textbrowserhelpviewer.cpp"	"4"
+-"webenginehelpviewer.cpp"	"4"
+ "xbelsupport.cpp"	"4"
+ "Forms"	"3"
+ "docsettingspage.ui"	"4"
