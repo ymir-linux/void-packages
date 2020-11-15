@@ -12,6 +12,15 @@ homepage="https://mate-desktop.org"
 distfiles="https://pub.mate-desktop.org/releases/${version%.*}/${pkgname}-${version}.tar.xz"
 checksum=ca7202b7c880399d3d1ccd409b79fd0de728350dcf3fe1b4a758d06559ca1b00
 
+# Liberation: Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/mate-icon-theme-faenza/PKGBUILD
+post_patch() {
+	# remove nonfree distros and application logos
+	for nonfree in debian fedora mandriva redhat suse ubuntu alien-arena flash rpmdrake teamviewer novell skype playonlinux picasa spotify; do
+		find -name *$nonfree* -delete
+	done
+}
+
 pre_configure() {
 	autoreconf -fi
 }

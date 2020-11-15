@@ -32,6 +32,7 @@ khotkeys
 kio
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
+mate-icon-theme-faenza
 mate-sensors-applet:mate-sensors-applet
 mc:mc
 mcomix
