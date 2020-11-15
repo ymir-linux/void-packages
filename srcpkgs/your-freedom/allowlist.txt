@@ -29,6 +29,7 @@ handbrake-cli:handbrake-cli
 hexchat
 hplip
 hydrogen
+icedtea-web:icedtea-web
 kdepim-runtime
 khotkeys
 kio
