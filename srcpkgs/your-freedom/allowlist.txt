@@ -21,6 +21,7 @@ faience-icon-theme
 file-roller:file-roller
 freerdp:freerdp
 gloobus-preview
+gnome-boxes
 grub
 gst-plugins-bad1
 handbrake:handbrake
