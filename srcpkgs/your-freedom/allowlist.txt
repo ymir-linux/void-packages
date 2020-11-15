@@ -8,6 +8,7 @@ avidemux
 bibletime
 blackbox
 bogofilter
+clamav:clamav
 clementine
 cool-retro-term
 cowsay:cowsay
