@@ -8,6 +8,7 @@ avidemux
 bibletime
 blackbox
 bogofilter
+clamav:clamav
 clementine
 cool-retro-term
 cowsay:cowsay
@@ -20,6 +21,7 @@ faience-icon-theme
 file-roller:file-roller
 freerdp:freerdp
 gloobus-preview
+gnome-boxes
 grub
 gst-plugins-bad1
 handbrake:handbrake
@@ -27,11 +29,13 @@ handbrake-cli:handbrake-cli
 hexchat
 hplip
 hydrogen
+icedtea-web:icedtea-web
 kdepim-runtime
 khotkeys
 kio
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
+mate-icon-theme-faenza
 mate-sensors-applet:mate-sensors-applet
 mc:mc
 mcomix

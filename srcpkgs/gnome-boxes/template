@@ -18,3 +18,14 @@ homepage="https://wiki.gnome.org/Apps/Boxes"
 changelog="https://raw.githubusercontent.com/GNOME/gnome-boxes/gnome-3-36/NEWS"
 distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
 checksum=696b599fc21af941975679205f2b129cffa03632c444810dd94b1409d041a38b
+
+# Liberation
+# Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/gnome-boxes/PKGBUILD
+post_patch() {
+	# remove recommended downloads of nonfree OS
+	sed -i /os_id/d ./data/recommended-downloads.xml
+	# I'd rather not use Windows as example in user docs
+	find ./help/ -type f \( -name '*.po' -o -name '*.page' \) -exec \
+		sed -Ei 's/(Microsoft )?Windows(™)?/Parabola/' {} +
+}

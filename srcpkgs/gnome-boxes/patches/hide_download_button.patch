@@ -1,0 +1,11 @@
+--- a/data/ui/wizard-source.ui
++++ b/data/ui/wizard-source.ui
+@@ -60,7 +60,7 @@
+
+             <child>
+               <object class="GtkButton" id="download_an_os_button">
+-                <property name="visible">True</property>
++                <property name="visible">False</property>
+                 <signal name="clicked" handler="on_download_an_os_button_clicked"/>
+                 <style>
+                   <class name="boxes-menu-row"/>
