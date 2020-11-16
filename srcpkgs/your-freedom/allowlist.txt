@@ -74,6 +74,7 @@ SDL-devel-32bit
 shntool:shntool
 smplayer
 soundkonverter:soundkonverter
+supercollider
 texlive-core
 texlive-fontsextra
 texlive-latexextra
