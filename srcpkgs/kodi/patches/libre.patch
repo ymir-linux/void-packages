@@ -1,0 +1,17 @@
+--- xbmc-18.3-Leia.orig/addons/repository.xbmc.org/addon.xml	2019-06-19 04:18:07.000000000 -0500
++++ xbmc-18.3-Leia/addons/repository.xbmc.org/addon.xml	2019-08-24 21:09:14.677670552 -0500
+@@ -8,10 +8,10 @@
+   </requires>
+ 	<extension point="xbmc.addon.repository">
+ 		<!-- Do not forget to bump add-on version when changing paths to force a repo refresh -->
+-		<info>http://mirrors.kodi.tv/addons/leia/addons.xml.gz</info>
+-		<checksum verify="sha256">http://mirrors.kodi.tv/addons/leia/addons.xml.gz?sha256</checksum>
+-		<datadir>https://mirrors.kodi.tv/addons/leia</datadir>
+-		<artdir>http://mirrors.kodi.tv/addons/leia</artdir>
++		<info>http://repo.parabola.nu/other/kodi-libre/addons/leia/addons.xml.gz</info>
++		<checksum verify="sha256">http://repo.parabola.nu/other/kodi-libre/addons/leia/addons.xml.gz?sha256</checksum>
++		<datadir>http://repo.parabola.nu/other/kodi-libre/addons/leia</datadir>
++		<artdir>http://repo.parabola.nu/other/kodi-libre/addons/leia</artdir>
+ 		<hashes>sha256</hashes>
+ 	</extension>
+ 	<extension point="xbmc.addon.metadata">

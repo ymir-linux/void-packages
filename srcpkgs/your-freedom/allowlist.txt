@@ -33,6 +33,7 @@ icedtea-web:icedtea-web
 kdepim-runtime
 khotkeys
 kio
+kodi
 lesspipe:lesspipe
 libxfce4ui:libxfce4ui
 mate-icon-theme-faenza
