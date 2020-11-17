@@ -22,20 +22,9 @@ if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" qt5-host-tools qt5-devel"
 fi
 
-build_options="webengine"
-desc_option_webengine="Build Qt5 WebEngine support"
-
-if [ "$XBPS_TARGET_ENDIAN" = "le" ]; then
-	if [ "$XBPS_TARGET_WORDSIZE" = "$XBPS_WORDSIZE" ]; then
-		build_options_default="webengine"
-	fi
-fi
-
-if [ "$build_option_webengine" ]; then
-	makedepends+=" qt5-webengine-devel"
-else
-	configure_args+=" -DSC_USE_QTWEBENGINE=OFF"
-fi
+# Liberation: Removed everything else related to webengine, except this one
+# to disable webengine
+configure_args+=" -DSC_USE_QTWEBENGINE=OFF"
 
 if [ "$XBPS_TARGET_LIBC" = musl ]; then
 	makedepends+=" libglob-devel"
