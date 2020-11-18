@@ -73,6 +73,7 @@ qutebrowser
 SDL
 SDL-devel-32bit
 shntool:shntool
+signon-ui:signon-ui
 smplayer
 soundkonverter:soundkonverter
 supercollider
