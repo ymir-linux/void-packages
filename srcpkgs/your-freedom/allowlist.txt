@@ -87,6 +87,7 @@ texlive2019-bin
 texlive2020-bin
 unp
 unzip
+vhba-module-dkms:vhba-module-dkms
 virt-manager
 wireguard:wireguard
 xarchiver
