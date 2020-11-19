@@ -73,6 +73,7 @@ qutebrowser
 SDL
 SDL-devel-32bit
 shntool:shntool
+signon-ui:signon-ui
 smplayer
 soundkonverter:soundkonverter
 supercollider
@@ -87,6 +88,7 @@ texlive2019-bin
 texlive2020-bin
 unp
 unzip
+vhba-module-dkms:vhba-module-dkms
 virt-manager
 wireguard:wireguard
 xarchiver
