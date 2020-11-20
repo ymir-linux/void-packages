@@ -33,6 +33,7 @@ hplip
 hydrogen
 icedtea-web:icedtea-web
 java-commons-io:java-commons-io
+jedit:jedit
 kdepim-runtime
 kdevelop
 khotkeys
