@@ -5,6 +5,7 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+bbswitch:bbswitch
 bibletime
 blackbox
 blender
