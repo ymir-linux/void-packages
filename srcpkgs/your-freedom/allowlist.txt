@@ -32,6 +32,7 @@ hexchat
 hplip
 hydrogen
 icedtea-web:icedtea-web
+java-commons-io:java-commons-io
 kdepim-runtime
 kdevelop
 khotkeys
