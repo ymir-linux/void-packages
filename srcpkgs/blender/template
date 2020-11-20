@@ -41,3 +41,11 @@ x86_64*)
 	configure_args+=" -DWITH_OPENIMAGEDENOISE=ON"
 	;;
 esac
+
+# Liberation: Change BUILD_PLATFORM value
+# Some code has been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/blender/PKGBUILD
+post_patch() {
+  # fix OS Name (pedantic, I know)
+  sed -i 's|BUILD_PLATFORM;|"GNU/Linux-libre";|' 'source/creator/buildinfo.c'
+}
