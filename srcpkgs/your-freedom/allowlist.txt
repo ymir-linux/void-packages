@@ -5,8 +5,10 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+bbswitch:bbswitch
 bibletime
 blackbox
+blender
 bogofilter
 clamav:clamav
 clementine
@@ -30,6 +32,8 @@ hexchat
 hplip
 hydrogen
 icedtea-web:icedtea-web
+java-commons-io:java-commons-io
+jedit:jedit
 kdepim-runtime
 kdevelop
 khotkeys
