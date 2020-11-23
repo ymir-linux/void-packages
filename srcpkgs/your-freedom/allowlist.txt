@@ -15,6 +15,7 @@ clementine
 cool-retro-term
 cowsay:cowsay
 cups-filters:cups-filters
+ditaa
 engrampa:engrampa
 epdfview
 epiphany
