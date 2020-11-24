@@ -80,6 +80,7 @@ SDL
 SDL-devel-32bit
 shntool:shntool
 signon-ui:signon-ui
+syslinux:syslinux
 smplayer
 soundkonverter:soundkonverter
 supercollider
