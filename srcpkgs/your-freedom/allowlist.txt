@@ -76,6 +76,7 @@ pysolfc-cardsets
 python-reportlab
 qtcreator
 qutebrowser
+ruby
 SDL
 SDL-devel-32bit
 shntool:shntool
