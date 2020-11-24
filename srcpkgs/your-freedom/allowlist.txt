@@ -1,6 +1,7 @@
 abiword
 acpi_call-dkms:acpi_call-dkms
 angband
+apache-fop:apache-fop
 ark
 asciidoc:asciidoc
 atool
