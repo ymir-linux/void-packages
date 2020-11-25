@@ -1,6 +1,6 @@
 # Template file for 'linux5.9'
 pkgname=linux-libre5.9
-version=5.9.10
+version=5.9.11
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=a47fd424ba137f6e4d2c66463dba54cbc942863e1f89aba9d796097b2942011d
+checksum=6564cf1e3f9286fafd715cdb3fe02a82da6c1a3b1c93eb2b1c26483f96b0cf63
 python_version=3
 patch_args="-Np1"
 
