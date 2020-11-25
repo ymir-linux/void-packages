@@ -4,15 +4,32 @@ version=0.11.0
 revision=2
 create_wrksrc=yes
 build_style=fetch
+# Liberation: Added for build
+hostmakedepends="tar openjdk8 leiningen"
 depends="virtual?java-environment"
 short_desc="Small utility that converts ascii-art diagrams to bitmap diagrams"
 maintainer="Alexander Egorenkov <egorenar-dev@posteo.net>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/stathissideris/ditaa"
-distfiles="${homepage}/releases/download/v${version}/${pkgname}-${version}-standalone.jar"
-checksum=9418aa63ff6d89c5d2318396f59836e120e75bea7a5930c4d34aa10fe7a196a9
+# Liberation: Changed to source file
+distfiles="${homepage}/archive/v${version}.tar.gz"
+checksum=0cd69b13febd285d90fcdc220e81158aae0cba54c6d6bdfd38d97e708c611ebd
+
+# Liberation: Extract source
+do_extract() {
+	# Extract without sub sub directories
+	tar -xvf "${XBPS_SRCDISTDIR}/${pkgname}-${version}/v${version}.tar.gz" --strip 1
+}
 
 do_build() {
+	# Liberation: Build from source
+	# To fix JAVA_HOME related messages
+	. /etc/profile.d/10_openjdk8.sh
+	# Run build with leiningen
+	lein uberjar
+	# This mv is for keeping rest of the code intact
+	mv target/${pkgname}-${version}-standalone.jar ${pkgname}-${version}-standalone.jar
+
 	mv ${pkgname}-${version}-standalone.jar ${pkgname}-${version}.jar
 	echo "#!/bin/sh" > ditaa
 	echo "java -jar /usr/share/java/${pkgname}-${version}.jar \$@" >> ditaa

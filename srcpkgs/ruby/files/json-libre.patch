@@ -1,0 +1,30 @@
+diff -Naurp1 a/ext/json/lib/json.rb b/ext/json/lib/json.rb
+--- a/ext/json/lib/json.rb	2020-10-01 18:15:38.000000000 +0600
++++ b/ext/json/lib/json.rb	2020-11-24 20:56:58.555417554 +0600
+@@ -57,7 +57,3 @@ module JSON
+ 
+-  begin
+-    require 'json/ext'
+-  rescue LoadError
+-    require 'json/pure'
+-  end
++  require 'json/pure'
+ end
+diff -Naurp1 a/test/json/test_helper.rb b/test/json/test_helper.rb
+--- a/test/json/test_helper.rb	2020-10-01 18:15:38.000000000 +0600
++++ b/test/json/test_helper.rb	2020-11-24 20:53:52.593426188 +0600
+@@ -1,12 +1,3 @@
+-case ENV['JSON']
+-when 'pure'
+-  $:.unshift 'lib'
+-  require 'json/pure'
+-when 'ext'
+-  $:.unshift 'ext', 'lib'
+-  require 'json/ext'
+-else
+-  $:.unshift 'ext', 'lib'
+-  require 'json'
+-end
++$:.unshift 'lib'
++require 'json'
+ 

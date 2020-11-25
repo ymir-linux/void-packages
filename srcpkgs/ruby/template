@@ -3,6 +3,8 @@ _ruby_abiver=2.7.0
 
 pkgname=ruby
 version=2.7.2
+# Liberation: Adds pure Ruby json version
+_jsonver=2.3.0
 revision=1
 build_style=gnu-configure
 configure_args="--enable-shared --disable-rpath
@@ -16,8 +18,11 @@ short_desc="Ruby programming language"
 homepage="http://www.ruby-lang.org/en/"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Ruby, BSD-2-Clause"
-distfiles="https://cache.ruby-lang.org/pub/ruby/${version%.*}/${pkgname}-${version}.tar.bz2"
-checksum=65a590313d244d48dc2ef9a9ad015dd8bc6faf821621bbb269aa7462829c75ed
+# Liberation: Adds pure Ruby json distfile
+distfiles="https://cache.ruby-lang.org/pub/ruby/${version%.*}/${pkgname}-${version}.tar.bz2
+ https://github.com/flori/json/archive/v${_jsonver}.tar.gz"
+checksum="65a590313d244d48dc2ef9a9ad015dd8bc6faf821621bbb269aa7462829c75ed
+ b8a7576b9b6dfb997d9b3911e13b2e5b1bde50ff1f5aea46b116c560649ec1a4"
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl)	# Broken on the builders but successfully built locally
@@ -53,6 +58,28 @@ post_patch() {
 
 	echo "Patching out using binary gems for non-glibc..."
 	patch -sNp1 -i ${FILESDIR}/rubygems-avoid-platform-specific-gems.patch
+
+	# Liberation: Implement pure Ruby json
+	# Some codes are taken from:
+	# https://git.parabola.nu/abslibre.git/tree/libre/ruby/PKGBUILD
+	cd "${XBPS_BUILDDIR}/json-${_jsonver}"
+
+	# Modify 'json' so that it doesn't try to load (non-free!) 'json/ext'
+	echo "applying json-libre.patch to json"
+	rm -rf -- json.gemspec ext lib/json/ext*
+	patch -p1 -i "${FILESDIR}/json-libre.patch"
+
+	# Now remove the json ext from the ruby sources
+	cd "${XBPS_BUILDDIR}/${wrksrc}"
+	rm -r ext/json test/json
+
+	# and insert the json_pure lib instead
+	cp -r  ../json-${_jsonver}/lib/*             -t lib/
+	cp     ../json-${_jsonver}/json_pure.gemspec -t lib/json/
+	cp -rT ../json-${_jsonver}/tests                test/json
+
+	# Clean up the original json sources
+	rm -rf "{XBPS_BUILDDIR}/json-${_jsonver}"
 }
 
 pre_configure() {

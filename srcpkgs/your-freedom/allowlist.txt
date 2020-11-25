@@ -1,6 +1,7 @@
 abiword
 acpi_call-dkms:acpi_call-dkms
 angband
+apache-fop:apache-fop
 ark
 asciidoc:asciidoc
 atool
@@ -15,6 +16,7 @@ clementine
 cool-retro-term
 cowsay:cowsay
 cups-filters:cups-filters
+ditaa
 engrampa:engrampa
 epdfview
 epiphany
@@ -74,10 +76,12 @@ pysolfc-cardsets
 python-reportlab
 qtcreator
 qutebrowser
+ruby
 SDL
 SDL-devel-32bit
 shntool:shntool
 signon-ui:signon-ui
+syslinux:syslinux
 smplayer
 soundkonverter:soundkonverter
 supercollider
