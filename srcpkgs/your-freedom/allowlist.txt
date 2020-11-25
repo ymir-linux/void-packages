@@ -77,6 +77,7 @@ python-reportlab
 qtcreator
 qutebrowser
 ruby
+ruby-devel-doc:ruby-devel-doc
 SDL
 SDL-devel-32bit
 shntool:shntool
