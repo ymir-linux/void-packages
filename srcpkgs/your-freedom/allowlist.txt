@@ -75,6 +75,8 @@ psensor:psensor
 pysolfc-cardsets
 python-reportlab
 qtcreator
+quassel-client
+quassel-core
 qutebrowser
 ruby
 ruby-devel-doc:ruby-devel-doc
