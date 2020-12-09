@@ -1,7 +1,7 @@
 # Template file for 'linux5.9'
 pkgname=linux-libre5.9
-version=5.9.12
-revision=2
+version=5.9.13
+revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
