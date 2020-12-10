@@ -1,17 +1,24 @@
 # Template file for 'debootstrap'
 pkgname=debootstrap
 version=1.0.123
+# Liberation: _pureos* variables added for pureos distfiles
+_pureospkgver=1.0.108
+_pureospkgrel=pureos2
 revision=2
-build_style=fetch
+# Liberation: We're building from source. So changed fetch into this.
+build_style=gnu-makefile
 depends="binutils gnupg gzip tar wget xz"
-short_desc="Bootstrap a basic Debian system"
+# Liberation: Changed according to Parabola to indicate inclusion of Free distros
+# and ommision of Debian
+short_desc="Bootstrap a basic gNewSense and Trisquel system, without Debian support"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
 homepage="http://packages.qa.debian.org/d/debootstrap.html"
-distfiles="${DEBIAN_SITE}/main/d/${pkgname}/${pkgname}_${version}_all.deb
- ${DEBIAN_SITE}/main/d/debian-archive-keyring/debian-archive-keyring_2019.1_all.deb"
-checksum="0ab37218fa9719517fccee68b552545f17a5336bbf5801c6d565213ca1aa014e
- 9cefd8917f3d97a999c136aa87f04a3024408b5bc1de470de7d6dfa5e4bd4361"
+# Liberation: Changed files to build from source
+distfiles="https://github.com/felixonmars/${pkgname}/archive/${version}.tar.gz
+ https://repo.puri.sm/pureos/pool/main/d/${pkgname}/${pkgname}_${_pureospkgver}${_pureospkgrel}.tar.gz"
+checksum="ccc6cf2eb5e5481d88e1cebd5430a86ffc686be019f7f4dc66cfbb717b107d56
+ c0d8c1d7bf7f612c654c475c7e997711fc0a925ddebc0b8c063d4386a25a9cd5"
 
 case "$XBPS_TARGET_MACHINE" in
 	armv5*l*) _debarch=armel;;
@@ -25,12 +32,84 @@ case "$XBPS_TARGET_MACHINE" in
 	*) broken="please add your architecture";;
 esac
 
-do_install() {
-	bsdtar xOf ${pkgname}_${version}_all.deb data.tar.gz | bsdtar xvzf - -C ${DESTDIR}
-	bsdtar xOf debian-archive-keyring_2019.1_all.deb data.tar.xz | bsdtar xvJf - -C ${DESTDIR} ./usr/share/keyrings/debian-archive-keyring.gpg
-	mv ${DESTDIR}/usr/sbin ${DESTDIR}/usr/bin
-	sed -i 's|export PATH|export PATH="/usr/sbin:/sbin:/usr/bin:/bin"|' ${DESTDIR}/usr/bin/debootstrap
-	vlicense ${DESTDIR}/usr/share/doc/debootstrap/copyright LICENSE
-	rm ${DESTDIR}/usr/share/doc/debootstrap/copyright
+# Liberation
+# Some commands has been taken and modified from:
+# https://git.parabola.nu/abslibre.git/tree/libre/debootstrap/PKGBUILD
+post_patch() {
+	# Invalid argument fix
+	sed -i 's/chown/#chown/g' Makefile
+
+	# Below is mostly from Parabola project with minor changes...
+
+	sed -i 's/sbin/bin/g' Makefile
+
+	# gNewSense/Trisquel defaults
+	sed -i 's|export PATH|export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"|' debootstrap
+
+	# arch-detect.patch from Parabola was omitted
+
+	# Remove Debian files
+	rm -v debootstrap.8
+
+	# Add rebranded man
+	install -m644 ${FILESDIR}/debootstrap.8 .
+
+	# Remove (non-FSDG compliant) distributions's scripts
+	for SCRIPT in scripts/* ; do
+		case $SCRIPT in
+		scripts/debian-common)
+			;;
+		*)
+			rm -v $SCRIPT
+			;;
+		esac
+	done
+
+	# Add gNewSense script
+	install -m644 ${FILESDIR}/gnewsense scripts
+
+	# Add PureOS script
+	install -m644 ${XBPS_BUILDDIR}/debootstrap/scripts/amber scripts/pureos
+
+	# Add Trisquel script
+	install -m644 ${FILESDIR}/trisquel scripts
+
+	# Enter to scripts dir
+	cd scripts
+
+	# Create gNewSense symlinks
+	ln -s gnewsense ucclia
+	ln -s gnewsense parkes
+
+	# Create PureOS symlinks
+	ln -s pureos amber
+	ln -s pureos green
+	ln -s pureos landing
+	ln -s pureos purple
+
+	# Create Trisquel symlinks
+	ln -s trisquel awen
+	ln -s trisquel belenos
+	ln -s trisquel brigantia
+	ln -s trisquel dagda
+	ln -s trisquel dwyn
+	ln -s trisquel etiona
+	ln -s trisquel flidas
+	ln -s trisquel robur
+	ln -s trisquel slaine
+	ln -s trisquel taranis
+	ln -s trisquel toutatis
+}
+
+# Liberation: Removed do_install
+
+# Liberation
+# Some commands has been taken and modified from:
+# https://git.parabola.nu/abslibre.git/tree/libre/debootstrap/PKGBUILD
+post_install() {
+	install -Dm644 ${FILESDIR}/debootstrap.8 "${DESTDIR}"/usr/share/man/man8/debootstrap.8
+
+	# Some commands from previous do_install...
+	vlicense debian/copyright LICENSE
 	echo ${_debarch} >${DESTDIR}/usr/share/debootstrap/arch
 }
