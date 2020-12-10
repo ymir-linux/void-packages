@@ -78,6 +78,7 @@ qtcreator
 quassel-client
 quassel-core
 qutebrowser
+retroarch
 ruby
 ruby-devel-doc:ruby-devel-doc
 SDL
