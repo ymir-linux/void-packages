@@ -42,6 +42,7 @@ khotkeys
 kio
 kodi
 lesspipe:lesspipe
+libkgapi
 libxfce4ui:libxfce4ui
 mate-icon-theme-faenza
 mate-sensors-applet:mate-sensors-applet

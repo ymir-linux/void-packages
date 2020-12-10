@@ -3,9 +3,11 @@ pkgname=libkgapi
 version=20.08.3
 revision=1
 build_style=cmake
-hostmakedepends="extra-cmake-modules qt5-host-tools qt5-qmake python3
+# Liberation: To avoid QWebView not found error
+configure_args+=" -DBUILD_TESTING=OFF "
+hostmakedepends="extra-cmake-modules qt5-host-tools qt5-qmake python3 qt5-webkit
  gettext kcoreaddons"
-makedepends="kcalendarcore-devel kcontacts-devel kio-devel qt5-webengine-devel
+makedepends="kcalendarcore-devel kcontacts-devel kio-devel qt5-webkit-devel
  qt5-webchannel-devel qt5-location-devel"
 short_desc="KDE-based library for accessing various Google services"
 maintainer="John <me@johnnynator.dev>"
@@ -14,10 +16,7 @@ homepage="https://invent.kde.org/pim/libkgapi"
 distfiles="${KDE_SITE}/release-service/${version}/src/${pkgname}-${version}.tar.xz"
 checksum=8a2233497b07e768c4a4095c4333fa975042f6e9ba17ae0e3d66ed9c7672afce
 
-case "$XBPS_TARGET_MACHINE" in
-	arm*) broken="depends on qt5-webengine";;
-esac
-
+# Liberation: Removed webengine related code
 
 libkgapi-devel_package() {
 	short_desc+=" - development files"
