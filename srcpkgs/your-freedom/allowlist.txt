@@ -66,6 +66,7 @@ openexr
 openmw
 openshot:openshot
 openttd:openttd
+otter-browser
 p7zip
 perl-Algorithm-Diff
 plasma-desktop
