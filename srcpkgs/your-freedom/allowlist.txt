@@ -6,6 +6,7 @@ ark
 asciidoc:asciidoc
 atool
 avidemux
+base-files
 bbswitch:bbswitch
 bibletime
 blackbox

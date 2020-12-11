@@ -4,10 +4,10 @@ version=0.141
 revision=4
 bootstrap=yes
 depends="xbps-triggers"
-short_desc="Void Linux base system files"
+short_desc="Ymir Linux base system files"
 maintainer="Enno Boland <orphan@voidlinux.org>"
 license="Public Domain"
-homepage="https://www.voidlinux.org"
+homepage="https://www.ymirlinux.org"
 conf_files="
 	/etc/inputrc
 	/etc/profile
@@ -75,7 +75,8 @@ do_install() {
 	vinstall ${FILESDIR}/usb-load-ehci-first 644 usr/lib/modprobe.d usb-load-ehci-first.conf
 	vinstall ${FILESDIR}/blacklist.conf 644 usr/lib/modprobe.d
 	# sysctl(8) files
-	vinstall ${FILESDIR}/sysctl.conf 644 usr/lib/sysctl.d 10-void.conf
+	# Liberation: changed the name of conf file for Ymir
+	vinstall ${FILESDIR}/sysctl.conf 644 usr/lib/sysctl.d 10-ymir.conf
 
 	# Install common licenses, from Debian.
 	vmkdir usr/share/licenses
@@ -87,9 +88,14 @@ do_install() {
 
 	vbin ${FILESDIR}/lsb_release
 
+	# Liberation: Changed distribution name instances for Ymir
+	sed -i "s|Void|Ymir|g" ${DESTDIR}/usr/bin/lsb_release
+	sed -i "s|void|ymir|" ${DESTDIR}/usr/bin/lsb_release
+
 	# Install default dracut configuration.
+	# Liberation: changed the destination name of dracut conf file for Ymir
 	vinstall ${FILESDIR}/dracut.conf.d.voidlinux.conf 644 \
-		usr/lib/dracut/dracut.conf.d 00-void.conf
+		usr/lib/dracut/dracut.conf.d 00-ymir.conf
 
 	# Create /proc/self/mounts -> /etc/mtab symlink.
 	ln -sf /proc/self/mounts ${DESTDIR}/etc/mtab
