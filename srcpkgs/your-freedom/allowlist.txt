@@ -55,6 +55,7 @@ midori
 minitube
 mplayer:mplayer
 musescore
+netpbm
 netsurf
 nextcloud-client
 libksysguard

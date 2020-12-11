@@ -29,6 +29,81 @@ post_extract() {
 	sed -i 's/ id="pammixmulti"//g' pammixmulti.html
 }
 
+# Liberation
+# Some commands have been taken from:
+# https://git.parabola.nu/abslibre.git/tree/libre/netpbm
+post_patch() {
+	# Removing hpcdtoppm/pcdindex (non comercial)
+	rm -rv converter/ppm/hpcdtoppm
+
+	# Removing ppmtogif/giftopnm (patent restriction)
+	rm -v converter/other/giftopnm.c converter/ppm/ppmtogif.c
+	rm -v test/gif-quant-roundtrip.test test/gif-roundtrip.test test/all-in-place.ok
+
+	# Removing programs without license information
+	rm -v other/pamchannel.c test/pamchannel.ok
+	rm -v converter/other/pamtopnm.c
+	rm -v converter/pbm/pbmto4425.c
+	rm -v converter/pbm/pbmtoln03.c
+	rm -v converter/pbm/pbmtolps.c
+	rm -v converter/pbm/pbmtopk.c
+	rm -v converter/pbm/pktopbm.c
+	rm -v converter/ppm/ppmtopjxl.c
+	rm -v converter/pgm/spottopgm.c
+
+	rm -v test/avs-roundtrip.test test/facesaver-roundtrip.test test/ilbm-roundtrip.test test/pamchannel.test \
+		test/pamditherbw.test test/pamenlarge.test test/pamfile.test test/pfm-roundtrip.test \
+		test/pgmtoppm.test test/pict-roundtrip.test test/pnminvert.test test/pnmremap1.test \
+		test/pnmremap2.test test/pnmtopnm-plain.test test/pnm-pam-roundtrip.test test/pnm-plain-roundtrip.test \
+		test/ps-alt-roundtrip.test test/ps-roundtrip.test test/sbig-roundtrip.test test/st4-roundtrip.test \
+		test/targa-roundtrip.test test/utahrle-roundtrip.test test/winicon-roundtrip.test test/xwd-roundtrip.test
+
+	# Removing references about hpcdtoppm/pcdindex (non comercial)
+	sed -i 's/hpcdtoppm//g' converter/ppm/Makefile
+	sed -i 's/hpcdtoppm\.1//g' buildtools/manpage.mk
+	sed -i 's/pcdindex\.1//g' buildtools/manpage.mk
+
+	# Removing references about ppmtogif/giftopnm (patent restriction)
+	sed -i 's/ppmtogif//g' converter/ppm/Makefile test/all-in-place.test
+	sed -i 's/ppmtogif\.1//g' buildtools/manpage.mk
+	sed -i 's/giftopnm//g' converter/other/Makefile test/all-in-place.test
+	sed -i 's/giftopnm\.1//g' buildtools/manpage.mk
+	sed -i '/giftopnm/d' converter/other/pnmtopalm/README
+
+	# Removing references about programs without license information
+	sed -i 's/pamchannel//g' other/Makefile test/all-in-place.test
+	sed -i 's/pamchannel\.1//g' buildtools/manpage.mk
+	sed -i 's/pamchannel\.test//g' test/Test-Order
+
+	sed -i 's/pamtopnm//g' converter/other/Makefile test/all-in-place.test
+	sed -i 's/pamtopnm\.1//g' buildtools/manpage.mk
+	sed -i '/pnmtopnm/d' netpbm.c
+
+	sed -i 's/pbmto4425//g' converter/pbm/Makefile test/all-in-place.test
+	sed -i 's/pbmto4425\.1//g' buildtools/manpage.mk
+
+	sed -i 's/pbmtoln03//g' converter/pbm/Makefile test/all-in-place.test
+	sed -i 's/pbmtoln03\.1//g' buildtools/manpage.mk
+
+	sed -i 's/pbmtolps//g' converter/pbm/Makefile test/all-in-place.test
+	sed -i 's/pbmtolps\.1//g' buildtools/manpage.mk
+
+	sed -i 's/pbmtopk//g' converter/pbm/Makefile test/all-in-place.test
+	sed -i 's/pbmtopk\.1//g' buildtools/manpage.mk
+
+	sed -i 's/pktopbm//g' converter/pbm/Makefile test/all-in-place.test
+	sed -i 's/pktopbm\.1//g' buildtools/manpage.mk
+
+	sed -i 's/ppmtopjxl//g' converter/ppm/Makefile test/all-in-place.test
+	sed -i 's/ppmtopjxl\.1//g' buildtools/manpage.mk
+
+	sed -i 's/spottopgm//g' converter/pgm/Makefile test/all-in-place.test
+	sed -i 's/spottopgm\.1//g' buildtools/manpage.mk
+
+	#Removing references about nonfree licenses part
+	sed -i '338,383d' doc/copyright_summary
+}
+
 do_configure() {
 	local endian bitsperlong
 	cat config.mk.in ${FILESDIR}/config.mk >config.mk
