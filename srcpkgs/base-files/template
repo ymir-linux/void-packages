@@ -1,7 +1,7 @@
 # Template file for 'base-files'
 pkgname=base-files
 version=0.141
-revision=5
+revision=4
 bootstrap=yes
 depends="xbps-triggers"
 short_desc="Ymir Linux base system files"
@@ -87,10 +87,6 @@ do_install() {
 	vman ${FILESDIR}/vkpurge.8
 
 	vbin ${FILESDIR}/lsb_release
-
-	# Liberation: Changed distribution name instances for Ymir
-	sed -i "s|Void|Ymir|g" ${DESTDIR}/usr/bin/lsb_release
-	sed -i "s|void|ymir|" ${DESTDIR}/usr/bin/lsb_release
 
 	# Install default dracut configuration.
 	# Liberation: changed the destination name of dracut conf file for Ymir
