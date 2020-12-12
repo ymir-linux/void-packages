@@ -1,7 +1,7 @@
 # Template file for 'linux-libre'
 # These dependencies don't exist remotely, run xbps-src with the -N flag to build locally
 pkgname=linux-libre
-version=5.8
+version=5.9
 revision=1
 build_style=meta
 homepage="http://www.voidlinux.org/"
