@@ -3,3 +3,4 @@ linux
 linux-firmware
 linux-lts
 p7zip-unrar
+void-repo-nonfree
