@@ -1,2 +1,5 @@
 clementine-spotify
+linux
+linux-firmware
+linux-lts
 p7zip-unrar
