@@ -1,2 +1,3 @@
 clementine-spotify
 p7zip-unrar
+void-repo-nonfree
