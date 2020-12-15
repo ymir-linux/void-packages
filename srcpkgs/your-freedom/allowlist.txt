@@ -112,4 +112,5 @@ virt-manager
 wireguard:wireguard
 xarchiver
 xbps
+xorg-fonts
 xscreensaver
