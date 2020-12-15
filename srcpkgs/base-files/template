@@ -66,6 +66,9 @@ do_install() {
 	done
 	vmkdir etc/colors
 	vmkdir etc/profile.d
+
+	vmkdir usr/share/xbps.d
+
 	install -m644 ${FILESDIR}/*.sh ${DESTDIR}/etc/profile.d
 	install -m644 ${FILESDIR}/DIR_COLORS* ${DESTDIR}/etc/colors
 
