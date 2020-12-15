@@ -7,6 +7,7 @@ asciidoc:asciidoc
 atool
 avidemux
 base-files
+base-system
 bbswitch:bbswitch
 bibletime
 blackbox
@@ -110,4 +111,5 @@ vhba-module-dkms:vhba-module-dkms
 virt-manager
 wireguard:wireguard
 xarchiver
+xbps
 xscreensaver
