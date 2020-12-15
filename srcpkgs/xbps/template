@@ -44,7 +44,7 @@ post_install() {
 			${DESTDIR}/usr/share/xbps.d/00-repository-main.conf
 		;;
 	*)
-		echo "repository=https://alpha.de.repo.voidlinux.org/current" > \
+		echo "repository=https://ymirlinux.org/libre/main" > \
 			${DESTDIR}/usr/share/xbps.d/00-repository-main.conf
 		;;
 	esac
