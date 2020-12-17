@@ -1,7 +1,4 @@
 clementine-spotify
-linux
-linux-firmware
-linux-lts
 p7zip-unrar
 void-repo-multilib
 void-repo-multilib-nonfree
