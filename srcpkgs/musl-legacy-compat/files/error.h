@@ -7,6 +7,8 @@
 #include <string.h>
 #include <errno.h>
 
+#warning usage of non-standard #include <error.h> is deprecated
+
 static unsigned int error_message_count = 0;
 
 static inline void error(int status, int errnum, const char* format, ...)

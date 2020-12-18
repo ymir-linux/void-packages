@@ -4,7 +4,7 @@ version=0.49.0
 revision=1
 wrksrc="cargo-${version}"
 build_helper=rust
-hostmakedepends="rust python3 curl cmake pkg-config"
+hostmakedepends="rust python3 curl cmake pkg-config zlib-devel"
 makedepends="rust libcurl-devel"
 depends="rust"
 short_desc="Rust package manager"
@@ -84,7 +84,7 @@ esac
 
 post_extract() {
 	mkdir -p target/snapshot
-	cp ../cargo-${_cargo_dist_version}-${RUST_TARGET}/cargo/bin/cargo cargo
+	cp ../cargo-${_cargo_dist_version}-${RUST_BUILD}/cargo/bin/cargo cargo
 }
 
 do_build() {
