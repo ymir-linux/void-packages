@@ -3,9 +3,6 @@ pkgname=base-files
 version=0.141
 <<<<<<< HEAD
 revision=7
-=======
-revision=5
->>>>>>> 3b40e5a8090a377bef3f914401ecc82fbd770614
 bootstrap=yes
 depends="xbps-triggers"
 short_desc="Ymir Linux base system files"
