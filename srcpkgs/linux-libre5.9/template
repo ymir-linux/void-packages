@@ -1,4 +1,4 @@
-# Template file for 'linux5.9'
+# Template file for 'linux-libre5.9'
 pkgname=linux-libre5.9
 version=5.9.16
 revision=1
