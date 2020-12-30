@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.10'
 pkgname=linux-libre5.10
-version=5.10.3
+version=5.10.4
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=bb52a769e3e06c03311b56ef59e136981b3781a59f245688a900b4c03a83db6f
+checksum=886520f95d5856a263dc070f61d711f48ead540799386da9b7fa6c6f2f9d2ff0
 python_version=3
 patch_args="-Np1"
 
@@ -71,12 +71,6 @@ do_configure() {
 		ppc64*) arch=powerpc; subarch=ppc64;;
 		ppc*) arch=powerpc;;
 		mips*) arch=mips;;
-	esac
-
-	case "$XBPS_TARGET_MACHINE" in
-		aarch64*) # XXX: fix segfault in pahole 1.18; should be fixed in new releases
-			vsed -i scripts/link-vmlinux.sh -e's;${PAHOLE} -J;& --btf_encode_force;'
-			;;
 	esac
 
 	if [ -f ${FILESDIR}/${subarch:-$arch}-dotconfig-custom ]; then
