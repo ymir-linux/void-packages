@@ -131,16 +131,13 @@ libbrcmOpenVG.so rpi-userland-20180103_2
 libwayland-egl.so.1 wayland-1.15.0_4
 libnvidia-ml.so.1 nvidia-libs-346.47_1 ignore
 libnvidia-ml.so.1 nvidia304-libs-304.00_1 ignore
-libnvidia-ml.so.1 nvidia340-libs-340.46_1 ignore
 libnvidia-ml.so.1 nvidia390-libs-390.87_1 ignore
 libnvidia-tls.so.346.47 nvidia-libs-346.47_1 ignore
 libnvidia-glcore.so.346.47 nvidia-libs-346.47_1 ignore
 libnvidia-gtk2.so.346.47 nvidia-gtklibs-346.47_1 ignore
 libnvidia-gtk3.so.346.47 nvidia-gtklibs-346.47_1 ignore
-libnvidia-glcore.so.346.47 nvidia340-libs-340.46_1 ignore
 libnvidia-glcore.so.390.87 nvidia390-libs-390.87_1 ignore
 libnvidia-glsi.so.346.72 nvidia-libs-346.72_1 ignore
-libnvidia-glsi.so.340.107 nvidia340-libs-340.107_7 ignore
 libnvidia-fatbinaryloader.so.390.138 nvidia390-libs-390.138_1 ignore
 libnvidia-fatbinaryloader.so.430.40 nvidia-libs-430.40_1 ignore
 libglapi.so.0 libglapi-7.11_1
@@ -2438,7 +2435,8 @@ libgemini.so.17 calligra-gemini-3.2.0_1
 libarpack.so.2 arpack-ng-3.3.0_2
 libfts.so.0 musl-fts-1.2_2
 libobstack.so.1 musl-obstack-1.2.1_1
-libucontext.so.0 libucontext-0.1.1_1
+libucontext.so.1 libucontext-1.0_1
+libucontext_posix.so.1 libucontext-1.0_1
 libgavl.so.1 gavl-1.40_1
 libmxml.so.1 mxml-2.9_1
 libKF5Pty.so.5 kpty-5.26.0_1
