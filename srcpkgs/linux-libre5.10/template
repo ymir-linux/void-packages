@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.10'
 pkgname=linux-libre5.10
-version=5.10.4
+version=5.10.6
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=886520f95d5856a263dc070f61d711f48ead540799386da9b7fa6c6f2f9d2ff0
+checksum=9f8370e5da2e8da27f7595f2f85c5b09bb031eafc7547319525a936f32c87460
 python_version=3
 patch_args="-Np1"
 
