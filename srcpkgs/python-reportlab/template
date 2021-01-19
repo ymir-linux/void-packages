@@ -21,6 +21,9 @@ post_patch() {
 	# Parabola contains those fonts from the ttf-bitstream-vera package
 	rm -fv src/reportlab/fonts/{bitstream-vera-license.txt,Vera*}
 }
+if [ "$CROSS_BUILD" ]; then
+	hostmakedepends+=" ${makedepends}"
+fi
 
 post_install() {
 	vlicense LICENSE.txt
