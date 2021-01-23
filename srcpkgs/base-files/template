@@ -1,7 +1,6 @@
 # Template file for 'base-files'
 pkgname=base-files
 version=0.141
-<<<<<<< HEAD
 revision=7
 bootstrap=yes
 depends="xbps-triggers"

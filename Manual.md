@@ -733,7 +733,7 @@ Examples:
 	# Default value (all arches)
 	archs="*"
 	```
-Do not use noarch. It is deprecated and being removed.
+A special value `noarch` used to be available, but has since been removed.
 
 <a id="explain_depends"></a>
 #### About the many types of `depends` variables
@@ -963,9 +963,7 @@ the out of source build by `meson_builddir`
 
 - `void-cross` For cross-toolchain packages used to build Void systems. You will need to
 specify `cross_triplet` (corresponds to the target triplet specified in the cross profile
-for the target arch), `cross_linux_arch` (the architecture name in the Linux kernel source)
-and when building Go support for musl targets, also `cross_libucontext_arch` (see `libucontext`
-for available ones). Optionally, `cross_gcc_skip_go` can be specified. Individual subproject
+for the target arch). Optionally, `cross_gcc_skip_go` can be specified. Individual subproject
 configure arguments can be specified via `cross_*_configure_args` where `*` is `binutils`,
 `gcc_bootstrap` (early gcc), `gcc` (final gcc), `glibc` (or `musl`), `configure_args` is
 additionally passed to both early and final `gcc`. You can also specify custom `CFLAGS`

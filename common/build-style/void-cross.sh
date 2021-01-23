@@ -4,8 +4,6 @@
 # Mandatory variables:
 #
 # - cross_triplet - the target triplet (e.g. aarch64-linux-gnu)
-# - cross_linux_arch - the source ARCH of the kernel (e.g. arm64)
-# - cross_libucontext_arch - only on musl without cross_gcc_skip_go
 #
 # Optional variables:
 #
@@ -41,12 +39,11 @@ _void_cross_build_binutils() {
 	msg_normal "Patching binutils for ${cross_triplet}\n"
 
 	cd ${wrksrc}/binutils-${ver}
-	# enable when crosstoolchains are updated to latest binutils
-	#if [ -d "${XBPS_SRCPKGDIR}/binutils/patches" ]; then
-	#	for f in ${XBPS_SRCPKGDIR}/binutils/patches/*.patch; do
-	#		_void_cross_apply_patch -p1 "$f"
-	#	done
-	#fi
+	if [ -d "${XBPS_SRCPKGDIR}/binutils/patches" ]; then
+		for f in ${XBPS_SRCPKGDIR}/binutils/patches/*.patch; do
+			_void_cross_apply_patch -p1 "$f"
+		done
+	fi
 	cd ..
 
 	msg_normal "Building binutils for ${cross_triplet}\n"
@@ -92,6 +89,10 @@ _void_cross_build_bootstrap_gcc() {
 	msg_normal "Patching GCC for ${cross_triplet}\n"
 
 	cd ${wrksrc}/gcc-${ver}
+
+	# Do not run fixincludes
+	sed -i 's@./fixinc.sh@-c true@' Makefile.in
+
 	for f in ${XBPS_SRCPKGDIR}/gcc/patches/*.patch; do
 		_void_cross_apply_patch -p0 "$f"
 	done
@@ -162,6 +163,7 @@ _void_cross_build_kernel_headers() {
 	[ -f ${wrksrc}/.linux_headers_done ] && return 0
 
 	local ver=$1
+	local arch
 
 	msg_normal "Patching Linux headers for ${cross_triplet}\n"
 
@@ -175,10 +177,22 @@ _void_cross_build_kernel_headers() {
 
 	cd linux-${ver}
 
-	make ARCH=$cross_linux_arch headers_check
-	make ARCH=$cross_linux_arch \
-		INSTALL_HDR_PATH=${wrksrc}/build_root/usr/${cross_triplet}/usr \
-		headers_install
+	case "$cross_triplet" in
+		x86_64*|i686*) arch=x86 ;;
+		powerpc*) arch=powerpc ;;
+		mips*) arch=mips ;;
+		aarch64*) arch=arm64 ;;
+		arm*) arch=arm ;;
+		riscv*) arch=riscv ;;
+		s390*) arch=s390 ;;
+		*) msg_error "Unknown Linux arch for ${cross_triplet}\n" ;;
+	esac
+
+	make ARCH=${arch} headers
+	find usr/include -name '.*' -delete
+	rm usr/include/Makefile
+	rm -r usr/include/drm
+	cp -a usr/include ${wrksrc}/build_root/usr/${cross_triplet}/usr
 
 	touch ${wrksrc}/.linux_headers_done
 }
@@ -216,8 +230,6 @@ _void_cross_build_glibc_headers() {
 		--host=${tgt} \
 		--with-headers=${wrksrc}/build_root/usr/${tgt}/usr/include \
 		--config-cache \
-		--enable-obsolete-rpc \
-		--enable-obsolete-nsl \
 		--enable-kernel=2.6.27 \
 		${cross_glibc_configure_args}
 
@@ -258,8 +270,6 @@ _void_cross_build_glibc() {
 		--host=${tgt} \
 		--with-headers=${wrksrc}/build_root/usr/${tgt}/usr/include \
 		--config-cache \
-		--enable-obsolete-rpc \
-		--enable-obsolete-nsl \
 		--disable-profile \
 		--disable-werror \
 		--enable-kernel=2.6.27 \
@@ -312,14 +322,33 @@ _void_cross_build_libucontext() {
 	[ -f ${wrksrc}/.libucontext_build_done ] && return 0
 
 	local ver=$1
+	local arch incpath
 
 	msg_normal "Building libucontext for ${cross_triplet}\n"
 
+	case "$cross_triplet" in
+		x86_64*) arch=x86_64 ;;
+		i686*) arch=x86 ;;
+		powerpc64*) arch=ppc64 ;;
+		powerpc*) arch=ppc ;;
+		mips*64*) arch=mips64 ;;
+		mips*) arch=mips ;;
+		aarch64*) arch=aarch64 ;;
+		arm*) arch=arm ;;
+		riscv64*) arch=riscv64 ;;
+		s390x*) arch=s390x ;;
+		*) msg_error "Unknown libucontext arch for ${cross_triplet}\n" ;;
+	esac
+
 	cd ${wrksrc}/libucontext-${ver}
 	# a terrible hack but seems to work for now
+	# we build a static-only library to prevent linking to a runtime
+	# since it's tiny it can be linked into libgo and we don't have
+	# to keep it around (which would possibly conflict with crossdeps)
+	incpath="${wrksrc}/build_root/usr/${cross_triplet}/usr/include"
 	CC="${cross_triplet}-gcc" AS="${cross_triplet}-as" AR="${cross_triplet}-ar" \
-	CPPFLAGS="-pipe ${cross_musl_cflags} -g0 -Os -nostdinc -isystem ${wrksrc}/build_root/usr/${cross_triplet}/usr/include" \
-	make ARCH=${cross_libucontext_arch} libucontext.a
+	make ARCH=$arch libucontext.a \
+		CFLAGS="${cross_musl_cflags} -g0 -nostdinc -isystem ${incpath}"
 
 	cp libucontext.a ${wrksrc}/build_root/usr/${cross_triplet}/usr/lib
 
@@ -402,13 +431,6 @@ _void_cross_build_gcc() {
 	touch ${wrksrc}/.gcc_build_done
 }
 
-_void_cross_check_var() {
-	local var="cross_${1}"
-	if [ -z "${!var}" ]; then
-		msg_error "cross_${1} not defined in template"
-	fi
-}
-
 _void_cross_test_ver() {
 	local proj=$1
 	local noerr=$2
@@ -451,14 +473,11 @@ do_build() {
 		libc_ver=$(cat .musl_version)
 		if [ -z "$cross_gcc_skip_go" ]; then
 			_void_cross_test_ver libucontext
-			_void_cross_check_var libucontext_arch
 			libucontext_ver=$(cat .libucontext_version)
 		fi
 	fi
 
-	# Verify triplet
-	_void_cross_check_var triplet
-	_void_cross_check_var linux_arch
+	[ "${cross_triplet}" ] || msg_error "cross_triplet not defined in template\n"
 
 	local sysroot="/usr/${cross_triplet}"
 
@@ -531,14 +550,11 @@ do_install() {
 	ln -sf usr/lib ${DESTDIR}/${sysroot}/lib
 	ln -sf usr/lib ${DESTDIR}/${sysroot}/lib${ws}
 	ln -sf lib ${DESTDIR}/${sysroot}/usr/lib${ws}
+	ln -sf usr/include ${DESTDIR}/${sysroot}/include
 
 	# Install Linux headers
 	cd ${wrksrc}/linux-$(cat ${wrksrc}/.linux_version)
-	make ARCH=${cross_linux_arch} \
-		INSTALL_HDR_PATH=${DESTDIR}/${sysroot}/usr headers_install
-	rm -f $(find ${DESTDIR}/${sysroot}/usr/include \
-		-name .install -or -name ..install.cmd)
-	rm -rf ${DESTDIR}/${sysroot}/usr/include/drm
+	cp -a usr/include ${DESTDIR}/${sysroot}/usr
 
 	# Install binutils
 	cd ${wrksrc}/binutils_build
@@ -550,6 +566,11 @@ do_install() {
 
 	# Move libcc1.so* to the sysroot
 	mv ${DESTDIR}/usr/lib/libcc1.so* ${DESTDIR}/${sysroot}/usr/lib
+
+	local gcc_ver=$(cat ${wrksrc}/.gcc_version)
+	local gcc_patch=${gcc_ver/_*}
+	local gcc_minor=${gcc_patch%.*}
+	local gcc_major=${gcc_minor%.*}
 
 	if [ -f ${wrksrc}/.musl_version ]; then
 		# Install musl
@@ -569,20 +590,29 @@ do_install() {
 		make install_root=${DESTDIR}/${sysroot} install install-headers
 
 		# Remove bad header
-		rm -f ${DESTDIR}/usr/lib/gcc/${cross__triplet}/*/include-fixed/bits/statx.h
+		rm -f ${DESTDIR}/usr/lib/gcc/${cross_triplet}/${gcc_patch}/include-fixed/bits/statx.h
 	fi
 
-	local gcc_ver=$(cat ${wrksrc}/.gcc_version)
+	# minor-versioned symlinks
+	mv ${DESTDIR}/usr/lib/gcc/${cross_triplet}/${gcc_patch} \
+		${DESTDIR}/usr/lib/gcc/${cross_triplet}/${gcc_minor}
+	ln -sfr ${DESTDIR}/usr/lib/gcc/${cross_triplet}/${gcc_minor} \
+		${DESTDIR}/usr/lib/gcc/${cross_triplet}/${gcc_patch}
+
+	# ditto for c++ headers
+	mv ${DESTDIR}/${sysroot}/usr/include/c++/${gcc_patch} \
+		${DESTDIR}/${sysroot}/usr/include/c++/${gcc_minor}
+	ln -sfr ${DESTDIR}/${sysroot}/usr/include/c++/${gcc_minor} \
+		${DESTDIR}/${sysroot}/usr/include/c++/${gcc_patch}
 
 	# Symlinks for gnarl and gnat shared libraries
-	local majorver=${gcc_ver%.*.*}
-	local adalib=usr/lib/gcc/${_triplet}/${gcc_ver}/adalib
-	mv ${DESTDIR}/${adalib}/libgnarl-${majorver}.so \
+	local adalib=usr/lib/gcc/${_triplet}/${gcc_patch}/adalib
+	mv ${DESTDIR}/${adalib}/libgnarl-${gcc_major}.so \
 		${DESTDIR}/${sysroot}/usr/lib
-	mv ${DESTDIR}/${adalib}/libgnat-${majorver}.so \
+	mv ${DESTDIR}/${adalib}/libgnat-${gcc_major}.so \
 		${DESTDIR}/${sysroot}/usr/lib
-	ln -sf libgnarl-${majorver}.so ${DESTDIR}/${sysroot}/usr/lib/libgnarl.so
-	ln -sf libgnat-${majorver}.so ${DESTDIR}/${sysroot}/usr/lib/libgnat.so
+	ln -sf libgnarl-${gcc_major}.so ${DESTDIR}/${sysroot}/usr/lib/libgnarl.so
+	ln -sf libgnat-${gcc_major}.so ${DESTDIR}/${sysroot}/usr/lib/libgnat.so
 	rm -vf ${DESTDIR}/${adalib}/libgna{rl,t}.so
 
 	# Remove unnecessary libatomic which is only built for gccgo

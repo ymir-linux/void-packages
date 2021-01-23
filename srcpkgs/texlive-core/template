@@ -1,13 +1,14 @@
 # Template file for 'texlive-core'
 pkgname=texlive-core
-version=2020.55416
-revision=2
+version=2020.57066
+revision=1
 build_style="texmf"
 short_desc="TeX Live - core texmf distribution"
 maintainer="fosslinux <fosslinux@aussies.space>"
 license="GPL-2.0-or-later"
 homepage="http://tug.org/texlive"
 distfiles="https://sources.archlinux.org/other/texlive/${pkgname}-${version}-src.zip"
+<<<<<<< HEAD
 checksum=8e025c2dfa4e19dcb6aa5e661874d2c2a158aa2e1a078c11a4ddd6347bd9db45
 
 pre_build() {
@@ -37,3 +38,6 @@ post_build() {
 	# remove nonfree packages references from package list
 	sed -ri '/^(cc-pl|cs|ec|mex|pl|context-(account|algorithmic|fixme|games|letter|ruby)|euro-ce) /d' CONTENTS
 }
+=======
+checksum=b3280ddd2b2c8d41dba3784ba41b755e317e5352868015fe1f70a16b24f5dde9
+>>>>>>> fdc87c604c05b472968bf797f96e270a39b904ea
