@@ -372,14 +372,12 @@ _void_cross_build_gcc() {
 
 	local extra_args
 	if [ -f ${wrksrc}/.musl_version ]; then
-		extra_args+=" --enable-libssp"
 		# otherwise glibc hosts get confused and use the gnu impl
 		extra_args+=" --enable-clocale=generic"
 		extra_args+=" --disable-symvers"
 		extra_args+=" --disable-gnu-unique-object"
 		extra_args+=" libat_cv_have_ifunc=no"
 	else
-		extra_args+=" --disable-libssp"
 		extra_args+=" --enable-gnu-unique-object"
 	fi
 
@@ -419,6 +417,7 @@ _void_cross_build_gcc() {
 		--enable-lto \
 		--enable-default-pie \
 		--enable-default-ssp \
+		--enable-libssp \
 		--with-gnu-ld \
 		--with-gnu-as \
 		--with-linker-hash-style=gnu \
@@ -547,6 +546,7 @@ do_install() {
 	# and we want to delete the libexec from glibc afterwards to save space
 	mkdir -p ${DESTDIR}/${sysroot}/usr/{bin,lib,libexec,include,share}
 	# Sysroot base symlinks
+	ln -sf usr/bin ${DESTDIR}/${sysroot}/bin
 	ln -sf usr/lib ${DESTDIR}/${sysroot}/lib
 	ln -sf usr/lib ${DESTDIR}/${sysroot}/lib${ws}
 	ln -sf lib ${DESTDIR}/${sysroot}/usr/lib${ws}

@@ -1,26 +1,14 @@
-<<<<<<< HEAD:srcpkgs/linux-libre5.4/template
 # Template file for 'linux-libre5.4'
 pkgname=linux-libre5.4
-version=5.4.89
-=======
-# Template file for 'linux5.4'
-pkgname=linux5.4
-version=5.4.91
->>>>>>> fdc87c604c05b472968bf797f96e270a39b904ea:srcpkgs/linux5.4/template
+version=5.4.92
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
-<<<<<<< HEAD:srcpkgs/linux-libre5.4/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=39267957ac7465ca30f20b3f8e334c0ee93722727ad07a25263e599a1e8119c7
-=======
-homepage="https://www.kernel.org"
-distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version}.tar.xz"
-checksum=0e0161bb034b9ba59e58a20985e49ecfb38104586602f53f37b382f508fc5c17
->>>>>>> fdc87c604c05b472968bf797f96e270a39b904ea:srcpkgs/linux5.4/template
+checksum=ec6857f6d568a3089ce809b54b538ff82cd6a6dd88929aaefbb8741b9818301a
 python_version=3
 patch_args="-Np1"
 

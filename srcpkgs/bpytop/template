@@ -1,6 +1,6 @@
 # Template file for 'bpytop'
 pkgname=bpytop
-version=1.0.59
+version=1.0.61
 revision=1
 build_style=gnu-makefile
 depends="python3-psutil"
@@ -9,7 +9,7 @@ maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="Apache-2.0"
 homepage="https://github.com/aristocratos/bpytop"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=c95d0034ab6567a72d377d12806f5a89f87a796e72b8993fbbb5efc79e5a9133
+checksum=01bc712df11cb7022fff510e118130f4834c3dcd1f85267ada9c50a30af5919b
 
 pre_configure() {
 	vsed -e '/^update_check/s/\$update_check/false/' -i bpytop.py
