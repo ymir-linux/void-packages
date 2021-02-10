@@ -4,6 +4,7 @@ version=3.11.1
 revision=1
 wrksrc="SuperCollider-${version}-Source"
 build_style=cmake
+make_cmd=make
 configure_args="-DENABLE_TESTSUITE=OFF -DSYSTEM_BOOST=ON -DSYSTEM_YAMLCPP=ON"
 hostmakedepends="emacs pkg-config"
 makedepends="avahi-libs-devel boost-devel fftw-devel jack-devel libatomic-devel

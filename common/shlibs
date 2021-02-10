@@ -1739,7 +1739,7 @@ libxmlrpc++.so.8 xmlrpc-c-1.39.07_1
 libxmlrpc_server.so.3 xmlrpc-c-1.25.28_1
 libxmlrpc_packetsocket.so.8 xmlrpc-c-1.39.07_1
 libxmlrpc.so.3 xmlrpc-c-1.25.28_1
-libxmlrpc_util.so.3 xmlrpc-c-1.25.28_1
+libxmlrpc_util.so.4 xmlrpc-c-1.51.06_1
 libxmlrpc_abyss.so.3 xmlrpc-c-1.25.28_1
 libxmlrpc_server_abyss++.so.8 xmlrpc-c-1.39.07_1
 libxmlrpc_cpp.so.8 xmlrpc-c-1.39.07_1
@@ -3053,7 +3053,7 @@ libbrotlienc.so.1 brotli-1.0.2_1
 libfilteraudio.so filter_audio-0.0.1_1
 libgstreamermm-1.0.so.1 gstreamermm-1.8.0_1
 libmovit.so.8 movit-1.6.0_1
-libduktape.so.204 duktape-2.4.0_1
+libduktape.so.206 duktape-2.6.0_1
 libccgnu2-1.8.so.0 commoncpp2-1.8.1_1
 libccext2-1.8.so.0 commoncpp2-1.8.1_1
 libucommon.so.8 ucommon-7.0.0_1
@@ -3137,9 +3137,9 @@ librpmio.so.9 librpmio-4.15.0_1
 libsquirrel.so.0 squirrel-libs-3.1_1
 libsqstdlib.so.0 squirrel-libs-3.1_1
 libexecinfo.so.1 libexecinfo-1.1_1
-libkdeconnectpluginkcm.so.1 kdeconnect-1.2_1
-libkdeconnectinterfaces.so.1 kdeconnect-1.2_1
-libkdeconnectcore.so.1 kdeconnect-1.2_1
+libkdeconnectpluginkcm.so.2 kdeconnect-20.12.2_1
+libkdeconnectinterfaces.so.20 kdeconnect-20.12.2_1
+libkdeconnectcore.so.20 kdeconnect-20.12.2_1
 libkpmcore.so.10 kpmcore-4.2.0_1
 libpkcs11-helper.so.1 pkcs11-helper-1.22_1
 libr_core.so.5.0.0 radare2-5.0.0_1
@@ -3465,7 +3465,6 @@ libmaxminddb.so.0 libmaxminddb-1.3.2_1
 libmysqlpp.so.3 mysql++-3.2.5_1
 libKF5Syndication.so.5 syndication-5.50.0_1
 liblqr-1.so.0 liblqr-0.4.2_1
-libmozjs-60.so.0 mozjs60-60.0.2_1
 libmozjs-78.so.0 mozjs78-78.1.0_1
 libebur128.so.1 libebur128-1.2.4_1
 libgtksourceview-4.so.0 gtksourceview4-4.0.2_1
@@ -3912,8 +3911,8 @@ libneatvnc.so.0 neatvnc-0.3.2_1
 libtdjson.so.1.7.0 libtd-1.7.0_1
 libJudy.so.1 judy-1.0.5_1
 libsignal-protocol-c.so.2 libsignal-protocol-c-2.3.3_2
-libSeExpr2Editor.so.3 seexpr-krita-3.4.4.0_1
-libSeExpr2.so.3 seexpr-krita-3.4.4.0_1
+libKSeExprUI.so.4.0.1.0 seexpr-krita-4.0.1.0_1
+libKSeExpr.so.4.0.1.0 seexpr-krita-4.0.1.0_1
 liburing.so.1 liburing-0.7_1
 libbson-1.0.so.0 libbson-1.17.0_1
 libsonic.so.0 libsonic-0.2.0_1
