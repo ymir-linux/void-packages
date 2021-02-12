@@ -558,8 +558,8 @@ libecpg.so.6 postgresql-libs-8.4.2_1
 libpgtypes.so.3 postgresql-libs-8.4.2_1
 libpq.so.5 postgresql-libs-8.4.2_1
 libmypaint-1.5.so.1 libmypaint-1.5.1_1
-libmysqlclient_r.so.18 libmysqlclient-5.5.27_1
-libmysqlclient.so.18 libmysqlclient-5.5.27_1
+libmysqlclient_r.so.18 libmariadbclient-10.1.47_1
+libmysqlclient.so.18 libmariadbclient-10.1.47_1
 libgssapi_krb5.so.2 mit-krb5-libs-1.8_1
 libgssrpc.so.4 mit-krb5-libs-1.8_1
 libk5crypto.so.3 mit-krb5-libs-1.8_1
@@ -3669,7 +3669,7 @@ libheif.so.1 libheif-1.4.0_1
 libuninameslist.so.1 libuninameslist-20190701_1
 libgambit.so.4 gambit-4.9.3_1
 liblog4cpp.so.5 log4cpp-1.1.3_1
-libnuspell.so.3 libnuspell-3.0.0_1
+libnuspell.so.4 libnuspell-4.2.0_1
 liblog4c.so.3 log4c-1.2.4_1
 libqb.so.100 libqb-2.0.0_1
 libusbguard.so.1 usbguard-1.0.0_1
@@ -3860,7 +3860,7 @@ libcaribou.so.0 libcaribou-0.4.21_3
 libtinyclipboard.so.1 tinyclipboard-16.01_1
 libcbor.so.0.8 libcbor-0.8.0_1
 libfido2.so.1 libfido2-1.3.0_1
-libjanet.so.1.14 janet-1.14.1_1
+libjanet.so.1.15 janet-1.15.1_1
 libOpenImageDenoise.so.0 openimagedenoise-1.2.0_1
 libcbang0.so cbang-1.3.3_1
 libblosc.so.1 c-blosc-1.17.1_1
