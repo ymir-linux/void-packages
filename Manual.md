@@ -481,7 +481,8 @@ in the local repository exists to satisfy the required version. Dependencies
 can be specified with the following version comparators: `<`, `>`, `<=`, `>=`
 or `foo-1.0_1` to match an exact version. If version comparator is not
 defined (just a package name), the version comparator is automatically set to `>=0`.
-Example: `depends="foo blah>=1.0"`. See the `Runtime dependencies` section for more information.
+Example: `depends="foo blah>=1.0"`. See the [Runtime dependencies](#deps_runtime) section
+for more information.
 
 - `bootstrap` If enabled the source package is considered to be part of the `bootstrap`
 process and required to be able to build packages in the chroot. Only a
@@ -913,12 +914,11 @@ that do such things as append (`+=`) to variables, should have `make_use_env`
 set in the body of the template.
 
 - `go` For programs written in Go that follow the standard package
-  structure. The variable `go_import_path` must be set to the package's
-  import path, e.g. `github.com/github/hub` for the `hub` program. If
-  the variable `go_get` is set to `yes`, the package will be
-  downloaded with `go get`. Otherwise (the default) it's expected that
-  the distfile contains the package. In both cases, dependencies will
-  be downloaded with `go get`.
+structure. The variable `go_import_path` must be set to the package's
+import path, e.g. `github.com/github/hub` for the `hub` program. This
+information can be found in the `go.mod` file for modern Go projects.
+It's expected that the distfile contains the package, but dependencies
+will be downloaded with `go get`.
 
 - `meta` For `meta-packages`, i.e packages that only install local files or simply
 depend on additional packages. This build style does not install
@@ -1584,10 +1584,6 @@ The following template variables influence how Go packages are built:
   variable is required.
 - `go_package`: A space-separated list of import paths of the packages
   that should be built. Defaults to `go_import_path`.
-- `go_get`: If set to yes, the package specified via `go_import_path`
-  will be downloaded with `go get`. Otherwise, a distfile has to be
-  provided. This option should only be used with `-git` (or similar)
-  packages; using a versioned distfile is preferred.
 - `go_build_tags`: An optional, space-separated list of build tags to
   pass to Go.
 - `go_mod_mode`: The module download mode to use. May be `off` to ignore

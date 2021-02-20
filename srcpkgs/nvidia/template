@@ -4,7 +4,7 @@ _desc="NVIDIA drivers for linux"
 
 pkgname=nvidia
 version=460.39
-revision=2
+revision=3
 maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="custom:NVIDIA Proprietary"
 homepage="https://www.nvidia.com"
@@ -209,6 +209,8 @@ do_install() {
 
 	# optix ray racing engine
 	vinstall libnvoptix.so.${version} 755 usr/lib
+	ln -sf libnvoptix.so.${version} /usr/lib/libnvoptix.so
+	ln -sf libnvoptix.so.${version} /usr/lib/libnvoptix.so.1
 
 	# dkms pkg
 	vmkdir usr/src/nvidia-${version}
