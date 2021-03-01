@@ -1,4 +1,5 @@
-CAUTION: 66 v0.6.0.0 has changes to the way the log and env options
-are handled in the frontend service file. Please consult the 
-documentation and make the appropriate changes before restarting
-or enabling your services, especially complex module services.
+CAUTION: package revision 0.6.1.1_2 changes the default system-dir
+from /var/lib/66 to /etc/66/lib. The change requires user intervention.
+Users who upgrade from an earlier version should re-create all trees 
+and re-enable services in them. That should be done before rebooting/halting
+the system.

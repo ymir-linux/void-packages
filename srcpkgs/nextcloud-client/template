@@ -1,6 +1,6 @@
 # Template file for 'nextcloud-client'
 pkgname=nextcloud-client
-version=3.1.1
+version=3.1.2
 revision=1
 wrksrc="desktop-${version}"
 build_style=cmake
@@ -9,7 +9,7 @@ configure_args="-Wno-dev $(vopt_if shibboleth '' '-DNO_SHIBBOLETH=True')
 hostmakedepends="pkg-config"
 makedepends="qt5-tools-devel qt5-declarative-devel qt5-webchannel-devel
  qt5-location-devel qtkeychain-qt5-devel sqlite-devel libcloudproviders-devel
- qt5-quickcontrols2-devel
+ qt5-quickcontrols2-devel qt5-websockets-devel qt5-svg-devel
  $(vopt_if dolphin 'extra-cmake-modules kio-devel')
  qt5-webkit-devel"
 depends="qt5-graphicaleffects"
@@ -20,7 +20,7 @@ maintainer="yopito <pierre.bourgin@free.fr>"
 license="GPL-2.0-or-later"
 homepage="https://nextcloud.com/clients/"
 distfiles="https://github.com/nextcloud/desktop/archive/v${version}.tar.gz"
-checksum=e296156a4de033a59f9b3210fe17fdfb8bb7aebefb715ae4e3b85e627e40a87f
+checksum=2fb2c18f479be2a04cf999f037def705c4be0087816af727038f0c71cb2c6189
 
 build_options="dolphin shibboleth"
 desc_option_dolphin="Build KDE dolphin support"
@@ -33,7 +33,8 @@ if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" $(vopt_if dolphin 'kcoreaddons')"
 fi
 
-subpackages="$(vopt_if dolphin 'nextcloud-client-dolphin') nextcloud-client-devel"
+subpackages="nextcloud-client-kwallet nextcloud-client-devel"
+subpackages+=" $(vopt_if dolphin 'nextcloud-client-dolphin')"
 
 if [ "$XBPS_CHECK_PKGS" ]; then
 	configure_args+=" -DUNIT_TESTING=1"
@@ -44,6 +45,23 @@ if [ "$XBPS_CHECK_PKGS" ]; then
 		*-musl) configure_args+=" -DHAVE_ARGP_H=0";;
 	esac
 fi
+
+nextcloud-client-kwallet_package() {
+	short_desc+=" - kwallet credential backend"
+	depends="nextcloud-client>=${version}_${revision} kwallet"
+	pkg_install() {
+		vbin ${FILESDIR}/kwallet/nextcloud.kwallet
+		vmkdir usr/share/applications
+		cp build/src/gui/com.nextcloud.desktopclient.nextcloud.desktop \
+		   ${DESTDIR}/usr/share/applications/nextcloud-kwallet.desktop
+		vsed -i -e 's,^Exec=.*,Exec=/usr/bin/nextcloud.kwallet,' \
+		     -e 's,\(^Name=.*\),\1 - use kwallet,' \
+		     -e 's,\(^Comment=.*\),\1 - use kwallet credential storage,' \
+		     -e '/^# Translations/,$d' \
+		     ${DESTDIR}/usr/share/applications/nextcloud-kwallet.desktop
+		vdoc ${FILESDIR}/kwallet/README.voidlinux
+	}
+}
 
 nextcloud-client-dolphin_package() {
 	short_desc+=" - KDE dolphin integration"

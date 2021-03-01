@@ -1,11 +1,11 @@
 # Template file for 'openmpi'
 pkgname=openmpi
 version=4.1.0
-revision=1
+revision=3
 build_style=gnu-configure
 configure_args="--enable-ipv6 --with-hwloc=${XBPS_CROSS_BASE}/usr"
-hostmakedepends="gcc-fortran libgomp-devel perl"
-makedepends="libgfortran-devel libgomp-devel libhwloc-devel zlib-devel"
+hostmakedepends="gcc-fortran libgomp-devel perl pkg-config automake libtool"
+makedepends="libgfortran-devel libgomp-devel libhwloc-devel zlib-devel libevent-devel"
 conf_files="
  /etc/openmpi-default-hostfile
  /etc/openmpi-mca-params.conf
@@ -25,6 +25,8 @@ post_extract() {
 }
 
 pre_configure() {
+	./autogen.pl --force
+
 	# used wrongly upstream? but nocross anyway
 	export CFLAGS="$CFLAGS $LDFLAGS"
 	export CXXFLAGS="$CXXFLAGS $LDFLAGS"
@@ -42,6 +44,8 @@ pre_configure() {
 
 post_install() {
 	vlicense LICENSE
+	# https://github.com/void-linux/void-packages/pull/28996#issuecomment-784255185
+	mv "${DESTDIR}/usr/lib/ompi_monitoring_prof.so" "${DESTDIR}/usr/lib/openmpi"
 }
 
 libopenmpi_package() {
