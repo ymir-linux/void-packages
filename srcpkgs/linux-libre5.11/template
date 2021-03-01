@@ -1,17 +1,14 @@
 # Template file for 'linux5.11'
-pkgname=linux5.11
+pkgname=linux-libre5.11
 version=5.11.2
 revision=2
 wrksrc="linux-${version%.*}"
-short_desc="Linux kernel and modules (${version%.*} series)"
-maintainer="Érico Nogueira <ericonr@disroot.org>"
+short_desc="Linux-libre kernel and modules (${version%.*} series)"
+maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
-homepage="https://www.kernel.org"
-distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version%.*}.tar.xz
- https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-${version}.xz"
-checksum="04f07b54f0d40adfab02ee6cbd2a942c96728d87c1ef9e120d0cb9ba3fe067b4
- 7a6d20308aed903a81a67e76e7c6cd294fb7cbb87f887e2168097da865def8ba"
-skip_extraction="patch-${version}.xz"
+homepage="linux-libre.fsfla.org/"
+distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
+checksum=b903d42a635af79be2ed4ad2ffea6748817acba0d881dd6339b34b0657cca6c3
 python_version=3
 patch_args="-Np1"
 
@@ -27,7 +24,7 @@ preserve=yes
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  libressl-devel perl uboot-mkimage cpio pahole python3"
 
-_kernver="${version}_${revision}"
+_kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
 
@@ -52,13 +49,6 @@ export KBUILD_BUILD_HOST=voidlinux
 if [ "$CROSS_BUILD" ]; then
 	_cross="CROSS_COMPILE=${XBPS_CROSS_TRIPLET}-"
 fi
-if [ "${_patchver}" ]; then
-	_version="EXTRAVERSION=${_patchver}"
-fi
-
-pre_patch() {
-	xzcat $XBPS_SRCDISTDIR/$pkgname-$version/patch-${version}.xz | patch -Np1
-}
 
 do_configure() {
 	# If there's a file called <arch>-dotconfig, use it to
@@ -182,8 +172,6 @@ do_install() {
 		install -Dm644 $file ${hdrdest}/${file}
 	done
 	mkdir -p ${hdrdest}/include
-	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux vdso \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
@@ -316,7 +304,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux5.11-headers_package() {
+linux-libre5.11-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -326,7 +314,7 @@ linux5.11-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux5.11-dbg_package() {
+linux-libre5.11-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
