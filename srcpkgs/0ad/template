@@ -1,7 +1,7 @@
 # Template file for '0ad'
 pkgname=0ad
 version=0.0.24
-revision=1
+revision=2
 archs="x86_64* i686* aarch64* armv7l* ppc64le*"
 create_wrksrc=yes
 hostmakedepends="pkg-config perl cmake python3 rust cargo yasm tar clang"
@@ -20,6 +20,7 @@ nocross="uses bundled third-party libraries that do not cross-compile"
 CXXFLAGS="-fpermissive"
 # Use BFD linker to avoid erroneous detection of llvm pr8927 with *-musl
 LDFLAGS="-fuse-ld=bfd"
+
 export WX_CONFIG="wx-config-gtk3"
 
 if [ "$XBPS_TARGET_LIBC" = musl ]; then
