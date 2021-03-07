@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.4'
 pkgname=linux-libre5.4
-version=5.4.101
+version=5.4.102
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=2df58cae4681b72c1f5ccbe3340886ea6b49ce89e34721496fe66e622b53d24b
+checksum=333b7e5271ed38f76f568f589e6adede12cccc5aca7d678751ad232e81f5a3bd
 python_version=3
 patch_args="-Np1"
 
@@ -20,7 +20,7 @@ preserve=yes
 
 archs="i686* x86_64* armv5tel* armv6l* armv7l* aarch64* ppc*"
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
- libressl-devel perl uboot-mkimage cpio"
+ openssl-devel perl uboot-mkimage cpio"
 
 # I had to add '-gnu' in order to build properly
 _kernver="${version}-gnu_${revision}"

@@ -1,7 +1,7 @@
 # Template file for 'qt5'
 pkgname=qt5
 version=5.15.2
-revision=2
+revision=4
 wrksrc="qt-everywhere-src-${version}"
 build_style=meta
 hostmakedepends="cmake clang flex perl glib-devel pkg-config
@@ -12,7 +12,7 @@ makedepends="SDL2-devel Vulkan-Headers alsa-lib-devel double-conversion-devel
  libinput-devel libmng-devel libmariadbclient-devel libproxy-devel
  libvpx-devel libwebp-devel libxslt-devel cups-devel minizip-devel
  opus-devel pciutils-devel pcre2-devel postgresql-libs-devel
- protobuf-devel pulseaudio-devel tslib-devel libressl-devel
+ protobuf-devel pulseaudio-devel tslib-devel openssl-devel
  unixodbc-devel xcb-util-image-devel xcb-util-keysyms-devel
  xcb-util-renderutil-devel xcb-util-wm-devel libzstd-devel harfbuzz-devel"
 depends="qt5-dbus qt5-gui qt5-core qt5-widgets qt5-network qt5-xml
@@ -28,9 +28,7 @@ replaces="qt5-doc<5.6.0 qt5-quick1<5.6.0 qt5-quick1-devel<5.6.0 qt5-webkit<5.6.0
  qt5-enginio<5.7.1 qt5-enginio-devel<5.7.1 qt5-plugin-gtk<5.7.1 qt5-canvas3d<5.13.0"
 lib32mode=full
 
-# Work around SSLv3_{client,server}_method missing in libressl-2.3.3
-CFLAGS="-DOPENSSL_NO_PSK -DOPENSSL_NO_NEXTPROTONEG"
-CXXFLAGS="${CFLAGS} -Wno-deprecated-declarations -Wno-class-memaccess -Wno-packed-not-aligned"
+CXXFLAGS="-Wno-deprecated-declarations -Wno-class-memaccess -Wno-packed-not-aligned"
 # Required for musl libc
 LDFLAGS="-pthread -ldl -fPIE -Wl,-z,stack-size=2097152"
 
@@ -39,6 +37,10 @@ if [ "$CROSS_BUILD" ]; then
 	# wayland-devel contains /usr/bin/wayland-scanner
 	hostmakedepends+=" icu-devel wayland-devel zlib-devel"
 	hostmakedepends+=" postgresql-libs-devel"
+fi
+
+if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+	makedepends+=" libatomic-devel"
 fi
 
 _cleanup_wrksrc_leak() {
@@ -1059,7 +1061,7 @@ qt5-tools_package() {
 }
 
 qt5-devel_package() {
-	depends="zlib-devel libressl-devel>=2.1.4 libXext-devel libXrender-devel
+	depends="zlib-devel openssl-devel libXext-devel libXrender-devel
 		fontconfig-devel libglib-devel MesaLib-devel mtdev-devel
 		dbus-devel icu-devel cups-devel
 		qt5-gui-${version}_${revision}
@@ -1075,6 +1077,9 @@ qt5-devel_package() {
 		qt5-network-${version}_${revision}
 		qt5-xml-${version}_${revision}
 		qt5-host-tools-${version}_${revision}"
+	if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+		depends+=" libatomic-devel"
+	fi
 	short_desc+=" - Development files"
 	# qt5-enginio-devel is gone
 	pkg_install() {

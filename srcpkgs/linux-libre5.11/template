@@ -1,6 +1,6 @@
 # Template file for 'linux5.11'
 pkgname=linux-libre5.11
-version=5.11.2
+version=5.11.3
 revision=2
 wrksrc="linux-${version%.*}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=b903d42a635af79be2ed4ad2ffea6748817acba0d881dd6339b34b0657cca6c3
+checksum=cec7f54d0e381f9f3fee7846efbb00ab7effa4cdbb06568887feb73948d58b9e
 python_version=3
 patch_args="-Np1"
 
@@ -22,7 +22,7 @@ noshlibprovides=yes
 preserve=yes
 
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
- libressl-devel perl uboot-mkimage cpio pahole python3"
+ openssl-devel perl uboot-mkimage cpio pahole python3"
 
 _kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"

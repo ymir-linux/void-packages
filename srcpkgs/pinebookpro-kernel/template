@@ -1,7 +1,7 @@
 # Template file for 'pinebookpro-kernel'
 pkgname=pinebookpro-kernel
 version=5.10.9
-revision=1
+revision=2
 archs="aarch64*"
 wrksrc="linux-${version}"
 short_desc="Linux kernel for Pinebook Pro"
@@ -20,7 +20,7 @@ noshlibprovides=yes
 preserve=yes
 
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
- libressl-devel perl uboot-mkimage cpio python3"
+ openssl-devel perl uboot-mkimage cpio python3"
 
 _kernver="${version}_${revision}"
 triggers="kernel-hooks"
