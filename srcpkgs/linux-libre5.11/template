@@ -1,14 +1,28 @@
 # Template file for 'linux5.11'
+<<<<<<< HEAD:srcpkgs/linux-libre5.11/template
 pkgname=linux-libre5.11
 version=5.11.8
+=======
+pkgname=linux5.11
+version=5.11.9
+>>>>>>> 6e2ce9a2d919b1b32f4f2a79ffc4b54076392135:srcpkgs/linux5.11/template
 revision=1
 wrksrc="linux-${version%.*}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
+<<<<<<< HEAD:srcpkgs/linux-libre5.11/template
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=85aea89af7f26649539a6f0d04e4f96be0c8cacc356053f8d269551f4c9aaa12
+=======
+homepage="https://www.kernel.org"
+distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version%.*}.tar.xz
+ https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-${version}.xz"
+checksum="04f07b54f0d40adfab02ee6cbd2a942c96728d87c1ef9e120d0cb9ba3fe067b4
+ ef1e9f434651570ef0e47f0695a3fa9fc92e46f5bd53b3e0cfa6b8c46da2bce6"
+skip_extraction="patch-${version}.xz"
+>>>>>>> 6e2ce9a2d919b1b32f4f2a79ffc4b54076392135:srcpkgs/linux5.11/template
 python_version=3
 patch_args="-Np1"
 
