@@ -2325,9 +2325,9 @@ libIL.so.1 devil-1.7.8_1
 libILU.so.1 devil-1.7.8_1
 libILUT.so.1 devil-1.7.8_1
 liboath.so.0 oath-toolkit-2.6.0_2
-libanthy.so.0 anthy-9100h_1
-libanthydic.so.0 anthy-9100h_1
-libanthyinput.so.0 anthy-9100h_1
+libanthy.so.1 libanthy-0.4_1
+libanthydic.so.1 libanthy-0.4_1
+libanthyinput.so.0 libanthy-0.4_1
 libanthygobject-1.0.so.5 ibus-anthy-1.5.6_1
 libtbbmalloc_proxy_debug.so.2 tbb-4.3_1
 libtbbmalloc_proxy.so.2 tbb-4.3_1
@@ -2919,7 +2919,7 @@ liblxpanel.so.0 lxpanel-0.9.3_1
 libuim.so.8 uim-1.8.6_1
 libuim-scm.so.0 uim-1.8.6_1
 libuim-custom.so.2 uim-1.8.6_1
-libgcroots.so.0 uim-1.8.6_1
+libgcroots.so.0 libgcroots-0.3.2_1
 libdecoration.so.0 compiz-core-0.8.14_1
 libcompizconfig.so.0 libcompizconfig-0.8.14_1
 libemeraldengine.so.0 emerald-0.8.14_1
@@ -3894,7 +3894,7 @@ libJudy.so.1 judy-1.0.5_1
 libsignal-protocol-c.so.2 libsignal-protocol-c-2.3.3_2
 libKSeExprUI.so.4.0.1.0 seexpr-krita-4.0.1.0_1
 libKSeExpr.so.4.0.1.0 seexpr-krita-4.0.1.0_1
-liburing.so.1 liburing-0.7_1
+liburing.so.2 liburing-2.0_1
 libbson-1.0.so.0 libbson-1.17.4_2
 libsonic.so.0 libsonic-0.2.0_1
 libtickit.so.3 libtickit-0.4.1_1
@@ -3970,3 +3970,4 @@ libwayland-cursor++.so.0 libwaylandpp-0.2.8_1
 libwayland-egl++.so.0 libwaylandpp-0.2.8_1
 libwayland-client-extra++.so.0 libwaylandpp-0.2.8_1
 libspdlog.so.1 libspdlog-1.8.2_2
+libmd.so.0 libmd-1.0.3_1
