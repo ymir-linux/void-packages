@@ -1,4 +1,4 @@
-# Template file for 'linux5.11'
+# Template file for 'linux-libre5.11'
 pkgname=linux-libre5.11
 version=5.11.9
 revision=1
@@ -13,7 +13,7 @@ python_version=3
 patch_args="-Np1"
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
-archs="x86_64* i686* aarch64* ppc*"
+archs="x86_64* i686* ppc* aarch64*"
 
 nodebug=yes  # -dbg package is generated below manually
 nostrip=yes
@@ -49,8 +49,14 @@ export KBUILD_BUILD_HOST=voidlinux
 if [ "$CROSS_BUILD" ]; then
 	_cross="CROSS_COMPILE=${XBPS_CROSS_TRIPLET}-"
 fi
+if [ "${_patchver}" ]; then
+	_version="EXTRAVERSION=${_patchver}"
+fi
 
 do_configure() {
+	# 5.8 misses Documentation/DocBook. We ship the directory from 4.12 here.
+	cp -a $FILESDIR/DocBook -t Documentation
+
 	# If there's a file called <arch>-dotconfig, use it to
 	# configure the kernel; otherwise use arch defaults and all stuff
 	# as modules (allmodconfig).
@@ -233,6 +239,10 @@ do_install() {
 		mkdir -p ${hdrdest}/drivers/media/i2c/${i}
 		cp -a drivers/media/i2c/${i}/*.h ${hdrdest}/drivers/media/i2c/${i}
 	done
+
+	# Add docbook makefile
+	install -Dm644 Documentation/DocBook/Makefile \
+		${hdrdest}/Documentation/DocBook/Makefile
 
 	# Add md headers
 	mkdir -p ${hdrdest}/drivers/md
