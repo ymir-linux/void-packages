@@ -2,7 +2,7 @@
 pkgname=linux-libre5.11
 version=5.11.9
 revision=1
-wrksrc="linux-${version%.*}"
+wrksrc="linux-libre${version%.*}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
 maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
