@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=7c57b3053c7d2d74780433d2e6d6b7daea560338c5d373154c06f13263b35270
+checksum=30ac79ed62cad5152efc05e79a1757da63e2dbcae9b7a737fe1dc938506c6fa1
 python_version=3
 patch_args="-Np1"
 
