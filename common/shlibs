@@ -1563,7 +1563,7 @@ libcheck.so.0 check-0.9.12_1
 liblxc.so.1 liblxc-4.0.6_2
 libtcmalloc.so.4 gperftools-2.1_1
 libaio.so.1 libaio-0.3.109_1
-libofx.so.7 libofx-0.9.11_1
+libofx.so.7 libofx-0.10.1_1
 libsigsegv.so.2 libsigsegv-2.10_2
 libfprint.so.0 libfprint0-1.0_1
 libfprint-2.so.2 libfprint-1.90.7_1
@@ -3532,9 +3532,9 @@ libupstart.so.1 libupstart-1.13.3_1
 librtas.so.2 librtas-2.0.2_1
 librtasevent.so.2 librtas-2.0.2_1
 libbroker.so.2 zeek-3.2.4_2
-libcaf_core.so.0.17.6 zeek-3.2.4_2
-libcaf_io.so.0.17.6 zeek-3.2.4_2
-libcaf_openssl.so.0.17.6 zeek-3.2.4_2
+libcaf_core.so.0.18.0 zeek-4.0.0_1
+libcaf_io.so.0.18.0 zeek-4.0.0_1
+libcaf_openssl.so.0.18.0 zeek-4.0.0_1
 libbinpac.so.0 zeek-3.2.4_2
 libllhttp.so.1 llhttp-1.0.1_1
 libpinyin.so.13 libpinyin-2.2.1_1
