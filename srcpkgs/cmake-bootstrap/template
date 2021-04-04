@@ -1,7 +1,8 @@
 # Template file for 'cmake-bootstrap'
 pkgname=cmake-bootstrap
+reverts="3.20.0_1"
 version=3.19.7
-revision=1
+revision=2
 wrksrc=cmake-$version
 bootstrap=yes
 build_style=configure

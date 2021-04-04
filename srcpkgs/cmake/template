@@ -1,7 +1,8 @@
 # Template file for 'cmake'
 pkgname=cmake
+reverts="3.20.0_1"
 version=3.19.7
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DCMAKE_DOC_DIR=/share/doc/cmake -DCMAKE_BUILD_TYPE=None
  -DCMAKE_USE_SYSTEM_LIBRARIES=ON -DKWSYS_LFS_WORKS=1"
