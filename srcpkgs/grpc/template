@@ -1,7 +1,8 @@
 # Template file for 'grpc'
 pkgname=grpc
+reverts="1.37.0_1"
 version=1.36.4
-revision=1
+revision=2
 _abseilver=6f9d96a1f41439ac172ee2ef7ccd8edf0e5d068c
 build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=ON

@@ -1,42 +1,41 @@
 # Template file for 'wire-desktop'
 pkgname=wire-desktop
-version=3.6.2885
+version=3.24.2939
 revision=2
 wrksrc="${pkgname}-linux-${version}"
 hostmakedepends="nodejs yarn git"
+depends="electron10"
 short_desc="Wire for desktop"
 maintainer="Young Jin Park <youngjinpark20@gmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://wire.com"
 distfiles="https://github.com/wireapp/wire-desktop/archive/linux/${version}.tar.gz"
-checksum=524db450d41a2dc677b8450cdf4e13dcc753280b2f6565ed5e23e6f59c14bed4
-nocross=yes
-shlib_provides="libGLVESv2.so"
+checksum=69e70d39286f29b2fb186da30ec828be0a30329c457e829111b863223ed64127
 
-case "$XBPS_TARGET_MACHINE" in
-	*-musl) broken="glibc artefacts are installed" ;;
-	i686*) broken="yarn" ;;
-	ppc*) broken="electron" ;;
+case "$XBPS_MACHINE" in
+	x86_64*|i686*) ;;
+	*) broken="oof" ;;
 esac
 
 pre_build() {
-	vsed -i '/node-addressbook/d' electron/package.json
 	yarn
-	yarn build:ts
 }
 
 do_build() {
-	npx grunt --target=dir linux-other
+	LINUX_TARGET=dir yarn build:linux
 }
 
 do_install() {
 	vmkdir usr/lib/wire-desktop
-	vcopy wrap/dist/linux-unpacked/* usr/lib/wire-desktop
+	vinstall wrap/dist/linux-unpacked/resources/app.asar 644 usr/lib/wire-desktop
 	vmkdir usr/bin
-	ln -sf /usr/lib/wire-desktop/wire-desktop ${DESTDIR}/usr/bin/
+	cat << EOF > "wire-desktop.sh"
+#!/bin/sh
+exec electron10 "/usr/lib/wire-desktop/app.asar" "\$@"
+EOF
+	vbin wire-desktop.sh wire-desktop
 	vmkdir usr/share/icons/hicolor/256x256/apps
 	vcopy resources/icons/256x256.png usr/share/icons/hicolor/256x256/apps/wire-desktop.png
 	vmkdir usr/share/icons/hicolor/32x32/apps
 	vcopy resources/icons/32x32.png usr/share/icons/hicolor/32x32/apps/wire-desktop.png
-	vlicense LICENSE
 }

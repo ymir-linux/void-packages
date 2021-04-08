@@ -556,7 +556,7 @@ libecpg_compat.so.3 postgresql-libs-13.2_2
 libecpg.so.6 postgresql-libs-13.2_2
 libpgtypes.so.3 postgresql-libs-13.2_2
 libpq.so.5 postgresql-libs-13.2_2
-libmypaint-1.5.so.1 libmypaint-1.5.1_1
+libmypaint.so.0 libmypaint-1.6.1_1
 libmysqlclient_r.so.18 libmariadbclient-10.1.48_2
 libmysqlclient.so.18 libmariadbclient-10.1.48_2
 libgssapi_krb5.so.2 mit-krb5-libs-1.8_1
@@ -1012,7 +1012,6 @@ libuchardet.so.0 uchardet-0.0.6_1
 libgtksourceviewmm-3.0.so.0 gtksourceviewmm-3.2.0_1
 libyajl.so.2 yajl-2.0.1_1
 libconfuse.so.2 confuse-3.2.1_1
-libLLVM-10.so libllvm10-10.0.0_1
 liblldb.so.11 lldb-11.0.0_1
 libclang.so.11 libclang-11.0.0_1
 libclang-cpp.so.11 libclang-cpp-11.0.0_1
@@ -2404,6 +2403,7 @@ libpinktrace_0.9.so.9 pinktrace-0.9.1_1
 libsyd_1.0.so.0 sydbox-1.0.2_1
 libcsync.so.0 csync-0.50.0_1
 libcalligrasheetsodf.so.17 calligra-sheets-3.2.0_1
+libkokross.so.17 calligra-libs-3.2.1_3
 libkotext.so.17 calligra-libs-3.2.0_1
 libkoodf.so.17 calligra-libs-3.2.0_1
 libkarbonui.so.17 calligra-karbon-3.2.0_1

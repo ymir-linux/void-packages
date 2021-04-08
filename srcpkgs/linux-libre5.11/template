@@ -1,6 +1,6 @@
 # Template file for 'linux5.11'
 pkgname=linux-libre5.11
-version=5.11.10
+version=5.11.12
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=30ac79ed62cad5152efc05e79a1757da63e2dbcae9b7a737fe1dc938506c6fa1
+checksum=2282054cc603e596ad84b94119753efb6db3547db86978b4af88ad8908d11678
 python_version=3
 patch_args="-Np1"
 
@@ -63,7 +63,7 @@ do_configure() {
 		aarch64*) arch=arm64;;
 		ppc64le*) arch=powerpc; subarch=ppc64le;;
 		ppc64*) arch=powerpc; subarch=ppc64;;
-		ppc*) arch=powerpc;;
+		ppc*) arch=powerpc; subarch=ppc;;
 		mips*) arch=mips;;
 	esac
 
@@ -75,13 +75,6 @@ do_configure() {
 		msg_normal "Detected a .config file for your arch, using it.\n"
 		cp -f ${FILESDIR}/${subarch:-$arch}-dotconfig .config
 		make ${makejobs} ARCH=$arch ${_cross} oldconfig
-	elif [ -f ${FILESDIR}/${XBPS_TARGET_MACHINE%%-musl}-dotconfig ]; then
-		msg_normal "Detected a .config file for your cpu family, using it.\n"
-		cp -f ${FILESDIR}/${XBPS_TARGET_MACHINE%%-musl}-dotconfig .config
-		make ${makejobs} ARCH=$arch ${_cross} oldconfig
-	else
-		msg_normal "Defaulting to 'allmodconfig'.\n"
-		make ${makejobs} ARCH=$arch ${_cross} allmodconfig
 	fi
 	# Always use our revision to CONFIG_LOCALVERSION to match our pkg version.
 	sed -i -e "s|^\(CONFIG_LOCALVERSION=\).*|\1\"_${revision}\"|" .config
@@ -99,8 +92,8 @@ do_build() {
 		mips*) _args="uImage modules dtbs"; arch=mips;;
 	esac
 	export LDFLAGS=
-	make ARCH=$arch ${_version} ${_cross} ${makejobs} prepare
-	make ARCH=$arch ${_version} ${_cross} ${makejobs} ${_args}
+	make ARCH=$arch ${_cross} ${makejobs} prepare
+	make ARCH=$arch ${_cross} ${makejobs} ${_args}
 }
 
 do_install() {
@@ -115,7 +108,7 @@ do_install() {
 		mips*) arch=mips;;
 	esac
 
-	# Run depmod after compressing modules.
+	# Run depmod after compressing modules - makes depmod.sh a noop
 	sed -i '2iexit 0' scripts/depmod.sh
 
 	# Install kernel, firmware and modules
