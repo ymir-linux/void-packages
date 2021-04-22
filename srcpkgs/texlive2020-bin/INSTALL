@@ -5,10 +5,17 @@ post)
 		cd opt/texlive2020-installer
 		case "${ARCH}" in
 			x86_64-musl)
+<<<<<<< HEAD
 			./install-tl -profile xbps.profile -force-platform x86_64-linuxmusl
 			;;
 			*)
 			./install-tl -profile xbps.profile
+=======
+			./install-tl -repository ftp://ftp.tug.org/texlive/historic/2020/tlnet-final/ -profile void.profile -force-platform x86_64-linuxmusl
+			;;
+			*)
+			./install-tl -repository ftp://ftp.tug.org/texlive/historic/2020/tlnet-final/ -profile void.profile
+>>>>>>> 3f151932539950a2eb3ec47cae79f163781747c8
 			;;
 		esac
 	esac

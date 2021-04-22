@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.4'
 pkgname=linux-libre5.4
-version=5.4.110
+version=5.4.113
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=d231830750fcb8d21b09bdf8eefcc09246a8a1c56004d39a8f579d2f0f67293d
+checksum=062af04ac8496747bdc534edf8b2ed16059b166695758a7be0477de61778e53a
 python_version=3
 patch_args="-Np1"
 
@@ -337,5 +337,6 @@ linux-libre5.4-dbg_package() {
 	short_desc+=" - debugging symbols"
 	pkg_install() {
 		vmove usr/lib/debug
+		vmove "boot/System.map-${_kernver}"
 	}
 }

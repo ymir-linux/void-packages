@@ -133,7 +133,7 @@ libnvidia-gtk2.so.346.47 nvidia-gtklibs-346.47_1 ignore
 libnvidia-gtk3.so.346.47 nvidia-gtklibs-346.47_1 ignore
 libnvidia-glcore.so.390.87 nvidia390-libs-390.87_1 ignore
 libnvidia-glsi.so.346.72 nvidia-libs-346.72_1 ignore
-libnvidia-fatbinaryloader.so.390.141 nvidia390-libs-390.141_1 ignore
+libnvidia-fatbinaryloader.so.390.143 nvidia390-libs-390.143_1 ignore
 libnvidia-fatbinaryloader.so.430.40 nvidia-libs-430.40_1 ignore
 libglapi.so.0 libglapi-7.11_1
 libgbm.so.1 libgbm-9.0_1
@@ -256,6 +256,7 @@ libxcb-xkb.so.1 libxcb-1.10_1
 libxcb-xinput.so.0 libxcb-1.10_1
 libxcb-dri3.so.0 libxcb-1.10_1
 libxcb-present.so.0 libxcb-1.10_1
+libxcb-imdkit.so.1 xcb-imdkit-1.0.2_1
 libXdmcp.so.6 libXdmcp-1.0.2_1
 libpolkit-gobject-1.so.0 polkit-0.99_1
 libpolkit-agent-1.so.0 polkit-0.99_1
@@ -412,6 +413,7 @@ libproxy.so.1 libproxy-0.4.6_1
 libmoar.so MoarVM-2015.11_1
 libFLAC.so.8 libflac-1.2.1_1
 libFLAC++.so.6 libflac-1.2.1_1
+libField3D.so.1.7 Field3D-1.7.3_1
 libMAC.so.6 libMAC-5.28_1
 libmad.so.0 libmad-0.15.1b_1
 libmatroska.so.7 libmatroska-1.6.0_1
@@ -557,8 +559,6 @@ libecpg.so.6 postgresql-libs-13.2_2
 libpgtypes.so.3 postgresql-libs-13.2_2
 libpq.so.5 postgresql-libs-13.2_2
 libmypaint.so.0 libmypaint-1.6.1_1
-libmysqlclient_r.so.18 libmariadbclient-10.1.48_2
-libmysqlclient.so.18 libmariadbclient-10.1.48_2
 libgssapi_krb5.so.2 mit-krb5-libs-1.8_1
 libgssrpc.so.4 mit-krb5-libs-1.8_1
 libk5crypto.so.3 mit-krb5-libs-1.8_1
@@ -571,8 +571,6 @@ libkrb5support.so.0 mit-krb5-libs-1.8_1
 libkdb_ldap.so.1 mit-krb5-libs-1.14.2_2
 libverto.so.0 mit-krb5-libs-1.8_1
 libverto-k5ev.so.0 mit-krb5-libs-1.8_1
-libmysqlclient_r.so.18 libmariadbclient-10.1.48_2
-libmysqlclient.so.18 libmariadbclient-10.1.48_2
 libgssapi_krb5.so.2 mit-krb5-libs-1.18.3_2
 libgssrpc.so.4 mit-krb5-libs-1.18.3_2
 libk5crypto.so.3 mit-krb5-libs-1.18.3_2
@@ -1604,14 +1602,12 @@ libdovecot-compression.so.0 dovecot-2.3.13_3
 libdovecot-sql.so.0 dovecot-2.3.13_3
 libdovecot-storage.so.0 dovecot-2.3.13_3
 libdovecot-lda.so.0 dovecot-2.3.13_3
-libmysqld.so.18 libmariadbclient-5.5.36_1
 libdovecot.so.0 dovecot-2.3.13_3
 libdovecot-login.so.0 dovecot-2.3.13_3
 libdovecot-compression.so.0 dovecot-2.3.13_3
 libdovecot-sql.so.0 dovecot-2.3.13_3
 libdovecot-storage.so.0 dovecot-2.3.13_3
 libdovecot-lda.so.0 dovecot-2.3.13_3
-libmysqld.so.18 libmariadbclient-10.1.48_2
 libwiretap.so.11 libwireshark-3.4.0_1
 libwireshark.so.14 libwireshark-3.4.0_1
 libwsutil.so.12 libwireshark-3.4.0_1
@@ -2018,7 +2014,7 @@ libsysstat-qt5.so.0 libsysstat-0.3.2_1
 libpolkit-qt5-agent-1.so.1 polkit-qt5-0.112.0_1
 libpolkit-qt5-gui-1.so.1 polkit-qt5-0.112.0_1
 libpolkit-qt5-core-1.so.1 polkit-qt5-0.112.0_1
-libfm-qt.so.8 libfm-qt-0.16.0_1
+libfm-qt.so.9 libfm-qt-0.17.0_1
 libqtermwidget5.so.0 qtermwidget-0.6.0_1
 libnpth.so.0 npth-1.1_1
 libnpupnp.so.4 libnpupnp-4.0.2_1
@@ -2120,6 +2116,12 @@ libfcitx-config.so.4 libfcitx-4.2.8_1
 libFcitxQt5DBusAddons.so.1 libfcitx-qt5-1.2.1_1
 libFcitxQt5WidgetsAddons.so.1 libfcitx-qt5-1.2.1_1
 libfcitx-qt5.so.0 libfcitx-qt5-0.1.3_1
+libFcitx5Utils.so.2 libfcitx5-5.0.5_1
+libFcitx5Core.so.7 libfcitx5-5.0.5_1
+libFcitx5Config.so.6 libfcitx5-5.0.5_1
+libFcitx5GClient.so.2 fcitx5-gtk-5.0.4_1
+libFcitx5Qt5DBusAddons.so.1 fcitx5-qt5-5.0.3_1
+libFcitx5Qt5WidgetsAddons.so.2 fcitx5-qt5-5.0.3_1
 libdruntime-ldc-debug-shared.so.94 ldc-runtime-1.24.0_1
 libdruntime-ldc-shared.so.94 ldc-runtime-1.24.0_1
 libphobos2-ldc-shared.so.94 ldc-runtime-1.24.0_1
@@ -2169,8 +2171,8 @@ libgom-1.0.so.0 gom-0.3.0_1
 libetpan.so.20 libetpan-1.9.3_4
 libxmp.so.4 libxmp-4.3.7_1
 libKF5ThreadWeaver.so.5 threadweaver-5.26.0_1
-libOpenImageIO_Util.so.1.8 openimageio-1.8.12_1
-libOpenImageIO.so.1.8 openimageio-1.8.12_1
+libOpenImageIO_Util.so.2.2 openimageio-2.2.13.1_1
+libOpenImageIO.so.2.2 openimageio-2.2.13.1_1
 libOpenColorIO.so.1 opencolorio-1.0.8_1
 libyaml-cpp.so.0.6 yaml-cpp-0.6.2_1
 libpaper.so.1 libpaper-1.1.24_1
@@ -2328,6 +2330,9 @@ liboath.so.0 oath-toolkit-2.6.0_2
 libanthy.so.1 libanthy-0.4_1
 libanthydic.so.1 libanthy-0.4_1
 libanthyinput.so.0 libanthy-0.4_1
+libanthy-unicode.so.0 libanthy-unicode-1.0.0.20201109_1
+libanthydic-unicode.so.0 libanthy-unicode-1.0.0.20201109_1
+libanthyinput-unicode.so.0 libanthy-unicode-1.0.0.20201109_1
 libanthygobject-1.0.so.5 ibus-anthy-1.5.6_1
 libtbbmalloc_proxy_debug.so.2 tbb-4.3_1
 libtbbmalloc_proxy.so.2 tbb-4.3_1
@@ -2974,6 +2979,7 @@ libPocoRedis.so.64 poco-1.9.4_3
 libPocoEncodings.so.64 poco-1.9.4_3
 libPocoNetSSL.so.64 poco-1.9.4_3
 libPocoCrypto.so.64 poco-1.9.4_3
+libPtex.so ptex-2.3.2_1
 libopenblas.so.0 openblas-0.2.19_1
 librtaudio.so.6 rtaudio-5.1.0_1
 librtmidi.so.5 rtmidi-4.0.0_1
@@ -2998,6 +3004,8 @@ libyaz_icu.so.5 yaz-5.23.1_1
 libyaz.so.5 yaz-5.23.1_1
 libyaz_server.so.5 yaz-5.23.1_1
 libgcab-1.0.so.0 gcab-0.7_1
+libwpe-1.0.so.1 libwpe-1.10.0_1
+libWPEBackend-fdo-1.0.so.1 wpebackend-fdo-1.8.3_1
 libliveMedia.so.81 live555-2020.08.11_2
 libgroupsock.so.8 live555-2020.08.11_2
 libUsageEnvironment.so.3 live555-2020.08.11_2
@@ -3100,6 +3108,10 @@ libi2c.so.0 i2c-tools-4.0_1
 libmarisa.so.0 marisa-0.2.5_1
 libopencc.so.1.1 opencc-1.1.1_1
 librime.so.1 librime-1.2.9_1
+libIMECore.so.0 libime-1.0.5_1
+libIMEPinyin.so.0 libime-1.0.5_1
+libIMETable.so.0 libime-1.0.5_1
+libIMEJyutping.so.1 libime-jyutping-1.0.2_1
 libairspy.so.0 libairspy-1.0.9_1
 libKF5KDcraw.so.5 libkdcraw5-17.04.3_1
 libKF5Kipi.so.32.0.0 libkipi5-17.04.3_1
@@ -3467,7 +3479,7 @@ libcodecore.so.0 libio.elementary.code-3.0_1
 libio.elementary.music-core.so.0 libio.elementary.music-5.0_1
 libpantheon-files-core.so.4 libio.elementary.files-4.1.4_1
 libpantheon-files-widgets.so.4 libio.elementary.files-4.1.4_1
-libwlroots.so.7 wlroots-0.12.0_1
+libwlroots.so.8 wlroots-0.13.0_1
 libbaseencode.so.1 libbaseencode-1.0.9_1
 libcotp.so.12 libcotp-1.2.1_1
 libunarr.so.1 libunarr-1.0.1_1
@@ -3527,6 +3539,7 @@ libcaf_openssl.so.0.18.0 zeek-4.0.0_1
 libbinpac.so.0 zeek-3.2.4_2
 libllhttp.so.1 llhttp-1.0.1_1
 libpinyin.so.13 libpinyin-2.2.1_1
+libzhuyin.so.13 libzhuyin-2.6.0_3
 libuhd.so.4.0.0 uhd-4.0.0.0_1
 libeditline.so.1 editline-1.16.0_1
 libgnuradio-rds.so.1 gnuradio-rds-3.8.0_1
@@ -3963,3 +3976,5 @@ libmd.so.0 libmd-1.0.3_1
 libldacBT_abr.so.2 ldacBT-2.0.2.3_1
 libldacBT_enc.so.2 ldacBT-2.0.2.3_1
 libgumbo.so.1 gumbo-parser-0.10.1_2
+libmariadb.so.3 libmariadbclient-10.5.9_1
+libmariadbd.so.19 libmariadbclient-10.5.9_1
