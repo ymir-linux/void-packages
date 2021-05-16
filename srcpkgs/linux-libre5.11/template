@@ -1,6 +1,6 @@
 # Template file for 'linux5.11'
 pkgname=linux-libre5.11
-version=5.11.17
+version=5.11.21
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=bf107f6b431e5dcd86cd53474e607e8d55a2ea35493321acb416f29230160a93
+checksum=66e2a4c532bb560075186fd8caf467ca9a3fe7bc684b35e144b3da6769610369
 python_version=3
 patch_args="-Np1"
 
