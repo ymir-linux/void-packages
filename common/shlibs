@@ -442,6 +442,7 @@ libprocesscore.so.9 libksysguard-5.18.90_1
 liblsofui.so.9 libksysguard-5.18.90_1
 libKSysGuardSensorFaces.so.1 libksysguard-5.18.90_1
 libKSysGuardFormatter.so.1 libksysguard-5.19.5_1
+libKSysGuardSystemStats.so.1 libksysguard-5.22.0_1
 libKWaylandServer.so.5 kwayland-server-5.18.90_1
 libxenctrl.so.4.14 xen-libs-4.14.0_1
 libxenfsimage.so.4.14 xen-libs-4.14.0_1
@@ -2179,6 +2180,7 @@ libd0_blind_id.so.0 xonotic-0.8.0_1
 libuecc.so.0 libuecc-5_1
 libKF5WindowSystem.so.5 kwindowsystem-5.6.0_1
 libKF5GuiAddons.so.5 kguiaddons-5.6.0_1
+libLayerShellQtInterface.so.5 layer-shell-qt-5.21.90_1
 liblxqt.so.0 liblxqt-0.9.0_1
 liblxqt-globalkeys.so.0 lxqt-globalkeys-0.9.0_1
 liblxqt-globalkeys-ui.so.0 lxqt-globalkeys-0.9.0_1
