@@ -15,10 +15,6 @@ checksum=a2d3973aaf7d5c4a1cb6dd463ec8183dd4e9a6c6b851df4b8824f8dd562607a9
 
 # Liberation: Removed webengine related code
 
-pre_check() {
-	export QT_QPA_PLATFORM=offscreen
-}
-
 libksysguard-devel_package() {
 	short_desc+=" - development"
 	depends="${makedepends} ${sourcepkg}>=${version}_${revision}"

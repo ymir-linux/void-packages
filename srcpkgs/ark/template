@@ -7,7 +7,7 @@ configure_args="-DDESKTOPTOJSON_EXECUTABLE=/usr/bin/desktoptojson"
 hostmakedepends="extra-cmake-modules qt5-devel qt5-qmake
  kdoctools kconfig gettext pkg-config python3 kcoreaddons kparts"
 makedepends="libarchive-devel kpty-devel kparts-devel kitemmodels-devel libzip-devel"
-checkdepends="xvfb-run p7zip p7zip-unrar lzop lrzip unrar unzip zip zstd"
+checkdepends="p7zip p7zip-unrar lzop lrzip unrar unzip zip zstd"
 short_desc="KDE Archiving Tool"
 maintainer="John <me@johnnynator.dev>"
 license="GPL-2.0-or-later"
