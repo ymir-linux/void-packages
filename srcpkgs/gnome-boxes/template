@@ -1,6 +1,6 @@
 # Template file for 'gnome-boxes'
 pkgname=gnome-boxes
-version=40.1
+version=40.2
 revision=1
 build_helper="gir"
 build_style=meson
@@ -9,7 +9,7 @@ makedepends="clutter-gtk-devel freerdp-devel gtk-vnc-devel libarchive-devel
  libglib-devel libgudev-devel libosinfo-devel libsecret-devel libsoup-devel
  libusb-devel libvirt-glib-devel libxml2-devel spice-gtk-devel spice-protocol
  vala-devel webkit2gtk-devel vte3-devel gtksourceview4-devel libhandy1-devel
- tracker3-devel"
+ tracker3-devel libgcrypt-devel"
 depends="desktop-file-utils hicolor-icon-theme libosinfo libvirt-glib qemu tracker3"
 short_desc="GNOME 3 application to access remote or virtual systems"
 maintainer="Enno Boland <gottox@voidlinux.org>"
