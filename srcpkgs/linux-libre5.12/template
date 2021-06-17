@@ -1,17 +1,14 @@
-# Template file for 'linux5.12'
-pkgname=linux5.12
+# Template file for 'linux-libre5.12'
+pkgname=linux-libre5.12
 version=5.12.10
 revision=1
-wrksrc="linux-${version%.*}"
-short_desc="Linux kernel and modules (${version%.*} series)"
-maintainer="Érico Nogueira <ericonr@disroot.org>"
+wrksrc="linux-${version}"
+short_desc="Linux-libre kernel and modules (${version%.*} series)"
+maintainer="Drake Newell <drakenewell731@gmail.com"
 license="GPL-2.0-only"
-homepage="https://www.kernel.org"
-distfiles="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version%.*}.tar.xz
- https://cdn.kernel.org/pub/linux/kernel/v5.x/patch-${version}.xz"
-checksum="7d0df6f2bf2384d68d0bd8e1fe3e071d64364dcdc6002e7b5c87c92d48fac366
- 034eb39ad49f3a26fc1b4ef799ef481ce35fe03e2b24131e9cd3d2805a99ad19"
-skip_extraction="patch-${version}.xz"
+homepage="linux-libre.fsfla.org/"
+distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
+checksum=35cc69815f4b071efeba2824ab90c022a45821f263fd6f50f45f69e9956092a2
 python_version=3
 patch_args="-Np1"
 
@@ -27,7 +24,7 @@ preserve=yes
 hostmakedepends="tar xz bc elfutils-devel flex gmp-devel kmod libmpc-devel
  openssl-devel perl uboot-mkimage cpio pahole python3"
 
-_kernver="${version}_${revision}"
+_kernver="${version}-gnu_${revision}"
 triggers="kernel-hooks"
 kernel_hooks_version="${_kernver}"
 
@@ -172,8 +169,6 @@ do_install() {
 		install -Dm644 $file ${hdrdest}/${file}
 	done
 	mkdir -p ${hdrdest}/include
-	# Remove firmware stuff provided by the "linux-firmware" pkg.
-	rm -rf ${DESTDIR}/usr/lib/firmware
 
 	for i in acpi asm-generic clocksource config crypto drm generated linux vdso \
 		math-emu media net pcmcia scsi sound trace uapi video xen dt-bindings; do
@@ -306,7 +301,7 @@ do_install() {
 	# ... and run depmod again.
 	depmod -b ${DESTDIR}/usr -F System.map ${_kernver}
 }
-linux5.12-headers_package() {
+linux-libre5.12-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -316,7 +311,7 @@ linux5.12-headers_package() {
 		vmove usr/lib/modules/${_kernver}/build
 	}
 }
-linux5.12-dbg_package() {
+linux-libre5.12-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
