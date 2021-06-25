@@ -462,9 +462,7 @@ the generated `binary packages` have been modified.
 - `short_desc` A string with a brief description for this package. Max 72 chars.
 
 - `version` A string with the package version. Must not contain dashes or underscore
-and at least one digit is required. Using bash's pattern substitution and prefix and
-suffix matching isn't supported, since this field needs to be parsed by
-`xbps-checkvers(1)`. Using variables in this field should be avoided.
+and at least one digit is required. Shell's variable substition usage is not allowed.
 
 Neither `pkgname` or `version` should contain special characters which make it
 necessary to quote them, so they shouldn't be quoted in the template.
@@ -601,7 +599,7 @@ current directory with respect to the install.
 
 - `patch_args` The arguments to be passed in to the `patch(1)` command when applying
 patches to the package sources during `do_patch()`. Patches are stored in
-`srcpkgs/<pkgname>/patches` and must be in `-p0` format. By default set to `-Np0`.
+`srcpkgs/<pkgname>/patches` and must be in `-p1` format. By default set to `-Np1`.
 
 - `disable_parallel_build` If set the package won't be built in parallel
 and `XBPS_MAKEJOBS` has no effect.
@@ -874,7 +872,7 @@ been found or to fix compilation with new software.
 
 To handle this, xbps-src has patching functionality. It will look for all files
 that match the glob `srcpkgs/$pkgname/patches/*.{diff,patch}` and will
-automatically apply all files it finds using `patch(1)` with `-Np0`. This happens
+automatically apply all files it finds using `patch(1)` with `-Np1`. This happens
 during the `do_patch()` phase. The variable `PATCHESDIR` is
 available in the template, pointing to the `patches` directory.
 

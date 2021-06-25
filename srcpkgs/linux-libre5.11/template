@@ -10,7 +10,6 @@ homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
 checksum=899e52eac8dc915e27b31633d0d804a0aeb0325854eaece127d0929941a5f0b3
 python_version=3
-patch_args="-Np1"
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
 archs="x86_64* i686* aarch64* ppc*"
