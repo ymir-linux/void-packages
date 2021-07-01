@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.12'
 pkgname=linux-libre5.12
-version=5.12.13
+version=5.12.14
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=b65b3c23684470046d5915332a77606bfe8bf982ed036201502b6f375ab968ad
+checksum=048417322faa5ea51e71ea4020da92618a84c4a445dfdb3e4a2c040142209af9
 python_version=3
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.

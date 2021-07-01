@@ -123,7 +123,6 @@ libGLESv2.so slack-desktop-3.4.2_1
 libbrcmEGL.so rpi-userland-20180103_2
 libbrcmGLESv2.so rpi-userland-20180103_2
 libbrcmOpenVG.so rpi-userland-20180103_2
-libwayland-egl.so.1 wayland-1.15.0_4
 libnvidia-ml.so.1 nvidia-libs-346.47_1 ignore
 libnvidia-ml.so.1 nvidia390-libs-390.87_1 ignore
 libnvidia-tls.so.346.47 nvidia-libs-346.47_1 ignore
@@ -1175,6 +1174,7 @@ libqrencode.so.4 libqrencode-4.0.0_1
 libwayland-server.so.0 wayland-1.6.0_1
 libwayland-client.so.0 wayland-1.10.0_1
 libwayland-cursor.so.0 wayland-1.6.0_1
+libwayland-egl.so.1 wayland-1.15.0_4
 libtomcrypt.so.1 libtomcrypt-1.18.0_1
 libHX.so.28 libHX-3.14_1
 libxkbcommon.so.0 libxkbcommon-0.2.0_1
@@ -3507,7 +3507,7 @@ libcodecore.so.0 libio.elementary.code-3.0_1
 libio.elementary.music-core.so.0 libio.elementary.music-5.0_1
 libpantheon-files-core.so.4 libio.elementary.files-4.1.4_1
 libpantheon-files-widgets.so.4 libio.elementary.files-4.1.4_1
-libwlroots.so.8 wlroots-0.13.0_1
+libwlroots.so.9 wlroots-0.14.0_1
 libbaseencode.so.1 libbaseencode-1.0.9_1
 libcotp.so.12 libcotp-1.2.1_1
 libunarr.so.1 libunarr-1.0.1_1
@@ -3963,7 +3963,7 @@ libndr-krb5pac.so.0 samba-libs-4.13.2_1
 libndr-nbt.so.0 samba-libs-4.13.2_1
 libndr-standard.so.0 samba-libs-4.13.2_1
 libndr.so.1 samba-libs-4.13.2_1
-libsamba-credentials.so.0 samba-libs-4.13.2_1
+libsamba-credentials.so.1 samba-libs-4.13.2_1
 libsamba-errors.so.1 samba-libs-4.13.2_1
 libsamba-hostconfig.so.0 samba-libs-4.13.2_1
 libsamba-passdb.so.0 samba-libs-4.13.2_1
