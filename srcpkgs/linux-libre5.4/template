@@ -1,6 +1,6 @@
 # Template file for 'linux-libre5.4'
 pkgname=linux-libre5.4
-version=5.4.128
+version=5.4.129
 revision=1
 wrksrc="linux-${version}"
 short_desc="Linux-libre kernel and modules (${version%.*} series)"
@@ -8,7 +8,7 @@ maintainer="Drake Newell <drakenewell731@gmail.com>"
 license="GPL-2.0-only"
 homepage="linux-libre.fsfla.org/"
 distfiles="http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/linux-libre-$version-gnu.tar.xz"
-checksum=06d5484080ff4c69588c1fd6e59eb5bf9fd167fcca0d399a015db37e5a30d6f4
+checksum=36b83eb6d5a644955df26c2083f0678a327c51b9609fe6e718281c38439d1abd
 python_version=3
 
 nodebug=yes  # -dbg package is generated below manually
