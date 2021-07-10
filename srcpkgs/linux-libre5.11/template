@@ -1,4 +1,4 @@
-# Template file for 'linux5.11'
+# Template file for 'linux-libre5.11'
 pkgname=linux-libre5.11
 version=5.11.22
 revision=1
@@ -159,7 +159,7 @@ do_install() {
 		mkdir -p ${hdrdest}/$(dirname $file)
 		install -Dm644 $file ${hdrdest}/${file}
 	done
-	for file in $(find arch/${subarch:-$arch} -name module.lds -o -name Kbuild.platforms -o -name Platform); do
+	for file in $(find arch/${subarch:-$arch} scripts -name module.lds -o -name Kbuild.platforms -o -name Platform); do
 		mkdir -p ${hdrdest}/$(dirname $file)
 		install -Dm644 $file ${hdrdest}/${file}
 	done
@@ -237,10 +237,6 @@ do_install() {
 	# Add wireless headers
 	mkdir -p ${hdrdest}/net/mac80211/
 	cp net/mac80211/*.h ${hdrdest}/net/mac80211
-
-	# add dvb headers for external modules
-	mkdir -p ${hdrdest}/include/config/dvb/
-	cp include/config/dvb/*.h ${hdrdest}/include/config/dvb/
 
 	# add dvb headers for http://mcentral.de/hg/~mrec/em28xx-new
 	mkdir -p ${hdrdest}/drivers/media/dvb-frontends
